@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "snownee.textanimator.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "refmap": "boattweaks.refmap.json",
+  "mixins": [
+    "StringDecomposerMixin",
+    "StyleMixin",
+    "StyleMixin$SerializerMixin"
+  ],
+  "client": [
+    "client.StringRenderOutputMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

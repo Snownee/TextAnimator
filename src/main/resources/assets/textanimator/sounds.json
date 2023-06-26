@@ -1,0 +1,12 @@
+{
+  "eject": {
+    "sounds": [
+      "minecraft:tile/piston/out"
+    ]
+  },
+  "boost": {
+    "sounds": [
+      "minecraft:fireworks/launch1"
+    ]
+  }
+}
