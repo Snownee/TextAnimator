@@ -11,6 +11,9 @@ public class RainbowEffect implements Effect {
 
 	@Override
 	public void apply(EffectSettings settings) {
+		if (settings.isShadow) {
+			return;
+		}
 		int color = Mth.hsvToRgb(((Util.getMillis() * 0.02F + settings.index) % 30) / 30, 0.8F, 0.8F);
 		settings.r = (color >> 16 & 255) / 255F;
 		settings.g = (color >> 8 & 255) / 255F;

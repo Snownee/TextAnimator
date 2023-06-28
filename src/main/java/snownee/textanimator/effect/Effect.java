@@ -40,4 +40,8 @@ public interface Effect {
 	void apply(EffectSettings settings);
 
 	String getName();
+
+	default String serialize() {
+		return getName();
+	}
 }

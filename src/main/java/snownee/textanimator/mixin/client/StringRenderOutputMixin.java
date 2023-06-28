@@ -31,7 +31,7 @@ public abstract class StringRenderOutputMixin {
 	@Shadow
 	float y;
 	@Final
-	@Shadow(remap = false, aliases = { "field_24240", "b" })
+	@Shadow(remap = false, aliases = {"field_24240", "b"})
 	Font this$0;
 	@Final
 	@Shadow
@@ -89,7 +89,7 @@ public abstract class StringRenderOutputMixin {
 		float shadowOffset = this.dropShadow ? glyphInfo.getShadowOffset() : 0.0f;
 		if (!(bakedGlyph instanceof EmptyGlyph)) {
 			float m = bold ? glyphInfo.getBoldOffset() : 0.0f;
-			EffectSettings settings = new EffectSettings(codepoint, index);
+			EffectSettings settings = new EffectSettings(codepoint, index, dropShadow);
 			settings.x = this.x + shadowOffset;
 			settings.y = this.y + shadowOffset;
 			settings.r = r;
