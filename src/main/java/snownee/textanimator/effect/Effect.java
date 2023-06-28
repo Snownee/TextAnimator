@@ -31,6 +31,8 @@ public interface Effect {
 				return new ShakeEffect(params);
 			case "wave":
 				return new WaveEffect(params);
+			case "rainb":
+				return new RainbowEffect(params);
 			default:
 				return null;
 		}

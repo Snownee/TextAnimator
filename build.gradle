@@ -64,6 +64,13 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
     //modImplementation "dev.latvian.mods:kubejs-fabric:1902.6.0-build.119"
+    modImplementation "curse.maven:ftb-quests-fabric-438496:4600396"
+    modImplementation "curse.maven:ftb-library-fabric-438495:4541986"
+    modImplementation "curse.maven:item-filters-309674:4553325"
+    modImplementation "curse.maven:ftb-teams-fabric-438497:4611937"
+    modApi("teamreborn:energy:2.2.0") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 }
 
 loom {
