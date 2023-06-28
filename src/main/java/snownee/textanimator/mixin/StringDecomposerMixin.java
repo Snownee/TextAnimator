@@ -1,13 +1,13 @@
 package snownee.textanimator.mixin;
 
-import java.util.Stack;
-
 import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
@@ -23,7 +23,6 @@ public abstract class StringDecomposerMixin {
 	private static void textanimator$iterateFormatted(String string, int i, Style style, Style style2, FormattedCharSink formattedCharSink, CallbackInfoReturnable<Boolean> cir) {
 		int j = string.length();
 		Style style3 = style;
-		Stack<Effect> effects = new Stack<>();
 		main:
 		for (int k = i; k < j; ++k) {
 			char d;
@@ -45,22 +44,22 @@ public abstract class StringDecomposerMixin {
 					if (ch == '>') {
 						String[] split = StringUtils.split(sb.toString(), ' ');
 						if (split.length == 0 || split[0].isEmpty()) break;
-						boolean matched = false;
+						ImmutableList<Effect> newEffects = null;
+						ImmutableList<Effect> effects = ((TAStyle) style3).textanimator$getEffects();
 						if (split[0].charAt(0) == '/') {
-							if (!effects.isEmpty() && effects.peek().getName().equals(sb.substring(1))) {
-								effects.pop();
-								matched = true;
+							String tagName = split[0].substring(1);
+							if (!effects.isEmpty() && effects.get(effects.size() - 1).getName().equals(tagName)) {
+								newEffects = effects.subList(0, effects.size() - 1);
 							}
 						} else {
 							Effect effect = Effect.create(split);
 							if (effect != null) {
-								effects.push(effect);
-								matched = true;
+								newEffects = ImmutableList.<Effect>builder().addAll(effects).add(effect).build();
 							}
 						}
-						if (matched) {
+						if (newEffects != null) {
 							style3 = style3.withClickEvent(style3.getClickEvent()); // clone a new one
-							((TAStyle) style3).textanimator$setEffects(effects.stream().toList());
+							((TAStyle) style3).textanimator$setEffects(newEffects);
 							k = l;
 							continue main;
 						} else {

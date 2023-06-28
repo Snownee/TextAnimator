@@ -1,7 +1,5 @@
 package snownee.textanimator.mixin;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +9,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.HoverEvent;
@@ -63,15 +63,15 @@ public class StyleMixin implements TAStyle {
 	@Shadow
 	@Nullable
 	ResourceLocation font;
-	private Collection<Effect> textanimator$effects = List.of();
+	private ImmutableList<Effect> textanimator$effects = ImmutableList.of();
 
 	@Override
-	public Collection<Effect> textanimator$getEffects() {
+	public ImmutableList<Effect> textanimator$getEffects() {
 		return textanimator$effects;
 	}
 
 	@Override
-	public void textanimator$setEffects(Collection<Effect> effects) {
+	public void textanimator$setEffects(ImmutableList<Effect> effects) {
 		textanimator$effects = effects;
 	}
 
