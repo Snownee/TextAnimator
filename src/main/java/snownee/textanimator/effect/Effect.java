@@ -17,25 +17,24 @@ public interface Effect {
 				String[] kv = StringUtils.split(split[i], "=", 2);
 				if (kv.length == 1) {
 					params.addProperty(kv[0], true);
+				} else if ("true".equals(kv[1]) || "false".equals(kv[1])) {
+					params.addProperty(kv[0], Boolean.parseBoolean(kv[1]));
 				} else {
 					try {
-						params.addProperty(kv[0], Integer.parseInt(kv[1]));
+						params.addProperty(kv[0], Float.parseFloat(kv[1]));
 					} catch (NumberFormatException e) {
-						params.addProperty(kv[0], kv[1]);
+						throw new IllegalArgumentException("Invalid effect parameter: " + kv[0] + "=" + kv[1]);
 					}
 				}
 			}
 		}
-		switch (split[0]) {
-			case "shake":
-				return new ShakeEffect(params);
-			case "wave":
-				return new WaveEffect(params);
-			case "rainb":
-				return new RainbowEffect(params);
-			default:
-				return null;
-		}
+		return switch (split[0]) {
+			case "shake" -> new ShakeEffect(params);
+			case "wave" -> new WaveEffect(params);
+			case "rainb" -> new RainbowEffect(params);
+			case "wiggle" -> new WiggleEffect(params);
+			default -> null;
+		};
 	}
 
 	void apply(EffectSettings settings);
