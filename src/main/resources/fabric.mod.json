@@ -14,8 +14,8 @@
   },
   "license": "ARR",
   "entrypoints": {
-    "main": [
-      "snownee.textanimator.util.CommonProxy"
+    "client": [
+		"snownee.textanimator.util.ClientProxy"
     ]
   },
   "mixins": [
@@ -24,7 +24,6 @@
   "accessWidener": "textanimator.accesswidener",
   "depends": {
     "fabric-api": "*",
-    "kiwi": ">=8.3",
     "minecraft": ">=1.19.2",
     "java": ">=17"
   },

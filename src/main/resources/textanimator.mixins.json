@@ -1,18 +1,20 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "snownee.textanimator.mixin",
-  "compatibilityLevel": "JAVA_16",
-  "refmap": "textanimator.refmap.json",
-  "mixins": [
-    "StringDecomposerMixin",
-    "StyleMixin",
-    "StyleMixin$SerializerMixin"
-  ],
-  "client": [
-    "client.StringRenderOutputMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"minVersion": "0.8",
+	"package": "snownee.textanimator.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"refmap": "textanimator.refmap.json",
+	"mixins": [
+		"StringDecomposerMixin",
+		"StyleMixin",
+		"StyleMixin$SerializerMixin"
+	],
+	"client": [
+		"client.OptionsMixin",
+		"client.SimpleOptionsSubScreenMixin",
+		"client.StringRenderOutputMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }

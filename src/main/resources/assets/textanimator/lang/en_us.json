@@ -1,5 +1,6 @@
 {
-  "gamerule.boattweaks:autoRemoveBoat": "Boat Tweaks: Auto Remove Boat",
-  "gamerule.boattweaks:ghostMode": "Boat Tweaks: Ghost Mode",
-  "boattweaks.unriding_hint": "Please Hold..."
+	"options.textanimator": "Text Animation",
+	"options.textanimator.none": "None",
+	"options.textanimator.all": "All",
+	"options.textanimator.no_rainbow": "No Rainbow"
 }

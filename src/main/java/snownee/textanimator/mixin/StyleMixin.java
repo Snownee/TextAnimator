@@ -4,10 +4,8 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -19,11 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
@@ -31,46 +25,7 @@ import snownee.textanimator.effect.Effect;
 @Mixin(Style.class)
 public class StyleMixin implements TAStyle {
 
-	@Final
-	@Shadow
-	@Nullable
-	TextColor color;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean bold;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean italic;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean underlined;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean strikethrough;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean obfuscated;
-	@Final
-	@Shadow
-	@Nullable
-	ClickEvent clickEvent;
-	@Final
-	@Shadow
-	@Nullable
-	HoverEvent hoverEvent;
-	@Final
-	@Shadow
-	@Nullable
-	String insertion;
-	@Final
-	@Shadow
-	@Nullable
-	ResourceLocation font;
+	@Unique
 	private ImmutableList<Effect> textanimator$effects = ImmutableList.of();
 
 	@Override
@@ -93,7 +48,7 @@ public class StyleMixin implements TAStyle {
 			cir.setReturnValue($this);
 			return;
 		}
-		style = new Style(this.color != null ? this.color : style.getColor(), this.bold != null ? this.bold : style.isBold(), this.italic != null ? this.italic : style.isItalic(), this.underlined != null ? this.underlined : style.isUnderlined(), this.strikethrough != null ? this.strikethrough : style.isStrikethrough(), this.obfuscated != null ? this.obfuscated : style.isObfuscated(), this.clickEvent != null ? this.clickEvent : style.getClickEvent(), this.hoverEvent != null ? this.hoverEvent : style.getHoverEvent(), this.insertion != null ? this.insertion : style.getInsertion(), this.font != null ? this.font : style.getFont());
+		style = style.withClickEvent(style.getClickEvent()); // clone a new one
 		((TAStyle) style).textanimator$setEffects(((TAStyle) $this).textanimator$getEffects());
 		cir.setReturnValue(style);
 	}

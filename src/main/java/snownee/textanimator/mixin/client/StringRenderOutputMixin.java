@@ -18,6 +18,8 @@ import net.minecraft.client.gui.font.glyphs.EmptyGlyph;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import snownee.textanimator.TextAnimationStatus;
+import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.EffectSettings;
 
@@ -96,7 +98,8 @@ public abstract class StringRenderOutputMixin {
 			settings.g = g;
 			settings.b = b;
 			settings.a = a;
-			taStyle.textanimator$getEffects().forEach(effect -> effect.apply(settings));
+			TextAnimationStatus status = TextAnimatorClient.getStatus();
+			taStyle.textanimator$getEffects().stream().filter(status::shouldApply).forEach(effect -> effect.apply(settings));
 			VertexConsumer vertexConsumer = this.bufferSource.getBuffer(bakedGlyph.renderType(this.mode));
 			this$0.renderChar(bakedGlyph, bold, style.isItalic(), m, settings.x, settings.y, this.pose, vertexConsumer, settings.r, settings.g, settings.b, settings.a, this.packedLightCoords);
 		}
