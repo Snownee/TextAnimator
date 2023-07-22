@@ -22,3 +22,5 @@ eclipse
 run
 /mcmodsrepo/
 !run/kubejs
+
+/CHANGELOG.md
