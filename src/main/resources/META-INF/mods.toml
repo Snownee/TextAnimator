@@ -1,0 +1,11 @@
+modLoader = "javafml"
+loaderVersion = "[42,)"
+license = "Apache License 2.0"
+
+[[mods]]
+modId="textanimator"
+version="${file.jarVersion}"
+displayName="Text Animator"
+authors="Snownee"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/text-animator"
+description="Use animation effects everywhere and make your text special"
