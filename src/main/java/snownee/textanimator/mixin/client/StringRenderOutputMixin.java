@@ -33,7 +33,7 @@ public abstract class StringRenderOutputMixin {
 	@Shadow
 	float y;
 	@Final
-	@Shadow(remap = false, aliases = {"field_24240", "b"})
+	@Shadow(remap = false, aliases = {"f_92938_", "field_24240", "b"})
 	Font this$0;
 	@Final
 	@Shadow
