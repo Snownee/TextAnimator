@@ -198,14 +198,14 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
-    
+
     // Real mod deobf dependency examples - these get remapped to your current mappings
     //compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}") // Adds JEI API as a compile dependency
     //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
-    
-    implementation fg.deobf("curse.maven:kiwi-303657:4451128")
-    implementation fg.deobf("curse.maven:jade-324717:4433884")
+
+    implementation fg.deobf("curse.maven:kiwi-303657:4688568")
+    implementation fg.deobf("curse.maven:jade-324717:4711195")
 
     // Examples using mod jars from ./libs
     //implementation fg.deobf("libs:Kiwi-1.18-forge:5.2.4")
@@ -261,7 +261,7 @@ unifiedPublishing {
 		version = project.mod_version // Optional, Inferred from project by default
 		changelog = file("CHANGELOG.md").exists() ? file("CHANGELOG.md").text : "" // Optional, in markdown format
 		releaseType = "release" // Optional, use "release", "beta" or "alpha"
-		gameVersions = ["1.19.2"]
+		gameVersions = ["1.20", "1.20.1"]
 		gameLoaders = ["forge"]
 
 		mainPublication tasks.jar // Declares the publicated jar
