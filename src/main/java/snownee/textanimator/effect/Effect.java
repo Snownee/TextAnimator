@@ -12,6 +12,7 @@ public interface Effect {
 			params = new JsonObject();
 			for (int i = 1; i < split.length; i++) {
 				String[] kv = StringUtils.split(split[i], "=", 2);
+				if (kv.length == 0) continue;
 				if (kv.length == 1) {
 					params.addProperty(kv[0], true);
 				} else if ("true".equals(kv[1]) || "false".equals(kv[1])) {
