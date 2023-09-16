@@ -1,12 +1,16 @@
 package snownee.textanimator.util;
 
-import net.fabricmc.api.ClientModInitializer;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import snownee.textanimator.TextAnimatorClient;
 
-public class ClientProxy implements ClientModInitializer {
+@Mod("textanimator")
+public class ClientProxy {
 
-	@Override
-	public void onInitializeClient() {
-		TextAnimatorClient.init();
+	public ClientProxy() {
+		if (FMLEnvironment.dist.isClient()) {
+			TextAnimatorClient.init();
+		}
 	}
+
 }

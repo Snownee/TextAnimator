@@ -1,5 +1,6 @@
 package snownee.textanimator.mixin.client;
 
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -9,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mojang.blaze3d.font.GlyphInfo;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.font.FontSet;
@@ -25,6 +25,9 @@ import snownee.textanimator.effect.EffectSettings;
 
 @Mixin(value = Font.StringRenderOutput.class, priority = 1200)
 public abstract class StringRenderOutputMixin {
+	@Shadow
+	@Final
+	private Matrix4f pose;
 	@Final
 	@Shadow
 	MultiBufferSource bufferSource;
@@ -53,9 +56,6 @@ public abstract class StringRenderOutputMixin {
 	@Final
 	@Shadow
 	private float g;
-	@Final
-	@Shadow
-	private Matrix4f pose;
 	@Final
 	@Shadow
 	private Font.DisplayMode mode;
