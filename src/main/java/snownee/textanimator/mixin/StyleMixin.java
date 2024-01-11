@@ -4,10 +4,7 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,11 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
@@ -54,7 +47,7 @@ public class StyleMixin implements TAStyle {
 	)
 	private Style textanimator$applyTo(final Style original) {
 		Style $this = (Style) (Object) this;
-		if (original == Style.EMPTY) return original;
+		if (textanimator$getEffects().isEmpty()) return original;
 		if ($this != original) ((TAStyle) original).textanimator$setEffects(textanimator$getEffects());
 		return original;
 	}
