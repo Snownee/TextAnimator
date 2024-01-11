@@ -138,10 +138,10 @@ publishing {
 
 unifiedPublishing {
     project {
-        displayName = project.version
+        displayName = "[Fabric $project.supported_version] $project.mod_version"
         version = project.mod_version // Optional, Inferred from project by default
         changelog = file("CHANGELOG.md").exists() ? file("CHANGELOG.md").text : "" // Optional, in markdown format
-        releaseType = "release" // Optional, use "release", "beta" or "alpha"
+        releaseType = project.release_type // Optional, use "release", "beta" or "alpha"
         gameVersions = ["1.20", "1.20.1"]
         gameLoaders = ["fabric", "quilt"]
 
@@ -163,7 +163,6 @@ unifiedPublishing {
             modrinth {
                 token = mrToken
                 id = "HBIG5nRf" // Required, must be a string, ID of Modrinth project
-                displayName = project.mod_version
 
                 relations { // Optional, Inferred from the relations above by default
                 }
