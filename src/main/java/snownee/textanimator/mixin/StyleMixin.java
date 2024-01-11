@@ -32,47 +32,6 @@ import snownee.textanimator.effect.Effect;
 
 @Mixin(Style.class)
 public class StyleMixin implements TAStyle {
-
-	@Final
-	@Shadow
-	@Nullable
-	TextColor color;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean bold;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean italic;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean underlined;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean strikethrough;
-	@Final
-	@Shadow
-	@Nullable
-	Boolean obfuscated;
-	@Final
-	@Shadow
-	@Nullable
-	ClickEvent clickEvent;
-	@Final
-	@Shadow
-	@Nullable
-	HoverEvent hoverEvent;
-	@Final
-	@Shadow
-	@Nullable
-	String insertion;
-	@Final
-	@Shadow
-	@Nullable
-	ResourceLocation font;
 	@Unique
 	private ImmutableList<Effect> textanimator$effects = ImmutableList.of();
 
@@ -95,6 +54,7 @@ public class StyleMixin implements TAStyle {
 	)
 	private Style textanimator$applyTo(final Style original) {
 		Style $this = (Style) (Object) this;
+		if (original == Style.EMPTY) return original;
 		if ($this != original) ((TAStyle) original).textanimator$setEffects(textanimator$getEffects());
 		return original;
 	}
