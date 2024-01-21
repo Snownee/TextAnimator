@@ -147,7 +147,7 @@ unifiedPublishing {
 
         mainPublication tasks.remapJar // Declares the publicated jar
 
-        var cfToken = System.getenv("CURSE_TOKEN") ?: ""
+        var cfToken = System.getenv("CURSE_TOKEN")
         if (cfToken != null) {
             curseforge {
                 token = cfToken
@@ -158,7 +158,7 @@ unifiedPublishing {
             }
         }
 
-        var mrToken = System.getenv("MODRINTH_TOKEN") ?: ""
+        var mrToken = System.getenv("MODRINTH_TOKEN")
         if (mrToken != null) {
             modrinth {
                 token = mrToken
