@@ -14,7 +14,7 @@ import snownee.textanimator.effect.RainbowEffect;
 @Mixin(Font.class)
 public class FontMixin {
 	@ModifyExpressionValue(
-			method = "method_37297",
+			method = "lambda$drawInBatch8xOutline$1",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/network/chat/Style;withColor(I)Lnet/minecraft/network/chat/Style;"
