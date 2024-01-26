@@ -17,8 +17,10 @@ public class FontMixin {
 			method = {"lambda$drawInBatch8xOutline$1", "m_168654_", "method_37297"},
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/network/chat/Style;withColor(I)Lnet/minecraft/network/chat/Style;"
-			)
+					target = "Lnet/minecraft/network/chat/Style;withColor(I)Lnet/minecraft/network/chat/Style;",
+					remap = true
+			),
+			remap = false
 	)
 	private Style textanimator$removeRainbowForBorder(Style original) {
 		final var style = (TAStyle) original;
