@@ -10,10 +10,14 @@
     "StyleMixin$SerializerMixin"
   ],
   "client": [
-    "client.OptionsMixin",
     "client.FontMixin",
+    "client.LineBreakFinderMixin",
+    "client.MutableComponentMixin",
+    "client.OptionsMixin",
     "client.SimpleOptionsSubScreenMixin",
-    "client.StringRenderOutputMixin"
+    "client.StringRenderOutputMixin",
+    "client.StringSplitterMixin",
+    "client.TranslatableContentsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

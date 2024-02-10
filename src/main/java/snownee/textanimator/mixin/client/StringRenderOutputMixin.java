@@ -21,7 +21,9 @@ import net.minecraft.network.chat.TextColor;
 import snownee.textanimator.TextAnimationStatus;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.duck.TAStyle;
+import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectSettings;
+import snownee.textanimator.typewriter.TypewriterTrack;
 
 @Mixin(value = Font.StringRenderOutput.class, priority = 1200)
 public abstract class StringRenderOutputMixin {
@@ -91,7 +93,11 @@ public abstract class StringRenderOutputMixin {
 		float shadowOffset = this.dropShadow ? glyphInfo.getShadowOffset() : 0.0f;
 		if (!(bakedGlyph instanceof EmptyGlyph)) {
 			float m = bold ? glyphInfo.getBoldOffset() : 0.0f;
-			EffectSettings settings = new EffectSettings(codepoint, index, dropShadow);
+			TypewriterTrack typewriterTrack = taStyle.textanimator$getTypewriterTrack();
+			if (taStyle.textanimator$getTypewriterIndex() > 0) {
+				index += taStyle.textanimator$getTypewriterIndex();
+			}
+			EffectSettings settings = new EffectSettings(codepoint, index, dropShadow, typewriterTrack);
 			settings.x = this.x + shadowOffset;
 			settings.y = this.y + shadowOffset;
 			settings.r = r;
@@ -99,7 +105,12 @@ public abstract class StringRenderOutputMixin {
 			settings.b = b;
 			settings.a = a;
 			TextAnimationStatus status = TextAnimatorClient.getStatus();
-			taStyle.textanimator$getEffects().stream().filter(status::shouldApply).forEach(effect -> effect.apply(settings));
+			for (int i = taStyle.textanimator$getEffects().size() - 1; i >= 0; i--) {
+				Effect effect = taStyle.textanimator$getEffects().get(i);
+				if (status.shouldApply(effect)) {
+					effect.apply(settings);
+				}
+			}
 			VertexConsumer vertexConsumer = this.bufferSource.getBuffer(bakedGlyph.renderType(this.mode));
 			this$0.renderChar(bakedGlyph, bold, style.isItalic(), m, settings.x, settings.y, this.pose, vertexConsumer, settings.r, settings.g, settings.b, settings.a, this.packedLightCoords);
 		}

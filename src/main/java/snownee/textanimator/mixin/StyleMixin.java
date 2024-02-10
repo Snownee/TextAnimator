@@ -3,7 +3,6 @@ package snownee.textanimator.mixin;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,11 +21,16 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.util.GsonHelper;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
+import snownee.textanimator.typewriter.TypewriterTrack;
 
 @Mixin(Style.class)
 public class StyleMixin implements TAStyle {
 	@Unique
 	private ImmutableList<Effect> textanimator$effects = ImmutableList.of();
+	@Unique
+	private TypewriterTrack textanimator$track;
+	@Unique
+	private int textanimator$typewriterIndex = -1;
 
 	@Override
 	public ImmutableList<Effect> textanimator$getEffects() {
@@ -38,17 +42,51 @@ public class StyleMixin implements TAStyle {
 		textanimator$effects = effects;
 	}
 
+	@Override
+	public void textanimator$addEffect(Effect effect) {
+		if (textanimator$effects.isEmpty()) {
+			textanimator$effects = ImmutableList.of(effect);
+		} else {
+			textanimator$effects = ImmutableList.<Effect>builder().addAll(textanimator$effects).add(effect).build();
+		}
+	}
+
+	@Override
+	public TypewriterTrack textanimator$getTypewriterTrack() {
+		return textanimator$track;
+	}
+
+	@Override
+	public void textanimator$setTypewriterTrack(TypewriterTrack track) {
+		textanimator$track = track;
+	}
+
+	@Override
+	public int textanimator$getTypewriterIndex() {
+		return textanimator$typewriterIndex;
+	}
+
+	@Override
+	public void textanimator$setTypewriterIndex(int index) {
+		textanimator$typewriterIndex = index;
+	}
+
 	@ModifyReturnValue(
 			method = {"withColor(Lnet/minecraft/network/chat/TextColor;)Lnet/minecraft/network/chat/Style;",
-					  "withBold", "withItalic", "withUnderlined", "withStrikethrough", "withObfuscated",
-					  "withClickEvent", "withHoverEvent", "withInsertion", "withFont", "applyFormat",
-					  "applyLegacyFormat", "applyFormats", "applyTo"},
+					"withBold", "withItalic", "withUnderlined", "withStrikethrough", "withObfuscated",
+					"withClickEvent", "withHoverEvent", "withInsertion", "withFont", "applyFormat",
+					"applyLegacyFormat", "applyFormats", "applyTo"},
 			at = @At("RETURN")
 	)
 	private Style textanimator$applyTo(final Style original) {
-		Style $this = (Style) (Object) this;
-		if (textanimator$getEffects().isEmpty()) return original;
-		if ($this != original) ((TAStyle) original).textanimator$setEffects(textanimator$getEffects());
+		Style self = (Style) (Object) this;
+		if (self == original) return original;
+		if (textanimator$getEffects().isEmpty() && textanimator$getTypewriterTrack() == null) return original;
+		((TAStyle) original).textanimator$setEffects(textanimator$getEffects());
+		if (textanimator$getTypewriterTrack() != null) {
+			((TAStyle) original).textanimator$setTypewriterTrack(textanimator$getTypewriterTrack());
+			((TAStyle) original).textanimator$setTypewriterIndex(textanimator$getTypewriterIndex());
+		}
 		return original;
 	}
 
@@ -56,6 +94,9 @@ public class StyleMixin implements TAStyle {
 	private void textanimator$equals(Object obj, CallbackInfoReturnable<Boolean> cir) {
 		if (this != obj && obj instanceof TAStyle style) {
 			if (!Objects.equals(this.textanimator$getEffects(), style.textanimator$getEffects())) {
+				cir.setReturnValue(false);
+			}
+			if (!Objects.equals(this.textanimator$getTypewriterTrack(), style.textanimator$getTypewriterTrack())) {
 				cir.setReturnValue(false);
 			}
 		}
@@ -79,7 +120,7 @@ public class StyleMixin implements TAStyle {
 			}
 			ImmutableList.Builder<Effect> builder = ImmutableList.builder();
 			GsonHelper.getAsJsonArray(json, "ta$effects").forEach(e -> {
-				Effect effect = Effect.create(StringUtils.split(e.getAsString(), ' '));
+				Effect effect = Effect.create(e.getAsString(), true);
 				if (effect != null) {
 					builder.add(effect);
 				}
