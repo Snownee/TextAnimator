@@ -13,5 +13,4 @@ accessible class net/minecraft/client/StringSplitter$LineComponent
 accessible field net/minecraft/client/StringSplitter$LineComponent style Lnet/minecraft/network/chat/Style;
 mutable field net/minecraft/client/StringSplitter$LineComponent style Lnet/minecraft/network/chat/Style;
 
-accessible field net/minecraft/network/chat/MutableComponent contents Lnet/minecraft/network/chat/ComponentContents;
-mutable field net/minecraft/network/chat/MutableComponent contents Lnet/minecraft/network/chat/ComponentContents;
+accessible method net/minecraft/util/StringDecomposer feedChar (Lnet/minecraft/network/chat/Style;Lnet/minecraft/util/FormattedCharSink;IC)Z

@@ -75,7 +75,7 @@ public class StyleMixin implements TAStyle {
 			method = {"withColor(Lnet/minecraft/network/chat/TextColor;)Lnet/minecraft/network/chat/Style;",
 					"withBold", "withItalic", "withUnderlined", "withStrikethrough", "withObfuscated",
 					"withClickEvent", "withHoverEvent", "withInsertion", "withFont", "applyFormat",
-					"applyLegacyFormat", "applyFormats", "applyTo"},
+					"applyLegacyFormat", "applyFormats"},
 			at = @At("RETURN")
 	)
 	private Style textanimator$applyTo(final Style original) {
@@ -87,6 +87,25 @@ public class StyleMixin implements TAStyle {
 			((TAStyle) original).textanimator$setTypewriterTrack(textanimator$getTypewriterTrack());
 			((TAStyle) original).textanimator$setTypewriterIndex(textanimator$getTypewriterIndex());
 		}
+		return original;
+	}
+
+	@ModifyReturnValue(method = "applyTo", at = @At("RETURN"))
+	private Style textanimator$applyTo(final Style original, final Style that) {
+		Style self = (Style) (Object) this;
+		if (self == original || that == original) return original;
+		ImmutableList<Effect> effects = textanimator$getEffects();
+		TypewriterTrack track = textanimator$getTypewriterTrack();
+		int index = textanimator$getTypewriterIndex();
+		TAStyle thatStyle = (TAStyle) that;
+		ImmutableList<Effect> thatEffects = thatStyle.textanimator$getEffects();
+		TypewriterTrack thatTrack = thatStyle.textanimator$getTypewriterTrack();
+		int thatIndex = thatStyle.textanimator$getTypewriterIndex();
+		TAStyle originalStyle = (TAStyle) original;
+		// should we merge effects?
+		originalStyle.textanimator$setEffects(effects.isEmpty() ? thatEffects : effects);
+		originalStyle.textanimator$setTypewriterTrack(track == null ? thatTrack : track);
+		originalStyle.textanimator$setTypewriterIndex(index == -1 ? thatIndex : index);
 		return original;
 	}
 

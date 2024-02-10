@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
+import net.minecraft.util.StringDecomposer;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 
@@ -27,9 +28,6 @@ public class CommonProxy {
 		if (taStyle.textanimator$getTypewriterTrack() != null) {
 			realIndex = Math.max(taStyle.textanimator$getTypewriterIndex() + i, 0);
 			((TAStyle) style).textanimator$setTypewriterIndex(realIndex);
-		}
-		if (string.equals("Typewriter")) {
-			System.out.println(string);
 		}
 		main:
 		for (int k = i; k < j; ++k) {
@@ -98,14 +96,10 @@ public class CommonProxy {
 				if (formattedCharSink.accept(k, curStyle, 65533)) continue;
 				return false;
 			}
-			if (feedChar(curStyle, formattedCharSink, k, c)) continue;
+			if (StringDecomposer.feedChar(curStyle, formattedCharSink, k, c)) continue;
 			return false;
 		}
 		return true;
-	}
-
-	private static boolean feedChar(Style style, FormattedCharSink formattedCharSink, int i, char c) {
-		return Character.isSurrogate(c) ? formattedCharSink.accept(i, style, 65533) : formattedCharSink.accept(i, style, c);
 	}
 
 }

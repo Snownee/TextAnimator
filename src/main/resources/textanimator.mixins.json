@@ -11,8 +11,7 @@
   ],
   "client": [
     "client.FontMixin",
-    "client.LineBreakFinderMixin",
-    "client.MutableComponentMixin",
+    "client.LiteralContentsMixin",
     "client.OptionsMixin",
     "client.SimpleOptionsSubScreenMixin",
     "client.StringRenderOutputMixin",
