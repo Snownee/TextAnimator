@@ -2,5 +2,6 @@
 	"options.textanimator": "Text Animation",
 	"options.textanimator.none": "None",
 	"options.textanimator.all": "All",
-	"options.textanimator.no_rainbow": "No Rainbow"
+	"options.textanimator.no_rainbow": "No Rainbow",
+  "textanimator.test": "<typewriter>Typewriter"
 }

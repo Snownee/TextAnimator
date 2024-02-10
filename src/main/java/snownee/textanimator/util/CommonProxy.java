@@ -9,7 +9,6 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
-import snownee.textanimator.duck.TALineBreakFinder;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 
@@ -20,20 +19,24 @@ public class CommonProxy {
 		return style.withClickEvent(style.getClickEvent());
 	}
 
-	public static boolean textanimator$iterateFormatted(String string, int i, Style style, Style plainStyle, FormattedCharSink formattedCharSink) {
+	public static boolean iterateFormatted(String string, int i, Style style, Style plainStyle, FormattedCharSink formattedCharSink) {
 		int j = string.length();
 		Style curStyle = style;
 		int realIndex = -1;
-		int skipped = 0;
 		TAStyle taStyle = (TAStyle) style;
 		if (taStyle.textanimator$getTypewriterTrack() != null) {
 			realIndex = Math.max(taStyle.textanimator$getTypewriterIndex() + i, 0);
-			System.out.println(string + " " + realIndex);
+			((TAStyle) style).textanimator$setTypewriterIndex(realIndex);
+		}
+		if (string.equals("Typewriter")) {
+			System.out.println(string);
 		}
 		main:
 		for (int k = i; k < j; ++k) {
-			if (realIndex != -1) {
+			if (realIndex != -1 && k != i) {
 				++realIndex;
+				curStyle = CommonProxy.clone(curStyle);
+				((TAStyle) curStyle).textanimator$setTypewriterIndex(realIndex);
 			}
 			char d;
 			char c = string.charAt(k);
@@ -43,11 +46,6 @@ public class CommonProxy {
 				ChatFormatting chatFormatting = ChatFormatting.getByCode(d);
 				if (chatFormatting != null) {
 					curStyle = chatFormatting == ChatFormatting.RESET ? plainStyle : curStyle.applyLegacyFormat(chatFormatting);
-					if (chatFormatting == ChatFormatting.RESET && realIndex != -1) {
-						curStyle = CommonProxy.clone(curStyle);
-					}
-					skipped += 2;
-					setIndex(curStyle, realIndex, skipped, formattedCharSink);
 				}
 				++k;
 				continue;
@@ -74,8 +72,6 @@ public class CommonProxy {
 						}
 						if (newEffects != null) {
 							curStyle = CommonProxy.clone(curStyle);
-							skipped += l - k + 1;
-							setIndex(curStyle, realIndex, skipped, formattedCharSink);
 							((TAStyle) curStyle).textanimator$setEffects(newEffects);
 							k = l;
 							continue main;
@@ -110,15 +106,6 @@ public class CommonProxy {
 
 	private static boolean feedChar(Style style, FormattedCharSink formattedCharSink, int i, char c) {
 		return Character.isSurrogate(c) ? formattedCharSink.accept(i, style, 65533) : formattedCharSink.accept(i, style, c);
-	}
-
-	private static void setIndex(Style style, int realIndex, int skipped, FormattedCharSink formattedCharSink) {
-		if (realIndex != -1) {
-			((TAStyle) style).textanimator$setTypewriterIndex(realIndex);
-			if (formattedCharSink instanceof TALineBreakFinder finder) {
-				finder.textanimator$setSkippedChars(skipped);
-			}
-		}
 	}
 
 }

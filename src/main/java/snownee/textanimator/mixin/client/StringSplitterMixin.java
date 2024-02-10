@@ -1,39 +1,40 @@
 package snownee.textanimator.mixin.client;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.client.StringSplitter;
+import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
-import net.minecraft.util.FormattedCharSink;
-import snownee.textanimator.duck.TALineBreakFinder;
+import net.minecraft.util.StringDecomposer;
 import snownee.textanimator.duck.TAStyle;
-import snownee.textanimator.util.CommonProxy;
 
 @Mixin(StringSplitter.class)
 public class StringSplitterMixin {
-	@WrapOperation(method = "splitLines(Lnet/minecraft/network/chat/FormattedText;ILnet/minecraft/network/chat/Style;Ljava/util/function/BiConsumer;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/StringDecomposer;iterateFormatted(Ljava/lang/String;ILnet/minecraft/network/chat/Style;Lnet/minecraft/network/chat/Style;Lnet/minecraft/util/FormattedCharSink;)Z"))
-	private boolean textanimator$iterateFormatted(String string, int i, Style style, Style style2, FormattedCharSink formattedCharSink, Operation<Boolean> original, @Share("index") LocalIntRef index) {
-		TAStyle taStyle = (TAStyle) style;
-		if (taStyle.textanimator$getTypewriterTrack() != null) {
-			if (index.get() == 0) {
-				index.set(taStyle.textanimator$getTypewriterIndex());
+	@WrapOperation(method = "splitLines(Lnet/minecraft/network/chat/FormattedText;ILnet/minecraft/network/chat/Style;Ljava/util/function/BiConsumer;)V",
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/FormattedText;visit(Lnet/minecraft/network/chat/FormattedText$StyledContentConsumer;Lnet/minecraft/network/chat/Style;)Ljava/util/Optional;"))
+	private Optional<Object> textanimator$visitFormattedText(FormattedText formattedText, FormattedText.StyledContentConsumer<Object> tStyledContentConsumer, Style style, Operation<Optional<Object>> original, @Local List<StringSplitter.LineComponent> list) {
+		return formattedText.visit((stylex, string) -> {
+			if (string.isEmpty()) {
+				return Optional.empty();
 			}
-			if (index.get() > 0) {
-				style = CommonProxy.clone(style);
-				taStyle = (TAStyle) style;
-				taStyle.textanimator$setTypewriterIndex(index.get());
+			TAStyle taStyle = (TAStyle) stylex;
+			if (taStyle.textanimator$getTypewriterTrack() != null) {
+				StringDecomposer.iterateFormatted(string, stylex, (i, style2, cp) -> {
+					list.add(new StringSplitter.LineComponent(Character.toString(cp), style2));
+					return true;
+				});
+			} else {
+				list.add(new StringSplitter.LineComponent(string, stylex));
 			}
-		}
-		boolean result = original.call(string, i, style, style2, formattedCharSink);
-		if (taStyle.textanimator$getTypewriterTrack() != null && formattedCharSink instanceof StringSplitter.LineBreakFinder finder) {
-			index.set(taStyle.textanimator$getTypewriterIndex() + finder.getSplitPosition() - ((TALineBreakFinder) finder).textanimator$getSkippedChars());
-		}
-		return result;
+			return Optional.empty();
+		}, style);
 	}
 }
