@@ -9,17 +9,17 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.OptionEnum;
 import snownee.textanimator.effect.Effect;
 
-public enum TextAnimationStatus implements OptionEnum {
+public enum TextAnimationMode implements OptionEnum {
 	ALL("all"), NONE("none"), NO_RAINBOW("no_rainbow");
 
-	private static final TextAnimationStatus[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(TextAnimationStatus::getId)).toArray(TextAnimationStatus[]::new);
+	private static final TextAnimationMode[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(TextAnimationMode::getId)).toArray(TextAnimationMode[]::new);
 	private final String key;
 
-	TextAnimationStatus(String key) {
-		this.key = "options.textanimator." + key;
+	TextAnimationMode(String key) {
+		this.key = "options.textanimator.animation." + key;
 	}
 
-	public static TextAnimationStatus byId(int i) {
+	public static TextAnimationMode byId(int i) {
 		return BY_ID[Mth.positiveModulo(i, BY_ID.length)];
 	}
 
