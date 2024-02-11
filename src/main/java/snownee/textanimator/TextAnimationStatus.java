@@ -16,7 +16,7 @@ public enum TextAnimationStatus implements OptionEnum {
 	private final String key;
 
 	TextAnimationStatus(String key) {
-		this.key = "options.textanimator." + key;
+		this.key = "options.textanimator.animation." + key;
 	}
 
 	public static TextAnimationStatus byId(int i) {

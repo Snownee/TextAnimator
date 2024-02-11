@@ -3,19 +3,17 @@ package snownee.textanimator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.BookEditScreen;
+import net.minecraft.client.OptionInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import snownee.textanimator.duck.TAOptions;
 
 public class TextAnimatorClient {
 	public static Vec2[] RANDOM_DIR;
-//	public static final Set<Class<?>> SCREENS_DISABLED = Sets.newIdentityHashSet();
+	//	public static final Set<Class<?>> SCREENS_DISABLED = Sets.newIdentityHashSet();
+	private static int defaultTypewriterInterval;
 
 	public static void init() {
 		int len = 30;
@@ -32,7 +30,20 @@ public class TextAnimatorClient {
 	}
 
 	public static TextAnimationStatus getStatus() {
-		return ((TAOptions) Minecraft.getInstance().options).textanimator$getOption().get();
+		OptionInstance<TextAnimationStatus> instance = ((TAOptions) Minecraft.getInstance().options).textanimator$getTextAnimation();
+		if (instance == null)
+			return TextAnimationStatus.ALL;
+		return instance.get();
+	}
+
+	public static int defaultTypewriterInterval() {
+		return defaultTypewriterInterval;
+	}
+
+	public static void setTypewriterSpeed(int speed) {
+		speed = Mth.clamp(speed, 1, 9);
+		int[] values = {4, 8, 12, 16, 20, 27, 36, 50, 70};
+		defaultTypewriterInterval = values[9 - speed];
 	}
 
 //	public static synchronized void registerDisabledScreen(Class<?> screen) {

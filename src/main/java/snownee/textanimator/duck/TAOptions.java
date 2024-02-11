@@ -4,5 +4,7 @@ import net.minecraft.client.OptionInstance;
 import snownee.textanimator.TextAnimationStatus;
 
 public interface TAOptions {
-	OptionInstance<TextAnimationStatus> textanimator$getOption();
+	OptionInstance<TextAnimationStatus> textanimator$getTextAnimation();
+
+	OptionInstance<Integer> textanimator$getTypewriterSpeed();
 }

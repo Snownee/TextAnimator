@@ -1,6 +1,7 @@
 package snownee.textanimator.typewriter;
 
 import net.minecraft.Util;
+import snownee.textanimator.TextAnimatorClient;
 
 public class TypewriterTrack {
 	public long changedSince = Util.getMillis();
@@ -8,8 +9,8 @@ public class TypewriterTrack {
 
 	public void update() {
 		long now = Util.getMillis();
-		if (now - changedSince > 40) {
-			changedSince = changedSince + 40;
+		if (now - changedSince > TextAnimatorClient.defaultTypewriterInterval()) {
+			changedSince = changedSince + TextAnimatorClient.defaultTypewriterInterval();
 			index++;
 		}
 	}
