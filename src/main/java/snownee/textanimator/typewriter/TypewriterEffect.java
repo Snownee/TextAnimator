@@ -1,16 +1,19 @@
 package snownee.textanimator.typewriter;
 
-import com.google.gson.JsonObject;
+import org.jetbrains.annotations.Nullable;
+
 import com.mojang.datafixers.util.Pair;
 
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectSettings;
+import snownee.textanimator.effect.params.Params;
 
 public class TypewriterEffect implements Effect {
 
-	public TypewriterEffect(JsonObject params) {
+	public TypewriterEffect(Params params) {
 	}
 
+	@Nullable
 	public static Pair<TypewriterEffect, Integer> find(String text) {
 		if (!text.startsWith("<typewriter")) {
 			return null;

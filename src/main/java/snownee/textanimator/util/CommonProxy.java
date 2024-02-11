@@ -1,17 +1,22 @@
 package snownee.textanimator.util;
 
+import java.util.function.Function;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
 import net.minecraft.util.StringDecomposer;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
+import snownee.textanimator.effect.params.Params;
 
 public class CommonProxy {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
@@ -101,4 +106,9 @@ public class CommonProxy {
 		return true;
 	}
 
+	public static void onEffectTypeRegistered(String type, Function<Params, Effect> factory) {
+		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+			ClientProxy.onEffectTypeRegistered(type, factory);
+		}
+	}
 }

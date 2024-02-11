@@ -1,14 +1,13 @@
 package snownee.textanimator.effect;
 
-import com.google.gson.JsonObject;
-
 import net.minecraft.Util;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import snownee.textanimator.TextAnimatorClient;
+import snownee.textanimator.effect.params.Params;
 
 public class WiggleEffect implements Effect {
-	public WiggleEffect(JsonObject params) {
+	public WiggleEffect(Params params) {
 	}
 
 	@Override

@@ -2,40 +2,40 @@ package snownee.textanimator.effect;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.gson.JsonObject;
+import com.google.common.collect.ImmutableMap;
 
-import snownee.textanimator.typewriter.TypewriterEffect;
+import snownee.textanimator.effect.params.EmptyParams;
+import snownee.textanimator.effect.params.Params;
+import snownee.textanimator.effect.params.TypedParams;
 
 public interface Effect {
 
 	static Effect create(String[] split, boolean allowTypewriter) {
-		JsonObject params = null;
+		if (split.length == 0) {
+			return null;
+		}
+		if (!allowTypewriter && "typewriter".equals(split[0])) {
+			return null;
+		}
+		Params params = EmptyParams.INSTANCE;
 		if (split.length > 1) {
-			params = new JsonObject();
+			ImmutableMap.Builder<String, Object> builder = ImmutableMap.builderWithExpectedSize(split.length - 1);
 			for (int i = 1; i < split.length; i++) {
 				String[] kv = StringUtils.split(split[i], "=", 2);
-				if (kv.length == 0) continue;
-				if (kv.length == 1) {
-					params.addProperty(kv[0], true);
-				} else if ("true".equals(kv[1]) || "false".equals(kv[1])) {
-					params.addProperty(kv[0], Boolean.parseBoolean(kv[1]));
+				if (kv.length < 2) continue;
+				if ("true".equals(kv[1]) || "false".equals(kv[1])) {
+					builder.put(kv[0], Boolean.parseBoolean(kv[1]));
 				} else {
 					try {
-						params.addProperty(kv[0], Float.parseFloat(kv[1]));
+						builder.put(kv[0], Double.parseDouble(kv[1]));
 					} catch (NumberFormatException e) {
 						throw new IllegalArgumentException("Invalid effect parameter: " + kv[0] + "=" + kv[1]);
 					}
 				}
 			}
+			params = new TypedParams(builder.build());
 		}
-		return switch (split[0]) {
-			case "typewriter" -> allowTypewriter ? new TypewriterEffect(params) : null;
-			case "shake" -> new ShakeEffect(params);
-			case "wave" -> new WaveEffect(params);
-			case "rainb" -> new RainbowEffect(params);
-			case "wiggle" -> new WiggleEffect(params);
-			default -> null;
-		};
+		return EffectFactory.create(split[0], params);
 	}
 
 	static Effect create(String tagContent, boolean allowTypewriter) {

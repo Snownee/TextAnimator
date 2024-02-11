@@ -9,6 +9,12 @@ import net.minecraft.client.OptionInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import snownee.textanimator.duck.TAOptions;
+import snownee.textanimator.effect.EffectFactory;
+import snownee.textanimator.effect.RainbowEffect;
+import snownee.textanimator.effect.ShakeEffect;
+import snownee.textanimator.effect.WaveEffect;
+import snownee.textanimator.effect.WiggleEffect;
+import snownee.textanimator.typewriter.TypewriterEffect;
 
 public class TextAnimatorClient {
 	public static Vec2[] RANDOM_DIR;
@@ -27,6 +33,12 @@ public class TextAnimatorClient {
 		RANDOM_DIR = dirs.toArray(Vec2[]::new);
 
 //		registerDisabledScreen(BookEditScreen.class);
+
+		EffectFactory.register("typewriter", TypewriterEffect::new);
+		EffectFactory.register("shake", ShakeEffect::new);
+		EffectFactory.register("wave", WaveEffect::new);
+		EffectFactory.register("rainb", RainbowEffect::new);
+		EffectFactory.register("wiggle", WiggleEffect::new);
 	}
 
 	public static TextAnimationStatus getStatus() {
