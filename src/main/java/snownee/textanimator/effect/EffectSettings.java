@@ -10,6 +10,7 @@ public class EffectSettings {
 	public final boolean isShadow;
 	@Nullable
 	public final TypewriterTrack typewriterTrack;
+	public final int typingIndex;
 	public float x;
 	public float y;
 	public float r;
@@ -17,11 +18,12 @@ public class EffectSettings {
 	public float b;
 	public float a;
 
-	public EffectSettings(int codepoint, int index, boolean isShadow, @Nullable TypewriterTrack typewriterTrack) {
+	public EffectSettings(int codepoint, int index, boolean isShadow, @Nullable TypewriterTrack typewriterTrack, int typingIndex) {
 		this.codepoint = codepoint;
 		this.index = index;
 		this.isShadow = isShadow;
 		this.typewriterTrack = typewriterTrack;
+		this.typingIndex = typingIndex;
 		if (typewriterTrack != null) {
 			typewriterTrack.update();
 		}

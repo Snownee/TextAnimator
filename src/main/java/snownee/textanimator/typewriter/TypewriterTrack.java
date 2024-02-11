@@ -4,8 +4,13 @@ import net.minecraft.Util;
 import snownee.textanimator.TextAnimatorClient;
 
 public class TypewriterTrack {
-	public long changedSince = Util.getMillis();
+	public long startedAt;
+	public long changedSince;
 	public int index;
+
+	public TypewriterTrack() {
+		startedAt = changedSince = Util.getMillis();
+	}
 
 	public void update() {
 		long now = Util.getMillis();

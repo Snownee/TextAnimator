@@ -41,10 +41,17 @@ public class TextAnimatorClient {
 		EffectFactory.register("wiggle", WiggleEffect::new);
 	}
 
-	public static TextAnimationStatus getStatus() {
-		OptionInstance<TextAnimationStatus> instance = ((TAOptions) Minecraft.getInstance().options).textanimator$getTextAnimation();
+	public static TextAnimationMode getTextAnimationMode() {
+		OptionInstance<TextAnimationMode> instance = ((TAOptions) Minecraft.getInstance().options).textanimator$getTextAnimation();
 		if (instance == null)
-			return TextAnimationStatus.ALL;
+			return TextAnimationMode.ALL;
+		return instance.get();
+	}
+
+	public static TypewriterMode getTypewriterMode() {
+		OptionInstance<TypewriterMode> instance = ((TAOptions) Minecraft.getInstance().options).textanimator$getTypewriterMode();
+		if (instance == null)
+			return TypewriterMode.BY_CHAR;
 		return instance.get();
 	}
 

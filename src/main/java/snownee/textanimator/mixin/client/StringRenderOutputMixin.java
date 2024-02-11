@@ -18,7 +18,7 @@ import net.minecraft.client.gui.font.glyphs.EmptyGlyph;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import snownee.textanimator.TextAnimationStatus;
+import snownee.textanimator.TextAnimationMode;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
@@ -94,20 +94,18 @@ public abstract class StringRenderOutputMixin {
 		if (!(bakedGlyph instanceof EmptyGlyph)) {
 			float m = bold ? glyphInfo.getBoldOffset() : 0.0f;
 			TypewriterTrack typewriterTrack = taStyle.textanimator$getTypewriterTrack();
-			if (taStyle.textanimator$getTypewriterIndex() > 0) {
-				index += taStyle.textanimator$getTypewriterIndex();
-			}
-			EffectSettings settings = new EffectSettings(codepoint, index, dropShadow, typewriterTrack);
+			int typingIndex = taStyle.textanimator$getTypewriterIndex();
+			EffectSettings settings = new EffectSettings(codepoint, index + Math.max(typingIndex, 0), dropShadow, typewriterTrack, typingIndex);
 			settings.x = this.x + shadowOffset;
 			settings.y = this.y + shadowOffset;
 			settings.r = r;
 			settings.g = g;
 			settings.b = b;
 			settings.a = a;
-			TextAnimationStatus status = TextAnimatorClient.getStatus();
+			TextAnimationMode animationMode = TextAnimatorClient.getTextAnimationMode();
 			for (int i = taStyle.textanimator$getEffects().size() - 1; i >= 0; i--) {
 				Effect effect = taStyle.textanimator$getEffects().get(i);
-				if (status.shouldApply(effect)) {
+				if (animationMode.shouldApply(effect)) {
 					effect.apply(settings);
 				}
 			}

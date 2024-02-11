@@ -27,10 +27,11 @@ public class SimpleOptionsSubScreenMixin {
 	private void textanimator$init(Screen parent, Options options, Component component, OptionInstance<?>[] optionInstances, CallbackInfo ci) {
 		Screen screen = (Screen) (Object) this;
 		if (screen.getClass() == ChatOptionsScreen.class) {
-			OptionInstance<?>[] newInstances = new OptionInstance<?>[smallOptions.length + 2];
+			OptionInstance<?>[] newInstances = new OptionInstance<?>[smallOptions.length + 3];
 			System.arraycopy(smallOptions, 0, newInstances, 0, smallOptions.length);
 			newInstances[smallOptions.length] = ((TAOptions) options).textanimator$getTextAnimation();
 			newInstances[smallOptions.length + 1] = ((TAOptions) options).textanimator$getTypewriterSpeed();
+			newInstances[smallOptions.length + 2] = ((TAOptions) options).textanimator$getTypewriterMode();
 			smallOptions = newInstances;
 		}
 	}

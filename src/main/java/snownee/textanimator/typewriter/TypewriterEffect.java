@@ -34,7 +34,7 @@ public class TypewriterEffect implements Effect {
 		if (settings.typewriterTrack == null) {
 			return;
 		}
-		if (settings.index >= settings.typewriterTrack.index) {
+		if (settings.typingIndex >= settings.typewriterTrack.index) {
 			settings.a = 0;
 		}
 	}
