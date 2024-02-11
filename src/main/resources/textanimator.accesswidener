@@ -7,3 +7,10 @@ accessible method net/minecraft/client/gui/Font renderChar (Lnet/minecraft/clien
 accessible method net/minecraft/network/chat/Style <init> (Lnet/minecraft/network/chat/TextColor;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Ljava/lang/Boolean;Lnet/minecraft/network/chat/ClickEvent;Lnet/minecraft/network/chat/HoverEvent;Ljava/lang/String;Lnet/minecraft/resources/ResourceLocation;)V
 
 accessible class net/minecraft/client/Options$FieldAccess
+
+accessible class net/minecraft/client/StringSplitter$LineBreakFinder
+accessible class net/minecraft/client/StringSplitter$LineComponent
+accessible field net/minecraft/client/StringSplitter$LineComponent style Lnet/minecraft/network/chat/Style;
+mutable field net/minecraft/client/StringSplitter$LineComponent style Lnet/minecraft/network/chat/Style;
+
+accessible method net/minecraft/util/StringDecomposer feedChar (Lnet/minecraft/network/chat/Style;Lnet/minecraft/util/FormattedCharSink;IC)Z

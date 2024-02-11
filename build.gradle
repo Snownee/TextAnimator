@@ -36,6 +36,8 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    maven { url = "https://maven.teamresourceful.com/repository/maven-public/" }
 }
 
 dependencies {
@@ -71,6 +73,15 @@ dependencies {
 //	modApi("teamreborn:energy:2.2.0") {
 //		exclude(group: "net.fabricmc.fabric-api")
 //	}
+
+    // https://maven.teamresourceful.com/repository/maven-public/earth/terrarium/heracles/heracles-fabric-1.20.1/1.1.9/heracles-fabric-1.20.1-1.1.9.pom
+    modImplementation("earth.terrarium.heracles:heracles-fabric-1.20.1:1.1.9") {
+//        transitive = false
+    }
+    modImplementation("earth.terrarium.hermes:hermes-fabric-1.20:1.5.0") {
+        transitive = false
+    }
+//    modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.20.1:2.1.18")
 }
 
 loom {

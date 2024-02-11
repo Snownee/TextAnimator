@@ -12,22 +12,78 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.Options;
-import snownee.textanimator.TextAnimationStatus;
+import net.minecraft.network.chat.Component;
+import snownee.textanimator.TextAnimationMode;
+import snownee.textanimator.TextAnimatorClient;
+import snownee.textanimator.TypewriterMode;
 import snownee.textanimator.duck.TAOptions;
 
 @Mixin(Options.class)
 public class OptionsMixin implements TAOptions {
 	@Unique
-	private final OptionInstance<TextAnimationStatus> textAnimator$textAnimation = new OptionInstance<>("options.textanimator", OptionInstance.noTooltip(), OptionInstance.forOptionEnum(), new OptionInstance.Enum<>(Arrays.asList(TextAnimationStatus.values()), Codec.INT.xmap(TextAnimationStatus::byId, TextAnimationStatus::getId)), TextAnimationStatus.ALL, status -> {
-	});
+	private OptionInstance<TextAnimationMode> textanimator$textAnimation;
+	@Unique
+	private OptionInstance<Integer> textanimator$typewriterSpeed;
+	@Unique
+	private OptionInstance<TypewriterMode> textanimator$typewriterMode;
+
+	@Inject(method = "load", at = @At("HEAD"))
+	private void textanimator$load(CallbackInfo ci) {
+		createExtraOptions();
+	}
 
 	@Inject(method = "processOptions", at = @At("RETURN"))
 	private void textanimator$processOptions(Options.FieldAccess fieldAccess, CallbackInfo ci) {
-		fieldAccess.process("textAnimation", textAnimator$textAnimation);
+		createExtraOptions();
+		fieldAccess.process("textanimator.textAnimation", textanimator$textAnimation);
+		fieldAccess.process("textanimator.typewriterSpeed", textanimator$typewriterSpeed);
+		fieldAccess.process("textanimator.typewriterMode", textanimator$typewriterMode);
+		TextAnimatorClient.setTypewriterSpeed(textanimator$typewriterSpeed.get());
 	}
 
 	@Override
-	public OptionInstance<TextAnimationStatus> textanimator$getOption() {
-		return textAnimator$textAnimation;
+	public OptionInstance<TextAnimationMode> textanimator$getTextAnimation() {
+		return textanimator$textAnimation;
+	}
+
+	@Override
+	public OptionInstance<Integer> textanimator$getTypewriterSpeed() {
+		return textanimator$typewriterSpeed;
+	}
+
+	@Override
+	public OptionInstance<TypewriterMode> textanimator$getTypewriterMode() {
+		return textanimator$typewriterMode;
+	}
+
+	@Unique
+	private void createExtraOptions() {
+		if (textanimator$textAnimation != null) {
+			return;
+		}
+		textanimator$textAnimation = new OptionInstance<>("options.textanimator.animation",
+				OptionInstance.noTooltip(),
+				OptionInstance.forOptionEnum(),
+				new OptionInstance.Enum<>(
+						Arrays.asList(TextAnimationMode.values()),
+						Codec.INT.xmap(TextAnimationMode::byId, TextAnimationMode::getId)),
+				TextAnimationMode.ALL, status -> {
+		});
+
+		textanimator$typewriterSpeed = new OptionInstance<>("options.textanimator.typewriterSpeed",
+				OptionInstance.noTooltip(),
+				(component, integer) -> Options.genericValueLabel(component, Component.translatable("options.textanimator.typewriterSpeed.value", integer)),
+				new OptionInstance.IntRange(1, 9),
+				5,
+				TextAnimatorClient::setTypewriterSpeed);
+
+		textanimator$typewriterMode = new OptionInstance<>("options.textanimator.typewriterMode",
+				OptionInstance.noTooltip(),
+				OptionInstance.forOptionEnum(),
+				new OptionInstance.Enum<>(
+						Arrays.asList(TypewriterMode.values()),
+						Codec.INT.xmap(TypewriterMode::byId, TypewriterMode::getId)),
+				TypewriterMode.BY_CHAR, status -> {
+		});
 	}
 }

@@ -1,12 +1,11 @@
 package snownee.textanimator.effect;
 
-import com.google.gson.JsonObject;
-
 import net.minecraft.Util;
 import net.minecraft.util.Mth;
+import snownee.textanimator.effect.params.Params;
 
 public class WaveEffect implements Effect {
-	public WaveEffect(JsonObject params) {
+	public WaveEffect(Params params) {
 	}
 
 	@Override
