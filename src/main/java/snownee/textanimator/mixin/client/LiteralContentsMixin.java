@@ -36,7 +36,7 @@ public abstract class LiteralContentsMixin {
 		style = CommonProxy.clone(style);
 		TAStyle taStyle = (TAStyle) style;
 		taStyle.textanimator$addEffect(pair.getFirst());
-		taStyle.textanimator$setTypewriterTrack(TypewriterTracks.getInstance().get(new Object()));
+		taStyle.textanimator$setTypewriterTrack(TypewriterTracks.getInstance().get(text.intern()));
 		String realText = text.substring(pair.getSecond());
 		MutableObject<Optional<T>> result = new MutableObject<>(Optional.empty());
 		StringDecomposer.iterateFormatted(realText, style, (i, style2, cp) -> {

@@ -9,8 +9,9 @@ public class TypewriterTrack {
 
 	public void update() {
 		long now = Util.getMillis();
-		if (now - changedSince > TextAnimatorClient.defaultTypewriterInterval()) {
-			changedSince = changedSince + TextAnimatorClient.defaultTypewriterInterval();
+		int interval = TextAnimatorClient.defaultTypewriterInterval();
+		if (now - changedSince > interval) {
+			changedSince = changedSince + interval;
 			index++;
 		}
 	}

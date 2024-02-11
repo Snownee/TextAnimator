@@ -36,6 +36,8 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    maven { url = "https://maven.teamresourceful.com/repository/maven-public/" }
 }
 
 dependencies {
@@ -71,6 +73,8 @@ dependencies {
 //	modApi("teamreborn:energy:2.2.0") {
 //		exclude(group: "net.fabricmc.fabric-api")
 //	}
+
+    modImplementation "earth.terrarium.heracles:heracles-fabric-1.20.1:1.1.9"
 }
 
 loom {

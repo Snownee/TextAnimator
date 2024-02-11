@@ -118,6 +118,9 @@ public class StyleMixin implements TAStyle {
 			if (!Objects.equals(this.textanimator$getTypewriterTrack(), style.textanimator$getTypewriterTrack())) {
 				cir.setReturnValue(false);
 			}
+			if (this.textanimator$getTypewriterIndex() != style.textanimator$getTypewriterIndex()) {
+				cir.setReturnValue(false);
+			}
 		}
 	}
 

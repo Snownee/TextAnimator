@@ -23,24 +23,23 @@ public class CommonProxy {
 	public static boolean iterateFormatted(String string, int i, Style style, Style plainStyle, FormattedCharSink formattedCharSink) {
 		int j = string.length();
 		Style curStyle = style;
-		int realIndex = -1;
+		int typingIndex = -1;
 		TAStyle taStyle = (TAStyle) style;
 		if (taStyle.textanimator$getTypewriterTrack() != null) {
-			realIndex = Math.max(taStyle.textanimator$getTypewriterIndex() + i, 0);
-			((TAStyle) style).textanimator$setTypewriterIndex(realIndex);
+			typingIndex = Math.max(taStyle.textanimator$getTypewriterIndex() + i, 0);
+			((TAStyle) style).textanimator$setTypewriterIndex(typingIndex);
 		}
 		main:
 		for (int k = i; k < j; ++k) {
-			if (realIndex != -1 && k != i) {
-				++realIndex;
-				curStyle = CommonProxy.clone(curStyle);
-				((TAStyle) curStyle).textanimator$setTypewriterIndex(realIndex);
-			}
-			char d;
 			char c = string.charAt(k);
+			if (typingIndex != -1 && k != i) {
+				++typingIndex;
+				curStyle = CommonProxy.clone(curStyle);
+				((TAStyle) curStyle).textanimator$setTypewriterIndex(typingIndex);
+			}
 			if (c == '§') {
 				if (k + 1 >= j) break;
-				d = string.charAt(k + 1);
+				char d = string.charAt(k + 1);
 				ChatFormatting chatFormatting = ChatFormatting.getByCode(d);
 				if (chatFormatting != null) {
 					curStyle = chatFormatting == ChatFormatting.RESET ? plainStyle : curStyle.applyLegacyFormat(chatFormatting);
@@ -85,7 +84,7 @@ public class CommonProxy {
 					if (formattedCharSink.accept(k, curStyle, 65533)) break;
 					return false;
 				}
-				d = string.charAt(k + 1);
+				char d = string.charAt(k + 1);
 				if (Character.isLowSurrogate(d)) {
 					if (!formattedCharSink.accept(k, curStyle, Character.toCodePoint(c, d))) {
 						return false;
