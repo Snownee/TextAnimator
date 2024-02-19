@@ -95,7 +95,12 @@ public abstract class StringRenderOutputMixin {
 			float m = bold ? glyphInfo.getBoldOffset() : 0.0f;
 			TypewriterTrack typewriterTrack = taStyle.textanimator$getTypewriterTrack();
 			int typingIndex = taStyle.textanimator$getTypewriterIndex();
-			EffectSettings settings = new EffectSettings(codepoint, index + Math.max(typingIndex, 0), dropShadow, typewriterTrack, typingIndex);
+			EffectSettings settings = new EffectSettings(
+					codepoint,
+					index + Math.max(typingIndex, 0),
+					dropShadow,
+					typewriterTrack,
+					typingIndex);
 			settings.x = this.x + shadowOffset;
 			settings.y = this.y + shadowOffset;
 			settings.r = r;
@@ -110,14 +115,45 @@ public abstract class StringRenderOutputMixin {
 				}
 			}
 			VertexConsumer vertexConsumer = this.bufferSource.getBuffer(bakedGlyph.renderType(this.mode));
-			this$0.renderChar(bakedGlyph, bold, style.isItalic(), m, settings.x, settings.y, this.pose, vertexConsumer, settings.r, settings.g, settings.b, settings.a, this.packedLightCoords);
+			this$0.renderChar(
+					bakedGlyph,
+					bold,
+					style.isItalic(),
+					m,
+					settings.x,
+					settings.y,
+					this.pose,
+					vertexConsumer,
+					settings.r,
+					settings.g,
+					settings.b,
+					settings.a,
+					this.packedLightCoords);
 		}
 		float m = glyphInfo.getAdvance(bold);
 		if (style.isStrikethrough()) {
-			this.addEffect(new BakedGlyph.Effect(this.x + shadowOffset - 1.0f, this.y + shadowOffset + 4.5f, this.x + shadowOffset + m, this.y + shadowOffset + 4.5f - 1.0f, 0.01f, r, g, b, a));
+			this.addEffect(new BakedGlyph.Effect(
+					this.x + shadowOffset - 1.0f,
+					this.y + shadowOffset + 4.5f,
+					this.x + shadowOffset + m,
+					this.y + shadowOffset + 4.5f - 1.0f,
+					0.01f,
+					r,
+					g,
+					b,
+					a));
 		}
 		if (style.isUnderlined()) {
-			this.addEffect(new BakedGlyph.Effect(this.x + shadowOffset - 1.0f, this.y + shadowOffset + 9.0f, this.x + shadowOffset + m, this.y + shadowOffset + 9.0f - 1.0f, 0.01f, r, g, b, a));
+			this.addEffect(new BakedGlyph.Effect(
+					this.x + shadowOffset - 1.0f,
+					this.y + shadowOffset + 9.0f,
+					this.x + shadowOffset + m,
+					this.y + shadowOffset + 9.0f - 1.0f,
+					0.01f,
+					r,
+					g,
+					b,
+					a));
 		}
 		this.x += m;
 		cir.setReturnValue(true);

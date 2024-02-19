@@ -24,7 +24,12 @@ public class SimpleOptionsSubScreenMixin {
 	protected OptionInstance<?>[] smallOptions;
 
 	@Inject(method = "<init>", at = @At("RETURN"))
-	private void textanimator$init(Screen parent, Options options, Component component, OptionInstance<?>[] optionInstances, CallbackInfo ci) {
+	private void textanimator$init(
+			Screen parent,
+			Options options,
+			Component component,
+			OptionInstance<?>[] optionInstances,
+			CallbackInfo ci) {
 		Screen screen = (Screen) (Object) this;
 		if (screen.getClass() == ChatOptionsScreen.class) {
 			OptionInstance<?>[] newInstances = new OptionInstance<?>[smallOptions.length + 3];

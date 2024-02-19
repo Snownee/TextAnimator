@@ -72,7 +72,8 @@ public class StyleMixin implements TAStyle {
 	}
 
 	@ModifyReturnValue(
-			method = {"withColor(Lnet/minecraft/network/chat/TextColor;)Lnet/minecraft/network/chat/Style;",
+			method = {
+					"withColor(Lnet/minecraft/network/chat/TextColor;)Lnet/minecraft/network/chat/Style;",
 					"withBold", "withItalic", "withUnderlined", "withStrikethrough", "withObfuscated",
 					"withClickEvent", "withHoverEvent", "withInsertion", "withFont", "applyFormat",
 					"applyLegacyFormat", "applyFormats"},
@@ -80,8 +81,12 @@ public class StyleMixin implements TAStyle {
 	)
 	private Style textanimator$applyTo(final Style original) {
 		Style self = (Style) (Object) this;
-		if (self == original) return original;
-		if (textanimator$getEffects().isEmpty() && textanimator$getTypewriterTrack() == null) return original;
+		if (self == original) {
+			return original;
+		}
+		if (textanimator$getEffects().isEmpty() && textanimator$getTypewriterTrack() == null) {
+			return original;
+		}
 		((TAStyle) original).textanimator$setEffects(textanimator$getEffects());
 		if (textanimator$getTypewriterTrack() != null) {
 			((TAStyle) original).textanimator$setTypewriterTrack(textanimator$getTypewriterTrack());
@@ -93,7 +98,9 @@ public class StyleMixin implements TAStyle {
 	@ModifyReturnValue(method = "applyTo", at = @At("RETURN"))
 	private Style textanimator$applyTo(final Style original, final Style that) {
 		Style self = (Style) (Object) this;
-		if (self == original || that == original) return original;
+		if (self == original || that == original) {
+			return original;
+		}
 		ImmutableList<Effect> effects = textanimator$getEffects();
 		TypewriterTrack track = textanimator$getTypewriterTrack();
 		int index = textanimator$getTypewriterIndex();

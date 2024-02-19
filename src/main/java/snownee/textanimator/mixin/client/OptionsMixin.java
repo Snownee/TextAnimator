@@ -70,9 +70,12 @@ public class OptionsMixin implements TAOptions {
 				TextAnimationMode.ALL, status -> {
 		});
 
-		textanimator$typewriterSpeed = new OptionInstance<>("options.textanimator.typewriterSpeed",
+		textanimator$typewriterSpeed = new OptionInstance<>(
+				"options.textanimator.typewriterSpeed",
 				OptionInstance.noTooltip(),
-				(component, integer) -> Options.genericValueLabel(component, Component.translatable("options.textanimator.typewriterSpeed.value", integer)),
+				(component, integer) -> Options.genericValueLabel(
+						component,
+						Component.translatable("options.textanimator.typewriterSpeed.value", integer)),
 				new OptionInstance.IntRange(1, 9),
 				5,
 				TextAnimatorClient::setTypewriterSpeed);

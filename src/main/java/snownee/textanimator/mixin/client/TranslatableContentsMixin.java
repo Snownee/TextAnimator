@@ -44,7 +44,9 @@ public abstract class TranslatableContentsMixin {
 		newStyle.set(style);
 	}
 
-	@WrapOperation(method = "decomposeTemplate", at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"))
+	@WrapOperation(
+			method = "decomposeTemplate",
+			at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"))
 	private void textanimator$flatmapChars(
 			Consumer<FormattedText> instance,
 			Object formattedText,

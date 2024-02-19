@@ -43,15 +43,17 @@ public class TextAnimatorClient {
 
 	public static TextAnimationMode getTextAnimationMode() {
 		OptionInstance<TextAnimationMode> instance = ((TAOptions) Minecraft.getInstance().options).textanimator$getTextAnimation();
-		if (instance == null)
+		if (instance == null) {
 			return TextAnimationMode.ALL;
+		}
 		return instance.get();
 	}
 
 	public static TypewriterMode getTypewriterMode() {
 		OptionInstance<TypewriterMode> instance = ((TAOptions) Minecraft.getInstance().options).textanimator$getTypewriterMode();
-		if (instance == null)
+		if (instance == null) {
 			return TypewriterMode.BY_CHAR;
+		}
 		return instance.get();
 	}
 

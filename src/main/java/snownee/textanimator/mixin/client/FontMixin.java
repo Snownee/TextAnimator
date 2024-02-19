@@ -24,12 +24,14 @@ public class FontMixin {
 	)
 	private Style textanimator$removeRainbowForBorder(Style original) {
 		final var style = (TAStyle) original;
-		if (style.textanimator$getEffects().isEmpty()) return original;
+		if (style.textanimator$getEffects().isEmpty()) {
+			return original;
+		}
 		style.textanimator$setEffects(style.textanimator$getEffects()
-										   .stream()
-										   .filter(it -> !(it instanceof RainbowEffect))
-										   .collect(
-												   ImmutableList.toImmutableList()));
+				.stream()
+				.filter(it -> !(it instanceof RainbowEffect))
+				.collect(
+						ImmutableList.toImmutableList()));
 		return original;
 	}
 }

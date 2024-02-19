@@ -27,8 +27,14 @@ public abstract class LiteralContentsMixin {
 	@Final
 	private String text;
 
-	@Inject(method = "visit(Lnet/minecraft/network/chat/FormattedText$StyledContentConsumer;Lnet/minecraft/network/chat/Style;)Ljava/util/Optional;", at = @At("HEAD"), cancellable = true)
-	private <T> void textanimator$visit(FormattedText.StyledContentConsumer<T> styledContentConsumer, Style style, CallbackInfoReturnable<Optional<T>> cir) {
+	@Inject(
+			method = "visit(Lnet/minecraft/network/chat/FormattedText$StyledContentConsumer;Lnet/minecraft/network/chat/Style;)Ljava/util/Optional;",
+			at = @At("HEAD"),
+			cancellable = true)
+	private <T> void textanimator$visit(
+			FormattedText.StyledContentConsumer<T> styledContentConsumer,
+			Style style,
+			CallbackInfoReturnable<Optional<T>> cir) {
 		Pair<TypewriterEffect, Integer> pair = TypewriterEffect.find(text);
 		if (pair == null) {
 			return;

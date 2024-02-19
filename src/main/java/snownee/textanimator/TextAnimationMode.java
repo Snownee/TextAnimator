@@ -12,7 +12,9 @@ import snownee.textanimator.effect.Effect;
 public enum TextAnimationMode implements OptionEnum {
 	ALL("all"), NONE("none"), NO_RAINBOW("no_rainbow");
 
-	private static final TextAnimationMode[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(TextAnimationMode::getId)).toArray(TextAnimationMode[]::new);
+	private static final TextAnimationMode[] BY_ID = Arrays.stream(values())
+			.sorted(Comparator.comparingInt(TextAnimationMode::getId))
+			.toArray(TextAnimationMode[]::new);
 	private final String key;
 
 	TextAnimationMode(String key) {

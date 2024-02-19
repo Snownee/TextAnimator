@@ -1,5 +1,7 @@
 package snownee.textanimator.util;
 
+import java.util.function.Function;
+
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -10,8 +12,6 @@ import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.compat.HermesCompat;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
-
-import java.util.function.Function;
 
 @Mod("textanimator")
 public class ClientProxy {
@@ -24,7 +24,9 @@ public class ClientProxy {
 	}
 
 	public ClientProxy() {
-		ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.DisplayTest.class, () -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
+		ModLoadingContext.get().registerExtensionPoint(
+				IExtensionPoint.DisplayTest.class,
+				() -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
 		if (FMLEnvironment.dist.isClient()) {
 			TextAnimatorClient.init();
 		}
