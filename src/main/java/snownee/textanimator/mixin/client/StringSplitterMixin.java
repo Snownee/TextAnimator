@@ -18,9 +18,17 @@ import snownee.textanimator.duck.TAStyle;
 
 @Mixin(StringSplitter.class)
 public class StringSplitterMixin {
-	@WrapOperation(method = "splitLines(Lnet/minecraft/network/chat/FormattedText;ILnet/minecraft/network/chat/Style;Ljava/util/function/BiConsumer;)V",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/FormattedText;visit(Lnet/minecraft/network/chat/FormattedText$StyledContentConsumer;Lnet/minecraft/network/chat/Style;)Ljava/util/Optional;"))
-	private Optional<Object> textanimator$visitFormattedText(FormattedText formattedText, FormattedText.StyledContentConsumer<Object> tStyledContentConsumer, Style style, Operation<Optional<Object>> original, @Local List<StringSplitter.LineComponent> list) {
+	@WrapOperation(
+			method = "splitLines(Lnet/minecraft/network/chat/FormattedText;ILnet/minecraft/network/chat/Style;Ljava/util/function/BiConsumer;)V",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/network/chat/FormattedText;visit(Lnet/minecraft/network/chat/FormattedText$StyledContentConsumer;Lnet/minecraft/network/chat/Style;)Ljava/util/Optional;"))
+	private Optional<Object> textanimator$visitFormattedText(
+			FormattedText formattedText,
+			FormattedText.StyledContentConsumer<Object> tStyledContentConsumer,
+			Style style,
+			Operation<Optional<Object>> original,
+			@Local List<StringSplitter.LineComponent> list) {
 		return formattedText.visit((stylex, string) -> {
 			if (string.isEmpty()) {
 				return Optional.empty();

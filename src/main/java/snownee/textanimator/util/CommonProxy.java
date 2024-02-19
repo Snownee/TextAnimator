@@ -73,7 +73,9 @@ public class CommonProxy {
 				((TAStyle) curStyle).textanimator$setTypewriterIndex(typingIndex);
 			}
 			if (c == '§') {
-				if (k + 1 >= j) break;
+				if (k + 1 >= j) {
+					break;
+				}
 				char d = string.charAt(k + 1);
 				ChatFormatting chatFormatting = ChatFormatting.getByCode(d);
 				if (chatFormatting != null) {
@@ -88,7 +90,9 @@ public class CommonProxy {
 					char ch = string.charAt(l);
 					if (ch == '>') {
 						String[] split = StringUtils.split(sb.toString(), ' ');
-						if (split.length == 0 || split[0].isEmpty()) break;
+						if (split.length == 0 || split[0].isEmpty()) {
+							break;
+						}
 						ImmutableList<Effect> newEffects = null;
 						ImmutableList<Effect> effects = ((TAStyle) curStyle).textanimator$getEffects();
 						if (split[0].charAt(0) == '/') {
@@ -117,7 +121,9 @@ public class CommonProxy {
 			++charsEaten;
 			if (Character.isHighSurrogate(c)) {
 				if (k + 1 >= j) {
-					if (formattedCharSink.accept(k, curStyle, 65533)) break;
+					if (formattedCharSink.accept(k, curStyle, 65533)) {
+						break;
+					}
 					return false;
 				}
 				char d = string.charAt(k + 1);
@@ -129,10 +135,14 @@ public class CommonProxy {
 					++charsEaten;
 					continue;
 				}
-				if (formattedCharSink.accept(k, curStyle, 65533)) continue;
+				if (formattedCharSink.accept(k, curStyle, 65533)) {
+					continue;
+				}
 				return false;
 			}
-			if (StringDecomposer.feedChar(curStyle, formattedCharSink, k, c)) continue;
+			if (StringDecomposer.feedChar(curStyle, formattedCharSink, k, c)) {
+				continue;
+			}
 			return false;
 		}
 		return true;

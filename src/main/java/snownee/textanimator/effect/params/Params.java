@@ -6,8 +6,7 @@ import java.util.OptionalDouble;
 import org.jetbrains.annotations.Nullable;
 
 public interface Params {
-	@Nullable
-	Boolean getBool(String key);
+	@Nullable Boolean getBool(String key);
 
 	OptionalDouble getDouble(String key);
 

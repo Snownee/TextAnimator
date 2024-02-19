@@ -61,29 +61,36 @@ public class OptionsMixin implements TAOptions {
 		if (textanimator$textAnimation != null) {
 			return;
 		}
-		textanimator$textAnimation = new OptionInstance<>("options.textanimator.animation",
+		textanimator$textAnimation = new OptionInstance<>(
+				"options.textanimator.animation",
 				OptionInstance.noTooltip(),
 				OptionInstance.forOptionEnum(),
 				new OptionInstance.Enum<>(
 						Arrays.asList(TextAnimationMode.values()),
 						Codec.INT.xmap(TextAnimationMode::byId, TextAnimationMode::getId)),
-				TextAnimationMode.ALL, status -> {
-		});
+				TextAnimationMode.ALL,
+				status -> {
+				});
 
-		textanimator$typewriterSpeed = new OptionInstance<>("options.textanimator.typewriterSpeed",
+		textanimator$typewriterSpeed = new OptionInstance<>(
+				"options.textanimator.typewriterSpeed",
 				OptionInstance.noTooltip(),
-				(component, integer) -> Options.genericValueLabel(component, Component.translatable("options.textanimator.typewriterSpeed.value", integer)),
+				(component, integer) -> Options.genericValueLabel(
+						component,
+						Component.translatable("options.textanimator.typewriterSpeed.value", integer)),
 				new OptionInstance.IntRange(1, 9),
 				5,
 				TextAnimatorClient::setTypewriterSpeed);
 
-		textanimator$typewriterMode = new OptionInstance<>("options.textanimator.typewriterMode",
+		textanimator$typewriterMode = new OptionInstance<>(
+				"options.textanimator.typewriterMode",
 				OptionInstance.noTooltip(),
 				OptionInstance.forOptionEnum(),
 				new OptionInstance.Enum<>(
 						Arrays.asList(TypewriterMode.values()),
 						Codec.INT.xmap(TypewriterMode::byId, TypewriterMode::getId)),
-				TypewriterMode.BY_CHAR, status -> {
-		});
+				TypewriterMode.BY_CHAR,
+				status -> {
+				});
 	}
 }

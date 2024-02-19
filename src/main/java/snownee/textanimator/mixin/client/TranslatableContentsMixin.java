@@ -28,9 +28,7 @@ import snownee.textanimator.util.CommonProxy;
 public abstract class TranslatableContentsMixin {
 	@Inject(method = "decomposeTemplate", at = @At("HEAD"))
 	private void textanimator$decomposeTemplate(
-			CallbackInfo ci,
-			@Local(argsOnly = true) LocalRef<String> stringRef,
-			@Share("style") LocalRef<Style> newStyle) {
+			CallbackInfo ci, @Local(argsOnly = true) LocalRef<String> stringRef, @Share("style") LocalRef<Style> newStyle) {
 		String string = stringRef.get();
 		Pair<TypewriterEffect, Integer> pair = TypewriterEffect.find(string);
 		if (pair == null) {
@@ -44,12 +42,10 @@ public abstract class TranslatableContentsMixin {
 		newStyle.set(style);
 	}
 
-	@WrapOperation(method = "decomposeTemplate", at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"))
+	@WrapOperation(
+			method = "decomposeTemplate", at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"))
 	private void textanimator$flatmapChars(
-			Consumer<FormattedText> instance,
-			Object formattedText,
-			Operation<Void> original,
-			@Share("style") LocalRef<Style> newStyle) {
+			Consumer<FormattedText> instance, Object formattedText, Operation<Void> original, @Share("style") LocalRef<Style> newStyle) {
 		Style style = newStyle.get();
 		if (style == null) {
 			original.call(instance, formattedText);

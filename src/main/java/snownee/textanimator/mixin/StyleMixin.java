@@ -72,16 +72,28 @@ public class StyleMixin implements TAStyle {
 	}
 
 	@ModifyReturnValue(
-			method = {"withColor(Lnet/minecraft/network/chat/TextColor;)Lnet/minecraft/network/chat/Style;",
-					"withBold", "withItalic", "withUnderlined", "withStrikethrough", "withObfuscated",
-					"withClickEvent", "withHoverEvent", "withInsertion", "withFont", "applyFormat",
-					"applyLegacyFormat", "applyFormats"},
-			at = @At("RETURN")
-	)
+			method = {
+					"withColor(Lnet/minecraft/network/chat/TextColor;)Lnet/minecraft/network/chat/Style;",
+					"withBold",
+					"withItalic",
+					"withUnderlined",
+					"withStrikethrough",
+					"withObfuscated",
+					"withClickEvent",
+					"withHoverEvent",
+					"withInsertion",
+					"withFont",
+					"applyFormat",
+					"applyLegacyFormat",
+					"applyFormats"}, at = @At("RETURN"))
 	private Style textanimator$applyTo(final Style original) {
 		Style self = (Style) (Object) this;
-		if (self == original) return original;
-		if (textanimator$getEffects().isEmpty() && textanimator$getTypewriterTrack() == null) return original;
+		if (self == original) {
+			return original;
+		}
+		if (textanimator$getEffects().isEmpty() && textanimator$getTypewriterTrack() == null) {
+			return original;
+		}
 		((TAStyle) original).textanimator$setEffects(textanimator$getEffects());
 		if (textanimator$getTypewriterTrack() != null) {
 			((TAStyle) original).textanimator$setTypewriterTrack(textanimator$getTypewriterTrack());
@@ -93,7 +105,9 @@ public class StyleMixin implements TAStyle {
 	@ModifyReturnValue(method = "applyTo", at = @At("RETURN"))
 	private Style textanimator$applyTo(final Style original, final Style that) {
 		Style self = (Style) (Object) this;
-		if (self == original || that == original) return original;
+		if (self == original || that == original) {
+			return original;
+		}
 		ImmutableList<Effect> effects = textanimator$getEffects();
 		TypewriterTrack track = textanimator$getTypewriterTrack();
 		int index = textanimator$getTypewriterIndex();
@@ -131,8 +145,7 @@ public class StyleMixin implements TAStyle {
 				JsonElement jsonElement,
 				Type type,
 				JsonDeserializationContext jsonDeserializationContext,
-				CallbackInfoReturnable<Style> cir
-		) {
+				CallbackInfoReturnable<Style> cir) {
 			if (!jsonElement.isJsonObject() || cir.getReturnValue() == null) {
 				return;
 			}
@@ -152,11 +165,7 @@ public class StyleMixin implements TAStyle {
 
 		@Inject(method = "serialize", at = @At("RETURN"))
 		private void textanimator$serialize(
-				Style style,
-				Type type,
-				JsonSerializationContext jsonSerializationContext,
-				CallbackInfoReturnable<JsonElement> cir
-		) {
+				Style style, Type type, JsonSerializationContext jsonSerializationContext, CallbackInfoReturnable<JsonElement> cir) {
 			JsonElement jsonElement = cir.getReturnValue();
 			TAStyle taStyle = (TAStyle) style;
 			if (jsonElement == null || !jsonElement.isJsonObject() || taStyle.textanimator$getEffects().isEmpty()) {

@@ -18,18 +18,17 @@ public class FontMixin {
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/network/chat/Style;withColor(I)Lnet/minecraft/network/chat/Style;",
-					remap = true
-			),
-			remap = false
-	)
+					remap = true),
+			remap = false)
 	private Style textanimator$removeRainbowForBorder(Style original) {
 		final var style = (TAStyle) original;
-		if (style.textanimator$getEffects().isEmpty()) return original;
+		if (style.textanimator$getEffects().isEmpty()) {
+			return original;
+		}
 		style.textanimator$setEffects(style.textanimator$getEffects()
-										   .stream()
-										   .filter(it -> !(it instanceof RainbowEffect))
-										   .collect(
-												   ImmutableList.toImmutableList()));
+				.stream()
+				.filter(it -> !(it instanceof RainbowEffect))
+				.collect(ImmutableList.toImmutableList()));
 		return original;
 	}
 }
