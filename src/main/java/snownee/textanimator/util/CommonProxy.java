@@ -4,6 +4,8 @@ import java.text.BreakIterator;
 import java.util.Locale;
 import java.util.function.Function;
 
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +14,6 @@ import com.google.common.collect.ImmutableList;
 
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
@@ -143,7 +143,7 @@ public class CommonProxy {
 	}
 
 	public static void onEffectTypeRegistered(String type, Function<Params, Effect> factory) {
-		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+		if (FMLEnvironment.dist.isClient()) {
 			ClientProxy.onEffectTypeRegistered(type, factory);
 		}
 	}

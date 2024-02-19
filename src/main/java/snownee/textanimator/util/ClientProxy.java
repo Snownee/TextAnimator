@@ -1,6 +1,7 @@
 package snownee.textanimator.util;
 
 import net.minecraftforge.fml.IExtensionPoint;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -10,9 +11,11 @@ import snownee.textanimator.compat.HermesCompat;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 
+import java.util.function.Function;
+
 @Mod("textanimator")
 public class ClientProxy {
-	private static final boolean hermes = FabricLoader.getInstance().isModLoaded("hermes");
+	private static final boolean hermes = ModList.get().isLoaded("hermes");
 
 	public static void onEffectTypeRegistered(String type, Function<Params, Effect> factory) {
 		if (hermes) {
