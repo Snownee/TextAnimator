@@ -1,6 +1,12 @@
 {
-	"options.textanimator": "Text Animation",
-	"options.textanimator.none": "None",
-	"options.textanimator.all": "All",
-	"options.textanimator.no_rainbow": "No Rainbow"
+	"options.textanimator.animation": "Text Animation",
+	"options.textanimator.animation.none": "None",
+	"options.textanimator.animation.all": "All",
+	"options.textanimator.animation.no_rainbow": "No Rainbow",
+  "options.textanimator.typewriterSpeed": "Typewriter Speed",
+  "options.textanimator.typewriterSpeed.value": "%s",
+  "options.textanimator.typewriterMode": "Typewriter Mode",
+  "options.textanimator.typewriterMode.byChar": "By Character",
+  "options.textanimator.typewriterMode.byWord": "By Word",
+  "textanimator.test": "<typewriter><wiggle>TextAnimator</wiggle> is a mod by <wave><rainb>Snownee</rainb></wave>."
 }

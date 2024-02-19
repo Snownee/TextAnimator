@@ -10,10 +10,13 @@
     "StyleMixin$SerializerMixin"
   ],
   "client": [
-    "client.OptionsMixin",
     "client.FontMixin",
+    "client.LiteralContentsMixin",
+    "client.OptionsMixin",
     "client.SimpleOptionsSubScreenMixin",
-    "client.StringRenderOutputMixin"
+    "client.StringRenderOutputMixin",
+    "client.StringSplitterMixin",
+    "client.TranslatableContentsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

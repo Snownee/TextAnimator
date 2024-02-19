@@ -179,6 +179,11 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    maven { url "https://maven.shedaniel.me/" }
+
+    maven { url = "https://maven.teamresourceful.com/repository/maven-public/" }
+
     flatDir {
         dir 'libs'
     }
@@ -210,8 +215,18 @@ dependencies {
     //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 
-    implementation fg.deobf("curse.maven:kiwi-303657:4688568")
-    implementation fg.deobf("curse.maven:jade-324717:4711195")
+//    implementation fg.deobf("curse.maven:kiwi-303657:4688568")
+//    implementation fg.deobf("curse.maven:jade-324717:4711195")
+
+
+    // https://maven.teamresourceful.com/repository/maven-public/earth/terrarium/heracles/heracles-fabric-1.20.1/1.1.9/heracles-fabric-1.20.1-1.1.9.pom
+    implementation fg.deobf("earth.terrarium.heracles:heracles-forge-1.20.1:1.1.9") {
+//        transitive = false
+    }
+    implementation fg.deobf("earth.terrarium.hermes:hermes-forge-1.20:1.5.0") {
+        transitive = false
+    }
+    implementation fg.deobf("com.teamresourceful.resourcefullib:resourcefullib-forge-1.20.1:2.1.18")
 
     // Examples using mod jars from ./libs
     //implementation fg.deobf("libs:Kiwi-1.18-forge:5.2.4")
