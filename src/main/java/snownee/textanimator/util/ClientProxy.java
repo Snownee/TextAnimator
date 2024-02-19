@@ -1,7 +1,9 @@
 package snownee.textanimator.util;
 
+import java.util.Locale;
 import java.util.function.Function;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -32,4 +34,7 @@ public class ClientProxy {
 		}
 	}
 
+	public static Locale getLocale() {
+		return Minecraft.getInstance().getLocale();
+	}
 }

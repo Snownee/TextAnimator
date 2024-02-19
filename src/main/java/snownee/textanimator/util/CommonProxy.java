@@ -148,6 +148,8 @@ public class CommonProxy {
 	}
 
 	public static Locale getLocale() {
+		if (FMLEnvironment.dist.isClient())
+			return ClientProxy.getLocale();
 		return Locale.getDefault();
 	}
 
