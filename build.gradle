@@ -226,7 +226,7 @@ dependencies {
     implementation fg.deobf("earth.terrarium.hermes:hermes-forge-1.20:1.5.0") {
         transitive = false
     }
-//    modImplementation("com.teamresourceful.resourcefullib:resourcefullib-fabric-1.20.1:2.1.18")
+    implementation fg.deobf("com.teamresourceful.resourcefullib:resourcefullib-forge-1.20.1:2.1.18")
 
     // Examples using mod jars from ./libs
     //implementation fg.deobf("libs:Kiwi-1.18-forge:5.2.4")
