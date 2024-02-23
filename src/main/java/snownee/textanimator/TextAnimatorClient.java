@@ -11,6 +11,7 @@ import net.minecraft.world.phys.Vec2;
 import snownee.textanimator.duck.TAOptions;
 import snownee.textanimator.effect.EffectFactory;
 import snownee.textanimator.effect.RainbowEffect;
+import snownee.textanimator.effect.ShadowOffEffect;
 import snownee.textanimator.effect.ShakeEffect;
 import snownee.textanimator.effect.WaveEffect;
 import snownee.textanimator.effect.WiggleEffect;
@@ -39,6 +40,7 @@ public class TextAnimatorClient {
 		EffectFactory.register("wave", WaveEffect::new);
 		EffectFactory.register("rainb", RainbowEffect::new);
 		EffectFactory.register("wiggle", WiggleEffect::new);
+		EffectFactory.register("shadow-off", ShadowOffEffect::new);
 	}
 
 	public static TextAnimationMode getTextAnimationMode() {
