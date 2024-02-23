@@ -14,6 +14,9 @@
 	},
 	"license": "ARR",
 	"entrypoints": {
+		"main": [
+			"snownee.textanimator.util.CommonProxy"
+		],
 		"client": [
 			"snownee.textanimator.util.ClientProxy"
 		]

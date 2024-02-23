@@ -13,19 +13,21 @@ import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringDecomposer;
+import snownee.textanimator.TextAnimator;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 
-public class CommonProxy {
+public class CommonProxy implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
 
 	public static Style clone(Style style) {
@@ -156,5 +158,10 @@ public class CommonProxy {
 		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			ClientProxy.onEffectTypeRegistered(type, factory);
 		}
+	}
+
+	@Override
+	public void onInitialize() {
+		TextAnimator.init();
 	}
 }
