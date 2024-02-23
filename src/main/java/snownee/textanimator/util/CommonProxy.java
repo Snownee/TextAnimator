@@ -17,15 +17,31 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringDecomposer;
+import net.minecraftforge.fml.IExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.network.NetworkConstants;
+import snownee.textanimator.TextAnimator;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 
+@Mod("textanimator")
 public class CommonProxy {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
+
+	public CommonProxy() {
+		ModLoadingContext.get().registerExtensionPoint(
+				IExtensionPoint.DisplayTest.class,
+				() -> new IExtensionPoint.DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));
+		TextAnimator.init();
+		if (FMLEnvironment.dist.isClient()) {
+			TextAnimatorClient.init();
+		}
+	}
 
 	public static Style clone(Style style) {
 		return style.withClickEvent(style.getClickEvent());
@@ -148,8 +164,9 @@ public class CommonProxy {
 	}
 
 	public static Locale getLocale() {
-		if (FMLEnvironment.dist.isClient())
+		if (FMLEnvironment.dist.isClient()) {
 			return ClientProxy.getLocale();
+		}
 		return Locale.getDefault();
 	}
 
