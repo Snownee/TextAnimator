@@ -114,24 +114,30 @@ public abstract class StringRenderOutputMixin {
 					effect.apply(settings);
 				}
 			}
-			VertexConsumer vertexConsumer = this.bufferSource.getBuffer(bakedGlyph.renderType(this.mode));
-			this$0.renderChar(
-					bakedGlyph,
-					bold,
-					style.isItalic(),
-					m,
-					settings.x,
-					settings.y,
-					this.pose,
-					vertexConsumer,
-					settings.r,
-					settings.g,
-					settings.b,
-					settings.a,
-					this.packedLightCoords);
+			r = settings.r;
+			g = settings.g;
+			b = settings.b;
+			a = settings.a;
+			if (a != 0) {
+				VertexConsumer vertexConsumer = this.bufferSource.getBuffer(bakedGlyph.renderType(this.mode));
+				this$0.renderChar(
+						bakedGlyph,
+						bold,
+						style.isItalic(),
+						m,
+						settings.x,
+						settings.y,
+						this.pose,
+						vertexConsumer,
+						r,
+						g,
+						b,
+						a,
+						this.packedLightCoords);
+			}
 		}
 		float m = glyphInfo.getAdvance(bold);
-		if (style.isStrikethrough()) {
+		if (a != 0 && style.isStrikethrough()) {
 			this.addEffect(new BakedGlyph.Effect(
 					this.x + shadowOffset - 1.0f,
 					this.y + shadowOffset + 4.5f,
@@ -143,7 +149,7 @@ public abstract class StringRenderOutputMixin {
 					b,
 					a));
 		}
-		if (style.isUnderlined()) {
+		if (a != 0 && style.isUnderlined()) {
 			this.addEffect(new BakedGlyph.Effect(
 					this.x + shadowOffset - 1.0f,
 					this.y + shadowOffset + 9.0f,
