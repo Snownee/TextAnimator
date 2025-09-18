@@ -59,9 +59,8 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.2"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.2"
-
+    // CurseForge Maven: Resourceful Lib Fabric 1.21-3.0.12
+    modImplementation "curse.maven:resourceful-lib-570073:5973189"
 }
 
 loom {
@@ -99,5 +98,63 @@ jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            // add all the jars that should be included when publishing to maven
+            artifact(remapJar) {
+                builtBy remapJar
+            }
+            // artifact(sourcesJar) {
+            //     builtBy remapSourcesJar
+            // }
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}
+
+unifiedPublishing {
+    project {
+        displayName = "[Fabric $project.supported_version] $project.mod_version"
+        version = project.mod_version // Optional, Inferred from project by default
+        changelog = file("CHANGELOG.md").exists() ? file("CHANGELOG.md").text : "" // Optional, in markdown format
+        releaseType = project.release_type // Optional, use "release", "beta" or "alpha"
+        gameVersions = ["1.20", "1.20.1"]
+        gameLoaders = ["fabric", "quilt"]
+
+        mainPublication tasks.remapJar // Declares the publicated jar
+
+        var cfToken = System.getenv("CURSE_TOKEN")
+        if (cfToken != null) {
+            curseforge {
+                token = cfToken
+                id = "881778" // Required, must be a string, ID of CurseForge project
+
+                relations { // Optional, Inferred from the relations above by default
+                }
+            }
+        }
+
+        var mrToken = System.getenv("MODRINTH_TOKEN")
+        if (mrToken != null) {
+            modrinth {
+                token = mrToken
+                id = "HBIG5nRf" // Required, must be a string, ID of Modrinth project
+
+                relations { // Optional, Inferred from the relations above by default
+                }
+            }
+        }
     }
 }

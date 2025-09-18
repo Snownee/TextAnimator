@@ -1,0 +1,12 @@
+{
+	"options.textanimator.animation": "Animación de texto",
+	"options.textanimator.animation.none": "Ninguna",
+	"options.textanimator.animation.all": "Todas",
+	"options.textanimator.animation.no_rainbow": "Sin arcoíris",
+	"options.textanimator.typewriterSpeed": "Velocidad de máquina de escribir",
+	"options.textanimator.typewriterSpeed.value": "%s",
+	"options.textanimator.typewriterMode": "Modo de máquina de escribir",
+	"options.textanimator.typewriterMode.byChar": "Por carácter",
+	"options.textanimator.typewriterMode.byWord": "Por palabra",
+	"textanimator.test": "<typewriter><wiggle>TextAnimator</wiggle> es una modificación creada por <wave><rainb>Snownee</rainb></wave>."
+}
