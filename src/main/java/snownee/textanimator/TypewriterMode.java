@@ -1,8 +1,7 @@
 package snownee.textanimator;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.minecraft.util.OptionEnum;
+import org.jetbrains.annotations.NotNull;
 
 public enum TypewriterMode implements OptionEnum {
 	BY_CHAR("byChar"), BY_WORD("byWord");

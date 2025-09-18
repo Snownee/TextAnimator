@@ -1,10 +1,10 @@
 package snownee.textanimator.typewriter;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class TypewriterTracks {
 	private static final TypewriterTracks INSTANCE = new TypewriterTracks();

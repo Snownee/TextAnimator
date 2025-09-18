@@ -1,7 +1,6 @@
 package snownee.textanimator.effect;
 
 import org.jetbrains.annotations.Nullable;
-
 import snownee.textanimator.typewriter.TypewriterTrack;
 
 public class EffectSettings {

@@ -1,9 +1,7 @@
 package snownee.textanimator.typewriter;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.mojang.datafixers.util.Pair;
-
+import org.jetbrains.annotations.Nullable;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectSettings;
 import snownee.textanimator.effect.params.Params;

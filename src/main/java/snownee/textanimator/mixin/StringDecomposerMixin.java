@@ -1,13 +1,12 @@
 package snownee.textanimator.mixin;
 
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSink;
+import net.minecraft.util.StringDecomposer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import net.minecraft.network.chat.Style;
-import net.minecraft.util.FormattedCharSink;
-import net.minecraft.util.StringDecomposer;
 import snownee.textanimator.util.CommonProxy;
 
 @Mixin(value = StringDecomposer.class, priority = 1200)

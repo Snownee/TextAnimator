@@ -13,6 +13,8 @@
 		"issues": "https://github.com/Snownee/TextAnimator/issues"
 	},
 	"license": "ARR",
+	"icon": "assets/textanimator/icon.png",
+	"environment": "*",
 	"entrypoints": {
 		"main": [
 			"snownee.textanimator.util.CommonProxy"
@@ -24,12 +26,12 @@
 	"mixins": [
 		"textanimator.mixins.json"
 	],
-	"accessWidener": "textanimator.accesswidener",
+  "accessWidener": "textanimator.accesswidener",
 	"depends": {
-		"fabricloader": ">=0.15",
-		"fabric-api": "*",
-		"minecraft": ">=1.19.2",
-		"java": ">=17"
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
 	},
 	"custom": {
 		"modmenu": {

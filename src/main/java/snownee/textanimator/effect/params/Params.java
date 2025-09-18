@@ -1,9 +1,9 @@
 package snownee.textanimator.effect.params;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Optional;
 import java.util.OptionalDouble;
-
-import org.jetbrains.annotations.Nullable;
 
 public interface Params {
 	@Nullable Boolean getBool(String key);

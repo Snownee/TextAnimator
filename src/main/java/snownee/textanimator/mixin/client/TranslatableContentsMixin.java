@@ -1,28 +1,26 @@
 package snownee.textanimator.mixin.client;
 
-import java.util.function.Consumer;
-
-import org.apache.commons.lang3.mutable.MutableInt;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.StringDecomposer;
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.typewriter.TypewriterEffect;
 import snownee.textanimator.typewriter.TypewriterTracks;
 import snownee.textanimator.util.CommonProxy;
+
+import java.util.function.Consumer;
 
 @Mixin(TranslatableContents.class)
 public abstract class TranslatableContentsMixin {

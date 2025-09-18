@@ -1,20 +1,18 @@
 package snownee.textanimator.mixin.client;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-
 import net.minecraft.client.StringSplitter;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.StringDecomposer;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
 import snownee.textanimator.duck.TAStyle;
+
+import java.util.List;
+import java.util.Optional;
 
 @Mixin(StringSplitter.class)
 public class StringSplitterMixin {

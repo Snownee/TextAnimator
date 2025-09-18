@@ -1,17 +1,16 @@
 package snownee.textanimator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import snownee.textanimator.duck.TAOptions;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class TextAnimatorClient {
 	public static Vec2[] RANDOM_DIR;
-	//	public static final Set<Class<?>> SCREENS_DISABLED = Sets.newIdentityHashSet();
 	private static int defaultTypewriterInterval;
 
 	public static void init() {
@@ -24,8 +23,6 @@ public class TextAnimatorClient {
 		}
 		Collections.shuffle(dirs);
 		RANDOM_DIR = dirs.toArray(Vec2[]::new);
-
-		//		registerDisabledScreen(BookEditScreen.class);
 	}
 
 	public static TextAnimationMode getTextAnimationMode() {
@@ -62,8 +59,4 @@ public class TextAnimatorClient {
 		int[] values = {4, 8, 12, 16, 20, 27, 36, 50, 70};
 		defaultTypewriterInterval = values[9 - speed];
 	}
-
-	//	public static synchronized void registerDisabledScreen(Class<?> screen) {
-	//		SCREENS_DISABLED.add(screen);
-	//	}
 }
