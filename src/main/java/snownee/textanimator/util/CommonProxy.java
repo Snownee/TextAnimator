@@ -381,12 +381,12 @@ public class CommonProxy implements ModInitializer {
 		}
 	}
 
+	public static boolean isPhysicalClient() {
+		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
+	}
+
 	@Override
 	public void onInitialize() {
 		TextAnimator.init();
-	}
-
-	public static boolean isPhysicalClient() {
-		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
 	}
 }

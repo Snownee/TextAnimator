@@ -1,26 +1,28 @@
 package snownee.textanimator.mixin.client;
 
+import java.util.function.Consumer;
+
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.StringDecomposer;
-import org.apache.commons.lang3.mutable.MutableInt;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.typewriter.TypewriterEffect;
 import snownee.textanimator.typewriter.TypewriterTracks;
 import snownee.textanimator.util.CommonProxy;
-
-import java.util.function.Consumer;
 
 @Mixin(TranslatableContents.class)
 public abstract class TranslatableContentsMixin {
@@ -51,11 +53,12 @@ public abstract class TranslatableContentsMixin {
 		}
 		TAStyle taStyle = (TAStyle) style;
 		MutableInt charsAccepted = new MutableInt(Math.max(0, taStyle.textanimator$getTypewriterIndex()));
-		StringDecomposer.iterateFormatted((FormattedText) formattedText, style, (i, style2, cp) -> {
-			instance.accept(FormattedText.of(Character.toString(cp), style2));
-			charsAccepted.increment();
-			return true;
-		});
+		StringDecomposer.iterateFormatted(
+				(FormattedText) formattedText, style, (i, style2, cp) -> {
+					instance.accept(FormattedText.of(Character.toString(cp), style2));
+					charsAccepted.increment();
+					return true;
+				});
 		style = CommonProxy.clone(style);
 		(taStyle).textanimator$setTypewriterIndex(charsAccepted.intValue());
 		newStyle.set(style);

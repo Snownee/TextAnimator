@@ -1,9 +1,9 @@
 package snownee.textanimator.effect.params;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Optional;
 import java.util.OptionalDouble;
+
+import org.jetbrains.annotations.Nullable;
 
 public final class EmptyParams implements Params {
 	public static final EmptyParams INSTANCE = new EmptyParams();

@@ -1,13 +1,13 @@
 package snownee.textanimator;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import snownee.textanimator.duck.TAOptions;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class TextAnimatorClient {
 	public static Vec2[] RANDOM_DIR;

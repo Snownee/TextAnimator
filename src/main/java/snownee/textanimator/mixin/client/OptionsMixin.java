@@ -1,20 +1,22 @@
 package snownee.textanimator.mixin.client;
 
-import com.mojang.serialization.Codec;
-import net.minecraft.client.OptionInstance;
-import net.minecraft.client.Options;
-import net.minecraft.network.chat.Component;
+import java.util.Arrays;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.mojang.serialization.Codec;
+
+import net.minecraft.client.OptionInstance;
+import net.minecraft.client.Options;
+import net.minecraft.network.chat.Component;
 import snownee.textanimator.TextAnimationMode;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
 import snownee.textanimator.duck.TAOptions;
-
-import java.util.Arrays;
 
 @Mixin(Options.class)
 public class OptionsMixin implements TAOptions {

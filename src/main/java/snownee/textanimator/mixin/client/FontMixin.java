@@ -1,11 +1,13 @@
 package snownee.textanimator.mixin.client;
 
-import com.google.common.collect.ImmutableList;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.minecraft.client.gui.Font;
-import net.minecraft.network.chat.Style;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+
+import com.google.common.collect.ImmutableList;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+
+import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Style;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.RainbowEffect;
 

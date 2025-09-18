@@ -1,6 +1,7 @@
 package snownee.textanimator.duck;
 
 import com.google.common.collect.ImmutableList;
+
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.typewriter.TypewriterTrack;
 

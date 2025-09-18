@@ -1,8 +1,10 @@
 package snownee.textanimator.effect;
 
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+
+import com.google.common.collect.ImmutableMap;
+
 import snownee.textanimator.effect.params.EmptyParams;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.effect.params.TypedParams;

@@ -1,10 +1,7 @@
 package snownee.textanimator.mixin.client;
 
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.network.chat.FormattedText;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.contents.PlainTextContents;
-import net.minecraft.util.StringDecomposer;
+import java.util.Optional;
+
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,12 +9,17 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.mojang.datafixers.util.Pair;
+
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.contents.PlainTextContents;
+import net.minecraft.util.StringDecomposer;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.typewriter.TypewriterEffect;
 import snownee.textanimator.typewriter.TypewriterTracks;
 import snownee.textanimator.util.CommonProxy;
-
-import java.util.Optional;
 
 @Mixin(PlainTextContents.LiteralContents.class)
 public abstract class LiteralContentsMixin {
@@ -41,10 +43,11 @@ public abstract class LiteralContentsMixin {
 		taStyle.textanimator$setTypewriterTrack(TypewriterTracks.getInstance().get(text.intern()));
 		String realText = text.substring(pair.getSecond());
 		MutableObject<Optional<T>> result = new MutableObject<>(Optional.empty());
-		StringDecomposer.iterateFormatted(realText, style, (i, style2, cp) -> {
-			result.setValue(styledContentConsumer.accept(style2, Character.toString(cp)));
-			return result.getValue().isEmpty();
-		});
+		StringDecomposer.iterateFormatted(
+				realText, style, (i, style2, cp) -> {
+					result.setValue(styledContentConsumer.accept(style2, Character.toString(cp)));
+					return result.getValue().isEmpty();
+				});
 		cir.setReturnValue(result.getValue());
 	}
 }

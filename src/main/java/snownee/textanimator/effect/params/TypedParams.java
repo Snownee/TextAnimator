@@ -1,10 +1,11 @@
 package snownee.textanimator.effect.params;
 
-import com.google.common.collect.ImmutableMap;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Optional;
 import java.util.OptionalDouble;
+
+import org.jetbrains.annotations.Nullable;
+
+import com.google.common.collect.ImmutableMap;
 
 public record TypedParams(ImmutableMap<String, Object> map) implements Params {
 	@Override

@@ -1,12 +1,13 @@
 package snownee.textanimator;
 
-import net.minecraft.util.Mth;
-import net.minecraft.util.OptionEnum;
-import org.jetbrains.annotations.NotNull;
-import snownee.textanimator.effect.Effect;
-
 import java.util.Arrays;
 import java.util.Comparator;
+
+import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.util.Mth;
+import net.minecraft.util.OptionEnum;
+import snownee.textanimator.effect.Effect;
 
 public enum TextAnimationMode implements OptionEnum {
 	ALL("all"), NONE("none"), NO_RAINBOW("no_rainbow");
