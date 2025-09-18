@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "textanimator",
+	"version": "${version}",
+	"name": "Text Animator",
+        "description": "Animated text rendering effects for Minecraft chat and UI.",
+	"authors": [
+		"Snownee"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/text-animator",
+		"sources": "https://github.com/Snownee/TextAnimator",
+		"issues": "https://github.com/Snownee/TextAnimator/issues"
+	},
+	"license": "ARR",
+	"entrypoints": {
+                "main": [
+                  "snownee.textanimator.util.CommonProxy"
+                ],
+                "client": [
+                  "snownee.textanimator.util.ClientProxy"
+                ]
+	},
+	"mixins": [
+		"textanimator.mixins.json"
+	],
+	"accessWidener": "textanimator.accesswidener",
+	"depends": {
+                "fabricloader": ">=0.17.2",
+                "fabric-api": "*",
+                "minecraft": "1.21.1",
+                "java": ">=21"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/rRBvGkz"
+			}
+		}
+	}
+}

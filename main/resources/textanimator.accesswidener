@@ -1,0 +1,7 @@
+accessWidener   v1  named
+accessible class net/minecraft/client/gui/Font$StringRenderOutput
+
+accessible class net/minecraft/client/Options$FieldAccess
+
+accessible class net/minecraft/client/StringSplitter$LineBreakFinder
+accessible class net/minecraft/client/StringSplitter$LineComponent
