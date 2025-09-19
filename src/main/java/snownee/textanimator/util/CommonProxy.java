@@ -109,7 +109,7 @@ public class CommonProxy implements ModInitializer {
 				for (int l = k + 1; l < j; ++l) {
 					char ch = string.charAt(l);
 					if (ch == '>') {
-						String[] split = StringUtils.split(sb.toString());
+						String[] split = StringUtils.split(sb.toString(), ' ');
 						if (split.length == 0 || split[0].isEmpty()) {
 							break;
 						}
