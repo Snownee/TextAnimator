@@ -7,13 +7,15 @@
 	"authors": [
 		"Snownee"
 	],
+	"contributors": [
+		"QiHuang02"
+	],
 	"contact": {
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/text-animator",
 		"sources": "https://github.com/Snownee/TextAnimator",
 		"issues": "https://github.com/Snownee/TextAnimator/issues"
 	},
 	"license": "ARR",
-	"icon": "assets/textanimator/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -26,7 +28,7 @@
 	"mixins": [
 		"textanimator.mixins.json"
 	],
-  "accessWidener": "textanimator.accesswidener",
+	"accessWidener": "textanimator.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.17.2",
 		"minecraft": "~1.21.1",
@@ -36,7 +38,8 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/rRBvGkz"
+				"modmenu.discord": "https://discord.gg/rRBvGkz",
+				"modmenu.donate": "https://ko-fi.com/snownee"
 			}
 		}
 	}

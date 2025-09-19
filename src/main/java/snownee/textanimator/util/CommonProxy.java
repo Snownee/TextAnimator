@@ -1,15 +1,10 @@
 package snownee.textanimator.util;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.text.BreakIterator;
-import java.util.ArrayDeque;
 import java.util.Locale;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,11 +16,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSink;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringDecomposer;
@@ -40,89 +31,26 @@ import snownee.textanimator.mixin.StringDecomposerAccess;
 public class CommonProxy implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
 
-	private static final Constructor<Style> textanimator$styleConstructor;
-	private static final Field textanimator$colorField;
-	private static final Field textanimator$boldField;
-	private static final Field textanimator$italicField;
-	private static final Field textanimator$underlinedField;
-	private static final Field textanimator$strikethroughField;
-	private static final Field textanimator$obfuscatedField;
-	private static final Field textanimator$clickEventField;
-	private static final Field textanimator$hoverEventField;
-	private static final Field textanimator$insertionField;
-	private static final Field textanimator$fontField;
-
-	static {
-		try {
-			textanimator$styleConstructor = Style.class.getDeclaredConstructor(
-					TextColor.class,
-					Boolean.class,
-					Boolean.class,
-					Boolean.class,
-					Boolean.class,
-					Boolean.class,
-					ClickEvent.class,
-					HoverEvent.class,
-					String.class,
-					ResourceLocation.class);
-			textanimator$styleConstructor.setAccessible(true);
-			textanimator$colorField = textanimator$accessStyleField("color");
-			textanimator$boldField = textanimator$accessStyleField("bold");
-			textanimator$italicField = textanimator$accessStyleField("italic");
-			textanimator$underlinedField = textanimator$accessStyleField("underlined");
-			textanimator$strikethroughField = textanimator$accessStyleField("strikethrough");
-			textanimator$obfuscatedField = textanimator$accessStyleField("obfuscated");
-			textanimator$clickEventField = textanimator$accessStyleField("clickEvent");
-			textanimator$hoverEventField = textanimator$accessStyleField("hoverEvent");
-			textanimator$insertionField = textanimator$accessStyleField("insertion");
-			textanimator$fontField = textanimator$accessStyleField("font");
-		} catch (ReflectiveOperationException e) {
-			throw new IllegalStateException("Failed to prepare style cloning", e);
-		}
-	}
-
-	private static @NotNull Field textanimator$accessStyleField(String name) throws NoSuchFieldException {
-		Field field = Style.class.getDeclaredField(name);
-		field.setAccessible(true);
-		return field;
-	}
-
-	public static @NotNull Style clone(Style style) {
-		Style copy = textanimator$copyVanillaStyle(style);
-		if (style instanceof TAStyle original && copy instanceof TAStyle clone) {
-			clone.textanimator$setEffects(original.textanimator$getEffects());
-			clone.textanimator$setTypewriterTrack(original.textanimator$getTypewriterTrack());
-			clone.textanimator$setTypewriterIndex(original.textanimator$getTypewriterIndex());
-		}
+	public static Style clone(Style style) {
+		Style copy = new Style(
+				style.getColor(),
+				style.isBold(),
+				style.isItalic(),
+				style.isUnderlined(),
+				style.isStrikethrough(),
+				style.isObfuscated(),
+				style.getClickEvent(),
+				style.getHoverEvent(),
+				style.getInsertion(),
+				style.getFont());
+		((TAStyle) copy).textanimator$setEffects(((TAStyle) style).textanimator$getEffects());
+		((TAStyle) copy).textanimator$setTypewriterTrack(((TAStyle) style).textanimator$getTypewriterTrack());
+		((TAStyle) copy).textanimator$setTypewriterIndex(((TAStyle) style).textanimator$getTypewriterIndex());
 		return copy;
 	}
 
-	private static @NotNull Style textanimator$copyVanillaStyle(Style style) {
-		try {
-			return textanimator$styleConstructor.newInstance(
-					textanimator$getField(textanimator$colorField, style),
-					textanimator$getField(textanimator$boldField, style),
-					textanimator$getField(textanimator$italicField, style),
-					textanimator$getField(textanimator$underlinedField, style),
-					textanimator$getField(textanimator$strikethroughField, style),
-					textanimator$getField(textanimator$obfuscatedField, style),
-					textanimator$getField(textanimator$clickEventField, style),
-					textanimator$getField(textanimator$hoverEventField, style),
-					textanimator$getField(textanimator$insertionField, style),
-					textanimator$getField(textanimator$fontField, style));
-		} catch (ReflectiveOperationException e) {
-			throw new IllegalStateException("Failed to clone style", e);
-		}
-	}
-
-	@Contract(pure = true)
-	@SuppressWarnings("unchecked")
-	private static <T> T textanimator$getField(@NotNull Field field, Style style) throws IllegalAccessException {
-		return (T) field.get(style);
-	}
-
 	public static boolean iterateFormatted(
-			@NotNull String string,
+			String string,
 			int i,
 			Style style,
 			Style plainStyle,
@@ -193,22 +121,10 @@ public class CommonProxy implements ModInitializer {
 								newEffects = effects.subList(0, effects.size() - 1);
 							}
 						} else {
-							String tagName = split[0];
-							if (split.length == 1 && !effects.isEmpty() && effects.get(effects.size() - 1).getName().equals(tagName)) {
-								newEffects = effects.subList(0, effects.size() - 1);
-							} else {
-								try {
-									Effect effect = Effect.create(split, false);
-									if (!textanimator$hasClosingTag(
-											string,
-											l + 1,
-											effects,
-											effect.getName())) {
-										break;
-									}
-									newEffects = ImmutableList.<Effect>builder().addAll(effects).add(effect).build();
-								} catch (Exception ignored) {
-								}
+							try {
+								Effect effect = Effect.create(split, false);
+								newEffects = ImmutableList.<Effect>builder().addAll(effects).add(effect).build();
+							} catch (Exception ignored) {
 							}
 						}
 						if (newEffects != null) {
@@ -257,136 +173,18 @@ public class CommonProxy implements ModInitializer {
 		return Locale.getDefault();
 	}
 
-	private static boolean textanimator$hasClosingTag(
-			String text,
-			int fromIndex,
-			ImmutableList<Effect> activeEffects,
-			@NotNull String effectName) {
-		if (effectName.isEmpty()) {
-			return false;
-		}
-		ArrayDeque<String> stack = new ArrayDeque<>();
-		for (Effect effect : activeEffects) {
-			stack.addLast(effect.getName());
-		}
-		stack.addLast(effectName);
-		return textanimator$validateClosingTag(text, fromIndex, stack, effectName);
-	}
-
-	private static boolean textanimator$validateClosingTag(
-			@NotNull String text,
-			int fromIndex,
-			ArrayDeque<String> stack,
-			@NotNull String targetEffect) {
-		int index = fromIndex;
-		int length = text.length();
-		while (index < length) {
-			int open = text.indexOf('<', index);
-			if (open == -1) {
-				return false;
-			}
-			int close = text.indexOf('>', open + 1);
-			if (close == -1) {
-				return false;
-			}
-			if (close == open + 1) {
-				index = close + 1;
-				continue;
-			}
-			String tagContent = text.substring(open + 1, close);
-			String[] split = StringUtils.split(tagContent);
-			if (split.length == 0) {
-				index = close + 1;
-				continue;
-			}
-			String token = split[0];
-			if (token.isEmpty()) {
-				index = close + 1;
-				continue;
-			}
-			if (token.charAt(0) == '/') {
-				String tagName = token.substring(1);
-				if (tagName.isEmpty() || !textanimator$isSlashClosingTag(text, open + 1, close, tagName)) {
-					index = close + 1;
-					continue;
-				}
-				if (!stack.contains(tagName)) {
-					index = close + 1;
-					continue;
-				}
-				String top = stack.peekLast();
-				if (!tagName.equals(top)) {
-					return false;
-				}
-				stack.removeLast();
-				if (tagName.equals(targetEffect)) {
-					return true;
-				}
-			} else {
-				String tagName = token;
-				if (split.length == 1 && !stack.isEmpty() && stack.peekLast().equals(tagName)
-						&& textanimator$isMirrorClosingTag(text, open + 1, close, tagName)) {
-					stack.removeLast();
-					if (tagName.equals(targetEffect)) {
-						return true;
-					}
-				} else {
-					try {
-						Effect effect = Effect.create(split, false);
-						String nestedName = effect.getName();
-						ArrayDeque<String> nestedStack = new ArrayDeque<>(stack);
-						nestedStack.addLast(nestedName);
-						if (textanimator$validateClosingTag(text, close + 1, nestedStack, nestedName)) {
-							stack.addLast(nestedName);
-						}
-					} catch (Exception ignored) {
-					}
-				}
-			}
-			index = close + 1;
-		}
-		return false;
-	}
-
-	private static boolean textanimator$isSlashClosingTag(String text, int start, int end, String effectName) {
-		int nameStart = start;
-		if (nameStart >= end || text.charAt(nameStart) != '/') {
-			return false;
-		}
-		++nameStart;
-		if (!text.regionMatches(nameStart, effectName, 0, effectName.length())) {
-			return false;
-		}
-		int index = nameStart + effectName.length();
-		while (index < end && Character.isWhitespace(text.charAt(index))) {
-			++index;
-		}
-		return index == end;
-	}
-
-	private static boolean textanimator$isMirrorClosingTag(@NotNull String text, int start, int end, String effectName) {
-		if (!text.regionMatches(start, effectName, 0, effectName.length())) {
-			return false;
-		}
-		int index = start + effectName.length();
-		while (index < end && Character.isWhitespace(text.charAt(index))) {
-			++index;
-		}
-		return index == end;
-	}
-
 	public static void onEffectTypeRegistered(String type, Function<Params, Effect> factory) {
 		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			ClientProxy.onEffectTypeRegistered(type, factory);
 		}
 	}
 
-	public static boolean isPhysicalClient() {
-		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
-	}
-
 	@Override
 	public void onInitialize() {
 		TextAnimator.init();
+	}
+
+	public static boolean isPhysicalClient() {
+		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
 	}
 }

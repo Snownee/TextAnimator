@@ -3,9 +3,9 @@ package snownee.textanimator.mixin.client;
 import java.util.Arrays;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.Options;
@@ -14,19 +14,14 @@ import snownee.textanimator.duck.TAOptions;
 
 @Mixin(ChatOptionsScreen.class)
 public class ChatOptionsScreenMixin {
-	@Inject(
-			method = "options(Lnet/minecraft/client/Options;)[Lnet/minecraft/client/OptionInstance;",
-			at = @At("RETURN"),
-			cancellable = true)
-	private static void textanimator$appendOptions(
-			Options options,
-			CallbackInfoReturnable<OptionInstance<?>[]> cir) {
-		OptionInstance<?>[] original = cir.getReturnValue();
-		OptionInstance<?>[] extended = Arrays.copyOf(original, original.length + 3);
+	@WrapMethod(method = "options")
+	private static OptionInstance<?>[] textanimator$appendOptions(Options options, Operation<OptionInstance<?>[]> original) {
+		OptionInstance<?>[] instances = original.call(options);
+		OptionInstance<?>[] extended = Arrays.copyOf(instances, instances.length + 3);
 		TAOptions taOptions = (TAOptions) options;
-		extended[original.length] = taOptions.textanimator$getTextAnimation();
-		extended[original.length + 1] = taOptions.textanimator$getTypewriterSpeed();
-		extended[original.length + 2] = taOptions.textanimator$getTypewriterMode();
-		cir.setReturnValue(extended);
+		extended[instances.length] = taOptions.textanimator$getTextAnimation();
+		extended[instances.length + 1] = taOptions.textanimator$getTypewriterSpeed();
+		extended[instances.length + 2] = taOptions.textanimator$getTypewriterMode();
+		return extended;
 	}
 }
