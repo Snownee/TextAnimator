@@ -7,12 +7,16 @@
 	"authors": [
 		"Snownee"
 	],
+	"contributors": [
+		"QiHuang02"
+	],
 	"contact": {
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/text-animator",
 		"sources": "https://github.com/Snownee/TextAnimator",
 		"issues": "https://github.com/Snownee/TextAnimator/issues"
 	},
 	"license": "ARR",
+	"environment": "*",
 	"entrypoints": {
 		"main": [
 			"snownee.textanimator.util.CommonProxy"
@@ -26,15 +30,16 @@
 	],
 	"accessWidener": "textanimator.accesswidener",
 	"depends": {
-		"fabricloader": ">=0.15",
-		"fabric-api": "*",
-		"minecraft": ">=1.19.2",
-		"java": ">=17"
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
 	},
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/rRBvGkz"
+				"modmenu.discord": "https://discord.gg/rRBvGkz",
+				"modmenu.donate": "https://ko-fi.com/snownee"
 			}
 		}
 	}

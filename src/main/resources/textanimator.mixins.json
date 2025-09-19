@@ -2,7 +2,7 @@
 	"required": true,
 	"minVersion": "0.8",
 	"package": "snownee.textanimator.mixin",
-	"compatibilityLevel": "JAVA_16",
+	"compatibilityLevel": "JAVA_21",
 	"refmap": "textanimator.refmap.json",
 	"mixins": [
 		"StringDecomposerAccess",
@@ -11,11 +11,11 @@
 		"StyleMixin$SerializerMixin"
 	],
 	"client": [
+		"client.ChatOptionsScreenMixin",
 		"client.FontAccess",
 		"client.FontMixin",
 		"client.LiteralContentsMixin",
 		"client.OptionsMixin",
-		"client.SimpleOptionsSubScreenMixin",
 		"client.StringRenderOutputMixin",
 		"client.StringSplitterMixin",
 		"client.TranslatableContentsMixin"

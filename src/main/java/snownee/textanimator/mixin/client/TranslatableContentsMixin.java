@@ -53,11 +53,12 @@ public abstract class TranslatableContentsMixin {
 		}
 		TAStyle taStyle = (TAStyle) style;
 		MutableInt charsAccepted = new MutableInt(Math.max(0, taStyle.textanimator$getTypewriterIndex()));
-		StringDecomposer.iterateFormatted((FormattedText) formattedText, style, (i, style2, cp) -> {
-			instance.accept(FormattedText.of(Character.toString(cp), style2));
-			charsAccepted.increment();
-			return true;
-		});
+		StringDecomposer.iterateFormatted(
+				(FormattedText) formattedText, style, (i, style2, cp) -> {
+					instance.accept(FormattedText.of(Character.toString(cp), style2));
+					charsAccepted.increment();
+					return true;
+				});
 		style = CommonProxy.clone(style);
 		(taStyle).textanimator$setTypewriterIndex(charsAccepted.intValue());
 		newStyle.set(style);

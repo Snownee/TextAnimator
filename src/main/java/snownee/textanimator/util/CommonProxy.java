@@ -32,10 +32,29 @@ public class CommonProxy implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
 
 	public static Style clone(Style style) {
-		return style.withClickEvent(style.getClickEvent());
+		Style copy = new Style(
+				style.getColor(),
+				style.isBold(),
+				style.isItalic(),
+				style.isUnderlined(),
+				style.isStrikethrough(),
+				style.isObfuscated(),
+				style.getClickEvent(),
+				style.getHoverEvent(),
+				style.getInsertion(),
+				style.getFont());
+		((TAStyle) copy).textanimator$setEffects(((TAStyle) style).textanimator$getEffects());
+		((TAStyle) copy).textanimator$setTypewriterTrack(((TAStyle) style).textanimator$getTypewriterTrack());
+		((TAStyle) copy).textanimator$setTypewriterIndex(((TAStyle) style).textanimator$getTypewriterIndex());
+		return copy;
 	}
 
-	public static boolean iterateFormatted(String string, int i, Style style, Style plainStyle, FormattedCharSink formattedCharSink) {
+	public static boolean iterateFormatted(
+			String string,
+			int i,
+			Style style,
+			Style plainStyle,
+			FormattedCharSink formattedCharSink) {
 		int j = string.length();
 		Style curStyle = style;
 		int typingIndex = -1;
@@ -50,19 +69,17 @@ public class CommonProxy implements ModInitializer {
 				Locale locale = CommonProxy.getLocale();
 				BreakIterator breakIterator = byWord ? BreakIterator.getLineInstance(locale) : BreakIterator.getCharacterInstance(locale);
 				StringBuilder sb = new StringBuilder();
-				StringDecomposer.iterateFormatted(string, i, Style.EMPTY, (index, style1, codePoint) -> {
-					sb.appendCodePoint(codePoint);
-					return true;
-				});
+				StringDecomposer.iterateFormatted(
+						string, i, Style.EMPTY, (index, style1, codePoint) -> {
+							sb.appendCodePoint(codePoint);
+							return true;
+						});
 				breakIterator.setText(sb.toString());
-//				ArrayList<String> words = new ArrayList<>();
 				boundaries = new IntArrayList();
 				int start = breakIterator.first();
 				for (int end = breakIterator.next(); end != BreakIterator.DONE; start = end, end = breakIterator.next()) {
-//					words.add(sb.substring(start, end));
 					boundaries.add(i + start);
 				}
-//				System.out.println(words);
 				typingIndex = i;
 			}
 		}

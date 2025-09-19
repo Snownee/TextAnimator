@@ -14,14 +14,14 @@ import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.util.StringDecomposer;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.typewriter.TypewriterEffect;
 import snownee.textanimator.typewriter.TypewriterTracks;
 import snownee.textanimator.util.CommonProxy;
 
-@Mixin(LiteralContents.class)
+@Mixin(PlainTextContents.LiteralContents.class)
 public abstract class LiteralContentsMixin {
 	@Shadow
 	@Final
@@ -43,10 +43,11 @@ public abstract class LiteralContentsMixin {
 		taStyle.textanimator$setTypewriterTrack(TypewriterTracks.getInstance().get(text.intern()));
 		String realText = text.substring(pair.getSecond());
 		MutableObject<Optional<T>> result = new MutableObject<>(Optional.empty());
-		StringDecomposer.iterateFormatted(realText, style, (i, style2, cp) -> {
-			result.setValue(styledContentConsumer.accept(style2, Character.toString(cp)));
-			return result.getValue().isEmpty();
-		});
+		StringDecomposer.iterateFormatted(
+				realText, style, (i, style2, cp) -> {
+					result.setValue(styledContentConsumer.accept(style2, Character.toString(cp)));
+					return result.getValue().isEmpty();
+				});
 		cir.setReturnValue(result.getValue());
 	}
 }

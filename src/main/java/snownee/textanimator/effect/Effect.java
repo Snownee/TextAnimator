@@ -1,15 +1,36 @@
 package snownee.textanimator.effect;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.collect.ImmutableMap;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 
+import net.minecraft.util.ExtraCodecs;
 import snownee.textanimator.effect.params.EmptyParams;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.effect.params.TypedParams;
 
 public interface Effect {
+	Codec<Effect> CODEC = codec(true);
+	Codec<Effect> CODEC_NO_TYPEWRITER = codec(false);
+	String EFFECTS_KEY = "ta$effects";
+	MapCodec<List<Effect>> LIST_MAP_CODEC = CODEC.listOf().optionalFieldOf(EFFECTS_KEY, List.of());
+
+	static Codec<Effect> codec(boolean allowTypewriter) {
+		return ExtraCodecs.NON_EMPTY_STRING.comapFlatMap(
+				str -> {
+					try {
+						return DataResult.success(create(str, allowTypewriter));
+					} catch (IllegalArgumentException e) {
+						return DataResult.error(() -> "Invalid effect: " + e.getMessage());
+					}
+				}, Effect::serialize);
+	}
 
 	@NotNull
 	static Effect create(String[] split, boolean allowTypewriter) {

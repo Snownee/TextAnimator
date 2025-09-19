@@ -29,20 +29,22 @@ public class StringSplitterMixin {
 			Style style,
 			Operation<Optional<Object>> original,
 			@Local List<StringSplitter.LineComponent> list) {
-		return formattedText.visit((stylex, string) -> {
-			if (string.isEmpty()) {
-				return Optional.empty();
-			}
-			TAStyle taStyle = (TAStyle) stylex;
-			if (taStyle.textanimator$getTypewriterTrack() != null) {
-				StringDecomposer.iterateFormatted(string, stylex, (i, style2, cp) -> {
-					list.add(new StringSplitter.LineComponent(Character.toString(cp), style2));
-					return true;
-				});
-			} else {
-				list.add(new StringSplitter.LineComponent(string, stylex));
-			}
-			return Optional.empty();
-		}, style);
+		return formattedText.visit(
+				(stylex, string) -> {
+					if (string.isEmpty()) {
+						return Optional.empty();
+					}
+					TAStyle taStyle = (TAStyle) stylex;
+					if (taStyle.textanimator$getTypewriterTrack() != null) {
+						StringDecomposer.iterateFormatted(
+								string, stylex, (i, style2, cp) -> {
+									list.add(new StringSplitter.LineComponent(Character.toString(cp), style2));
+									return true;
+								});
+					} else {
+						list.add(new StringSplitter.LineComponent(string, stylex));
+					}
+					return Optional.empty();
+				}, style);
 	}
 }

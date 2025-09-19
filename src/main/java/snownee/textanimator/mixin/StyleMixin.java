@@ -1,24 +1,29 @@
 package snownee.textanimator.mixin;
 
-import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.DynamicOps;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.MapLike;
+import com.mojang.serialization.RecordBuilder;
 
 import net.minecraft.network.chat.Style;
-import net.minecraft.util.GsonHelper;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.typewriter.TypewriterTrack;
@@ -140,41 +145,65 @@ public class StyleMixin implements TAStyle {
 
 	@Mixin(Style.Serializer.class)
 	public static class SerializerMixin {
-		@Inject(method = "deserialize", at = @At("RETURN"))
-		private void textanimator$deserialize(
-				JsonElement jsonElement,
-				Type type,
-				JsonDeserializationContext jsonDeserializationContext,
-				CallbackInfoReturnable<Style> cir) {
-			if (!jsonElement.isJsonObject() || cir.getReturnValue() == null) {
-				return;
-			}
-			JsonObject json = jsonElement.getAsJsonObject();
-			if (!json.has("ta$effects")) {
-				return;
-			}
-			ImmutableList.Builder<Effect> builder = ImmutableList.builder();
-			GsonHelper.getAsJsonArray(json, "ta$effects").forEach(e -> {
-				try {
-					builder.add(Effect.create(e.getAsString(), true));
-				} catch (Exception ignored) {
-				}
-			});
-			((TAStyle) cir.getReturnValue()).textanimator$setEffects(builder.build());
+		@Mutable
+		@Shadow
+		@Final
+		public static MapCodec<Style> MAP_CODEC;
+
+		@Mutable
+		@Shadow
+		@Final
+		public static Codec<Style> CODEC;
+
+		@Inject(method = "<clinit>", at = @At("RETURN"))
+		private static void textanimator$attachCustomCodec(CallbackInfo ci) {
+			MAP_CODEC = textanimator$wrapCodec(MAP_CODEC);
+			CODEC = MAP_CODEC.codec();
 		}
 
-		@Inject(method = "serialize", at = @At("RETURN"))
-		private void textanimator$serialize(
-				Style style, Type type, JsonSerializationContext jsonSerializationContext, CallbackInfoReturnable<JsonElement> cir) {
-			JsonElement jsonElement = cir.getReturnValue();
-			TAStyle taStyle = (TAStyle) style;
-			if (jsonElement == null || !jsonElement.isJsonObject() || taStyle.textanimator$getEffects().isEmpty()) {
-				return;
-			}
-			JsonObject json = jsonElement.getAsJsonObject();
-			JsonArray array = new JsonArray();
-			taStyle.textanimator$getEffects().forEach(e -> array.add(e.serialize()));
-			json.add("ta$effects", array);
+		@Unique
+		private static MapCodec<Style> textanimator$wrapCodec(MapCodec<Style> original) {
+			return new MapCodec<>() {
+				@Override
+				public <T> DataResult<Style> decode(DynamicOps<T> ops, MapLike<T> input) {
+					DataResult<Style> result = original.decode(ops, input);
+					if (result.isError()) {
+						return result;
+					}
+					DataResult<List<Effect>> effects = Effect.LIST_MAP_CODEC.decode(ops, input);
+					if (effects.isError()) {
+						return effects.map($ -> Style.EMPTY);
+					}
+					if (effects.getOrThrow().isEmpty()) {
+						return result;
+					}
+					return result.map(style -> {
+						((TAStyle) style).textanimator$setEffects(ImmutableList.copyOf(effects.getOrThrow()));
+						return style;
+					});
+				}
+
+				@Override
+				public <T> RecordBuilder<T> encode(Style style, DynamicOps<T> ops, RecordBuilder<T> builder) {
+					original.encode(style, ops, builder);
+					ImmutableList<Effect> effects = ((TAStyle) style).textanimator$getEffects();
+					if (effects.isEmpty()) {
+						return builder;
+					}
+					Effect.LIST_MAP_CODEC.encode(effects, ops, builder);
+					return builder;
+				}
+
+				@Override
+				public <T> Stream<T> keys(DynamicOps<T> ops) {
+					return Stream.concat(original.keys(ops), Stream.of(ops.createString(Effect.EFFECTS_KEY)));
+				}
+
+				@Override
+				public String toString() {
+					return original.toString() + " (TextAnimator modified)";
+				}
+			};
 		}
 	}
 }
