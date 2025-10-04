@@ -33,7 +33,7 @@ public interface Effect {
 					try {
 						builder.put(kv[0], Double.parseDouble(kv[1]));
 					} catch (NumberFormatException e) {
-						throw new IllegalArgumentException("Invalid effect parameter: " + kv[0] + "=" + kv[1]);
+						builder.put(kv[0], kv[1]);
 					}
 				}
 			}
