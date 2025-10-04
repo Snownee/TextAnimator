@@ -25,7 +25,7 @@ public class GlitchEffect implements Effect {
         double time = Util.getMillis() * 0.001 * frequency;
         int pulse = (int) (time) % 3;
 
-        Random rand = new Random(settings.index + (long)(time * 1000));
+        Random rand = new Random(settings.index + (long) (time * 1000));
 
         float jitterX = 0, jitterY = 0;
         if (pulse == 1 && rand.nextFloat() < intensity * 0.7) {

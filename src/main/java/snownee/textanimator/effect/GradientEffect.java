@@ -1,10 +1,10 @@
 package snownee.textanimator.effect;
 
-import java.util.Optional;
-import java.util.OptionalDouble;
-
 import net.minecraft.Util;
 import snownee.textanimator.effect.params.Params;
+
+import java.util.Optional;
+import java.util.OptionalDouble;
 
 public class GradientEffect implements Effect {
     private final float[] start;
@@ -21,6 +21,34 @@ public class GradientEffect implements Effect {
         this.speed = (float) (speedOpt.isPresent() ? speedOpt.getAsDouble() : 0.0);
     }
 
+    private static float lerp(float a, float b, float t) {
+        return a + (b - a) * t;
+    }
+
+    private static float clamp01(float v) {
+        return v < 0 ? 0 : (v > 1 ? 1 : v);
+    }
+
+    private static float[] parseColor(Params params, String key, float[] def) {
+        Optional<String> hex = params.getString(key);
+        if (hex.isPresent()) {
+            String s = hex.get().trim();
+            if (s.startsWith("#")) s = s.substring(1);
+            try {
+                int val = (int) Long.parseLong(s, 16);
+                float r = ((val >> 16) & 0xFF) / 255f;
+                float g = ((val >> 8) & 0xFF) / 255f;
+                float b = (val & 0xFF) / 255f;
+                return new float[]{r, g, b};
+            } catch (Exception ignored) {
+            }
+        }
+        float r = (float) params.getDouble(key + "R").orElse(def[0]);
+        float g = (float) params.getDouble(key + "G").orElse(def[1]);
+        float b = (float) params.getDouble(key + "B").orElse(def[2]);
+        return new float[]{r, g, b};
+    }
+
     @Override
     public void apply(EffectSettings settings) {
         if (settings.isShadow) return;
@@ -35,27 +63,5 @@ public class GradientEffect implements Effect {
     @Override
     public String getName() {
         return "gradient";
-    }
-
-    private static float lerp(float a, float b, float t) { return a + (b - a) * t; }
-    private static float clamp01(float v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
-
-    private static float[] parseColor(Params params, String key, float[] def) {
-        Optional<String> hex = params.getString(key);
-        if (hex.isPresent()) {
-            String s = hex.get().trim();
-            if (s.startsWith("#")) s = s.substring(1);
-            try {
-                int val = (int) Long.parseLong(s, 16);
-                float r = ((val >> 16) & 0xFF) / 255f;
-                float g = ((val >> 8) & 0xFF) / 255f;
-                float b = (val & 0xFF) / 255f;
-                return new float[]{r, g, b};
-            } catch (Exception ignored) {}
-        }
-        float r = (float) params.getDouble(key + "R").orElse(def[0]);
-        float g = (float) params.getDouble(key + "G").orElse(def[1]);
-        float b = (float) params.getDouble(key + "B").orElse(def[2]);
-        return new float[]{r, g, b};
     }
 }

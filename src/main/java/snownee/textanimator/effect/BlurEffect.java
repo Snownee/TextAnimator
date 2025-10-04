@@ -15,9 +15,10 @@ public class BlurEffect implements Effect {
 
     @Override
     public void apply(EffectSettings settings) {
-        if (settings.isShadow) return;
     }
 
     @Override
-    public String getName() { return "blur"; }
+    public String getName() {
+        return "blur";
+    }
 }

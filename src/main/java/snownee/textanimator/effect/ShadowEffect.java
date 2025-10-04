@@ -26,5 +26,7 @@ public class ShadowEffect implements Effect {
     }
 
     @Override
-    public String getName() { return "shadow"; }
+    public String getName() {
+        return "shadow";
+    }
 }

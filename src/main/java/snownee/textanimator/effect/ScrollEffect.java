@@ -18,5 +18,7 @@ public class ScrollEffect implements Effect {
     }
 
     @Override
-    public String getName() { return "scroll"; }
+    public String getName() {
+        return "scroll";
+    }
 }

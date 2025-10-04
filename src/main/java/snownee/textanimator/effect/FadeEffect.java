@@ -23,5 +23,7 @@ public class FadeEffect implements Effect {
     }
 
     @Override
-    public String getName() { return "fade"; }
+    public String getName() {
+        return "fade";
+    }
 }

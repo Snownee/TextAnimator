@@ -22,5 +22,7 @@ public class BounceEffect implements Effect {
     }
 
     @Override
-    public String getName() { return "bounce"; }
+    public String getName() {
+        return "bounce";
+    }
 }

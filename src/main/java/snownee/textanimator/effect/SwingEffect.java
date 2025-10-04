@@ -22,5 +22,7 @@ public class SwingEffect implements Effect {
     }
 
     @Override
-    public String getName() { return "swing"; }
+    public String getName() {
+        return "swing";
+    }
 }
