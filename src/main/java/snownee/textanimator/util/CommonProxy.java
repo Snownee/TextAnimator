@@ -41,6 +41,7 @@ public class CommonProxy {
 		TextAnimator.init();
 		if (isPhysicalClient()) {
 			TextAnimatorClient.init();
+			ClientProxy.init();
 		}
 	}
 
