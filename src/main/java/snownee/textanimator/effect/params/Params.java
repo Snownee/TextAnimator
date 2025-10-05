@@ -3,13 +3,15 @@ package snownee.textanimator.effect.params;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
-import com.machinezoo.noexception.optional.OptionalBoolean;
-
 import org.jetbrains.annotations.Nullable;
 
 public interface Params {
-	@Nullable
-	OptionalBoolean getBool(String key);
+	@Nullable Boolean getBool(String key);
+
+	default boolean getBoolOr(String key, boolean def) {
+		Boolean b = getBool(key);
+		return b != null ? b : def;
+	}
 
 	OptionalDouble getDouble(String key);
 

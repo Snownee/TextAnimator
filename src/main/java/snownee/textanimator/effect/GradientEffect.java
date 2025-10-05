@@ -13,14 +13,16 @@ public class GradientEffect implements Effect {
 	public GradientEffect(Params params) {
 		this.startRGB = parseColor(params, "start", new float[]{1f, 0.6f, 0.2f});
 		this.endRGB = parseColor(params, "end", new float[]{0.2f, 0.6f, 1f});
-		this.useHSV = params.getBool("hsv").orElse(false);
+		this.useHSV = params.getBoolOr("hsv", false);
 		this.speed = (float) params.getDouble("speed").orElse(0.0);
 		this.span = (float) params.getDouble("span").orElse(30.0);
 	}
 
 	@Override
 	public void apply(EffectSettings settings) {
-		if (settings.isShadow) return;
+		if (settings.isShadow) {
+			return;
+		}
 
 		float tIndex = (settings.index % span) / span;
 		float tTime = speed > 0 ? (float) ((Util.getMillis() * 0.001) * speed % 1.0) : 0;
@@ -56,7 +58,9 @@ public class GradientEffect implements Effect {
 	private static float[] parseColor(Params params, String key, float[] def) {
 		return params.getString(key).map(s -> {
 			s = s.trim();
-			if (s.startsWith("#")) s = s.substring(1);
+			if (s.startsWith("#")) {
+				s = s.substring(1);
+			}
 			try {
 				int val = (int) Long.parseLong(s, 16);
 				return new float[]{
@@ -78,10 +82,15 @@ public class GradientEffect implements Effect {
 		float d = max - min;
 		s = max == 0 ? 0 : d / max;
 
-		if (d == 0) h = 0;
-		else if (max == r) h = (g - b) / d + (g < b ? 6 : 0);
-		else if (max == g) h = (b - r) / d + 2;
-		else h = (r - g) / d + 4;
+		if (d == 0) {
+			h = 0;
+		} else if (max == r) {
+			h = (g - b) / d + (g < b ? 6 : 0);
+		} else if (max == g) {
+			h = (b - r) / d + 2;
+		} else {
+			h = (r - g) / d + 4;
+		}
 		h /= 6f;
 		return new float[]{h, s, max};
 	}
@@ -104,7 +113,9 @@ public class GradientEffect implements Effect {
 
 	private static float lerpHue(float a, float b, float t) {
 		float diff = (b - a + 1f) % 1f;
-		if (diff > 0.5f) diff -= 1f;
+		if (diff > 0.5f) {
+			diff -= 1f;
+		}
 		return (a + diff * t + 1f) % 1f;
 	}
 

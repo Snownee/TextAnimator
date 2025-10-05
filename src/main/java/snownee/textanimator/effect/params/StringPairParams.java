@@ -1,10 +1,10 @@
 package snownee.textanimator.effect.params;
 
-import com.machinezoo.noexception.optional.OptionalBoolean;
-
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
+
+import org.jetbrains.annotations.Nullable;
 
 public record StringPairParams(Map<String, String> params) implements Params {
 	public StringPairParams(Map<String, String> params) {
@@ -12,13 +12,13 @@ public record StringPairParams(Map<String, String> params) implements Params {
 	}
 
 	@Override
-	public OptionalBoolean getBool(String key) {
+	public @Nullable Boolean getBool(String key) {
 		String s = params.get(key);
 		if ("true".equals(s)) {
-			return OptionalBoolean.of(true);
+			return true;
 		}
 		if ("false".equals(s)) {
-			return OptionalBoolean.of(false);
+			return false;
 		}
 		return null;
 	}
