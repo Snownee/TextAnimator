@@ -30,14 +30,15 @@ public class PreviewCommand {
 
 		root.executes(ctx -> {
 			show("<glitch intensity=1.2 freq=3 shift=0.4 flicker=0.15><fade minA=0.5 speed=1.3><rainb>Mafuyu404 never like you</rainb></fade></glitch>");
-
+			show(" ");
 			show("<wave><grad start=#7FFFD4 end=#1E90FF hsv=true speed=0.3><bounce amp=2.5 speed=1.0>Mafuyu404 never like you</bounce></grad></wave>");
-
+			show(" ");
 			show("<blur passes=8 radius=2 alpha=0.18><pulse base=0.8 amp=0.4 speed=2.5><grad start=#FF0080 end=#00FFFF hsv=false speed=0.8>Mafuyu404 never like you</grad></pulse></blur>");
-
+			show(" ");
 			show("<turbulence amp=2 speed=2><glitch intensity=1.3 freq=4 shift=0.5 flicker=0.25><pulse base=0.7 amp=0.3 speed=2.2>Mafuyu404 never like you</pulse></glitch></turbulence>");
-
+			show(" ");
 			show("<pend speed=1.0 maxAngle=30 radius=2><grad start=#FF69B4 end=#87CEFA hsv=true speed=0.5><fade minA=0.4 speed=1.5>Mafuyu404 never like you</fade></grad></pend>");
+			show(" ");
 
 //            show("<bounce amp=3>Bounce 弹跳</bounce>");
 //            show("<swing amp=2>Swing 摆动</swing>");
@@ -46,7 +47,7 @@ public class PreviewCommand {
 //            show("<shadow dx=1 dy=1 r=0 g=0 b=0 a=0.9>Shadow 阴影</shadow>");
 //            show("<blur>Blur 模糊</blur>");
 //            show("<scroll speed=1>Scroll 字幕</scroll>");
-			show("<glitch intensity=1.0 flicker=0.2 shift=0.6>⚠ CORE BREACH ⚠</glitch>");
+			show("<typewriter><wiggle>TextAnimator</wiggle> is a mod by <wave><rainb>Snownee</rainb></wave>.");
 			return 1;
 		});
 

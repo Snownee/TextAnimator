@@ -113,45 +113,42 @@
 
 ---
 
-## 🌈 6. `rainb` 彩虹渐变
+## 🌈 6. `rainb` 彩虹循环
 
-可设定起止颜色与动画速度，支持自然循环，无突变色带。
+不断变化的彩虹色彩。
 
 **参数：**
 
-| 参数      | 类型      | 默认值       | 说明              |
-| ------- | ------- | --------- | --------------- |
-| `start` | 颜色(hex) | `#FFA033` | 起始颜色            |
-| `end`   | 颜色(hex) | `#33A0FF` | 结束颜色            |
-| `speed` | 小数      | `1.0`     | 动画流动速度（0 为静态渐变） |
-| `span`  | 小数      | `30.0`    | 渐变周期跨度（越大变化越慢）  |
+| 参数 | 类型 | 默认值 | 说明  |
+| -- | -- | --- | --- |
+| —  | —  | —   | 无参数 |
 
 **示例：**
 
 ```text
 <rainb>Colorful Text!</rainb>
-<rainb start=#FF0080 end=#00FFFF speed=0.5>Mafuyu404 never like you</rainb>
-<rainb start=#7FFFD4 end=#1E90FF span=20 speed=0.3>Wave Gradient</rainb>
 ```
 
 ---
 
-## 🔄 7. `rotate` 旋转摆动
+## 🕸 8. `pend` 钟摆旋转
 
-文字围绕小圆路径旋转。
+文字绕小圆路径旋转
 
 **参数：**
 
-| 参数       | 类型    | 默认值 | 说明         |
-| -------- | ----- | --- | ---------- |
-| `speed`  | float | 1.0 | 旋转速度       |
-| `range`  | float | 0.4 | 字体倾斜范围（弧度） |
-| `radius` | float | 1.5 | 旋转半径       |
+| 参数        | 类型    | 默认值  | 说明              |
+| --------- | ----- | ---- | --------------- |
+| `speed`   | float | 1.0  | 摆动速度           |
+| `maxAngle`| float | 30.0 | 最大摆动角度（度）     |
+| `radius`  | float | 1.5  | 圆周运动半径（像素）    |
 
 **示例：**
 
 ```text
-<rotate radius=3 speed=2.0>Rotating!</rotate>
+<pend speed="1.0" maxAngle="30" radius="2">
+Mafuyu404 never like you
+</pend>
 ```
 
 ---
@@ -296,27 +293,52 @@
 ```text
 <wiggle>Wiggly Text!</wiggle>
 ```
+
+## 🔄 7. `grad` 渐变
+
+支持自定义起止颜色、方向（RGB/HSV）、速度与跨度的线性渐变。
+
+**参数：**
+
+| 参数      | 类型      | 默认值       | 说明                     |
+| ------- | ------- | --------- | ---------------------- |
+| `start` | 颜色(hex) | `#FFA033` | 起始颜色                 |
+| `end`   | 颜色(hex) | `#33A0FF` | 结束颜色                 |
+| `speed` | float   | `1.0`     | 动画流动速度（0 为静态）       |
+| `span`  | float   | `30.0`    | 渐变周期跨度（影响字符密度）     |
+| `hsv`   | boolean | `false`   | 是否在 HSV 空间插值（更自然过渡） |
+
+**示例：**
+
+```text
+<grad start="#7FFFD4" end="#1E90FF" hsv="true" speed="0.3">
+Mafuyu404 never like you
+</grad>
+```
+
 参数预设：
 ```text
 <glitch intensity="1.2" freq="3" shift="0.4" flicker="0.15">
   <fade minA="0.5" speed="1.3">
-    <rainb>Mafuyu404 never like you</rainb>
+    <rainb>
+      Mafuyu404 never like you
+    </rainb>
   </fade>
 </glitch>
 
 <wave>
-  <gradient start="#7FFFD4" end="#1E90FF" speed="0.3">
+  <grad start="#7FFFD4" end="#1E90FF" hsv="true" speed="0.3">
     <bounce amp="2.5" speed="1.0">
       Mafuyu404 never like you
     </bounce>
-  </gradient>
+  </grad>
 </wave>
 
 <blur passes="8" radius="2" alpha="0.18">
   <pulse base="0.8" amp="0.4" speed="2.5">
-    <gradient start="#FF0080" end="#00FFFF" speed="0.8">
+    <grad start="#FF0080" end="#00FFFF" hsv="false" speed="0.8">
       Mafuyu404 never like you
-    </gradient>
+    </grad>
   </pulse>
 </blur>
 
@@ -328,13 +350,13 @@
   </glitch>
 </turbulence>
 
-<rotate speed="1.0" range="0.5" radius="2">
-  <gradient start="#FF69B4" end="#87CEFA" speed="0.5">
+<pend speed="1.0" maxAngle="30" radius="2">
+  <grad start="#FF69B4" end="#87CEFA" hsv="true" speed="0.5">
     <fade minA="0.4" speed="1.5">
       Mafuyu404 never like you
     </fade>
-  </gradient>
-</rotate>
+  </grad>
+</pend>
 ```
 
 预览：
