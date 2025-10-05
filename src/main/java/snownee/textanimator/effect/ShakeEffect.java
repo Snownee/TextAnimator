@@ -5,8 +5,9 @@ import net.minecraft.world.phys.Vec2;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.effect.params.Params;
 
-public class ShakeEffect implements Effect {
+public class ShakeEffect extends BaseEffect {
 	public ShakeEffect(Params params) {
+		super(params);
 	}
 
 	@Override

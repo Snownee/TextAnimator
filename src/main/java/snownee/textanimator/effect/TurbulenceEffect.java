@@ -4,11 +4,12 @@ import net.minecraft.Util;
 import net.minecraft.util.Mth;
 import snownee.textanimator.effect.params.Params;
 
-public class TurbulenceEffect implements Effect {
+public class TurbulenceEffect extends BaseEffect {
 	private final float amp;
 	private final float speed;
 
 	public TurbulenceEffect(Params params) {
+		super(params);
 		this.amp = (float) params.getDouble("amp").orElse(1.5);
 		this.speed = (float) params.getDouble("speed").orElse(1.0);
 	}

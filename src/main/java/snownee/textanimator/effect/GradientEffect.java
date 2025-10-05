@@ -1,18 +1,23 @@
 package snownee.textanimator.effect;
 
+import java.util.Optional;
+
 import net.minecraft.Util;
 import snownee.textanimator.effect.params.Params;
 
 public class GradientEffect implements Effect {
-	private final float[] startRGB;
-	private final float[] endRGB;
+	private static final float[] defaultFrom = parseColor("5BCEFA").orElseThrow();
+	private static final float[] defaultTo = parseColor("F5A9B8").orElseThrow();
+
+	private final float[] fromRGB;
+	private final float[] toRGB;
 	private final boolean useHSV;
 	private final float speed;
 	private final float span;
 
 	public GradientEffect(Params params) {
-		this.startRGB = parseColor(params, "start", new float[]{1f, 0.6f, 0.2f});
-		this.endRGB = parseColor(params, "end", new float[]{0.2f, 0.6f, 1f});
+		this.fromRGB = parseColor(params, "from", defaultFrom);
+		this.toRGB = parseColor(params, "to", defaultTo);
 		this.useHSV = params.getBoolOr("hsv", false);
 		this.speed = (float) params.getDouble("speed").orElse(0.0);
 		this.span = (float) params.getDouble("span").orElse(30.0);
@@ -30,18 +35,14 @@ public class GradientEffect implements Effect {
 
 		float[] rgb;
 		if (useHSV) {
-			float[] hsv1 = rgbToHsv(startRGB);
-			float[] hsv2 = rgbToHsv(endRGB);
+			float[] hsv1 = rgbToHsv(fromRGB);
+			float[] hsv2 = rgbToHsv(toRGB);
 			float h = lerpHue(hsv1[0], hsv2[0], t);
 			float s = lerp(hsv1[1], hsv2[1], t);
 			float v = lerp(hsv1[2], hsv2[2], t);
 			rgb = hsvToRgb(h, s, v);
 		} else {
-			rgb = new float[]{
-					lerp(startRGB[0], endRGB[0], t),
-					lerp(startRGB[1], endRGB[1], t),
-					lerp(startRGB[2], endRGB[2], t)
-			};
+			rgb = new float[]{lerp(fromRGB[0], toRGB[0], t), lerp(fromRGB[1], toRGB[1], t), lerp(fromRGB[2], toRGB[2], t)};
 		}
 
 		settings.r = rgb[0];
@@ -54,24 +55,22 @@ public class GradientEffect implements Effect {
 		return "grad";
 	}
 
-
 	private static float[] parseColor(Params params, String key, float[] def) {
-		return params.getString(key).map(s -> {
-			s = s.trim();
-			if (s.startsWith("#")) {
-				s = s.substring(1);
-			}
-			try {
-				int val = (int) Long.parseLong(s, 16);
-				return new float[]{
-						((val >> 16) & 0xFF) / 255f,
-						((val >> 8) & 0xFF) / 255f,
-						(val & 0xFF) / 255f
-				};
-			} catch (Exception ignored) {
-			}
-			return def;
-		}).orElse(def);
+		return params.getString(key).flatMap(GradientEffect::parseColor).orElse(def);
+	}
+
+	private static Optional<float[]> parseColor(String s) {
+		s = s.trim();
+		if (s.startsWith("#")) {
+			s = s.substring(1);
+		}
+		try {
+			int val = (int) Long.parseLong(s, 16);
+			return Optional.of(new float[]{
+					((val >> 16) & 0xFF) / 255f, ((val >> 8) & 0xFF) / 255f, (val & 0xFF) / 255f});
+		} catch (Exception ignored) {
+			return Optional.empty();
+		}
 	}
 
 	private static float[] rgbToHsv(float[] rgb) {

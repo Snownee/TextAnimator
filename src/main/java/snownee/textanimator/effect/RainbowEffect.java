@@ -4,8 +4,10 @@ import net.minecraft.Util;
 import net.minecraft.util.Mth;
 import snownee.textanimator.effect.params.Params;
 
-public class RainbowEffect implements Effect {
+public class RainbowEffect extends BaseEffect {
 	public RainbowEffect(Params params) {
+		super(params);
+		//TODO options
 	}
 
 	@Override

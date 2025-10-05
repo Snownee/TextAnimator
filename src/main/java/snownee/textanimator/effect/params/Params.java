@@ -18,4 +18,6 @@ public interface Params {
 	Optional<String> getString(String key);
 
 	Optional<Object> getRaw(String key);
+
+	String serialize();
 }

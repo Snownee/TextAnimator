@@ -3,16 +3,17 @@ package snownee.textanimator.effect;
 import net.minecraft.Util;
 import snownee.textanimator.effect.params.Params;
 
-public class PendulumEffect implements Effect {
-    private final float speed;
-    private final float maxAngle;
-    private final float radius;
+public class PendulumEffect extends BaseEffect {
+	private final float speed;
+	private final float maxAngle;
+	private final float radius;
 
-    public PendulumEffect(Params params) {
-        this.speed = (float) params.getDouble("speed").orElse(1.0);
-        this.maxAngle = (float) params.getDouble("maxAngle").orElse(30.0);
-        this.radius = (float) params.getDouble("radius").orElse(1.5);
-    }
+	public PendulumEffect(Params params) {
+		super(params);
+		this.speed = (float) params.getDouble("speed").orElse(1.0);
+		this.maxAngle = (float) params.getDouble("maxAngle").orElse(30.0);
+		this.radius = (float) params.getDouble("radius").orElse(1.5);
+	}
 
 	@Override
 	public void apply(EffectSettings settings) {
@@ -28,8 +29,8 @@ public class PendulumEffect implements Effect {
 		}
 	}
 
-    @Override
-    public String getName() {
-        return "pend";
-    }
+	@Override
+	public String getName() {
+		return "pend";
+	}
 }
