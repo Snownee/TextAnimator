@@ -12,7 +12,7 @@ public class WiggleEffect implements Effect {
 
 	@Override
 	public void apply(EffectSettings settings) {
-		Vec2 dir = TextAnimatorClient.RANDOM_DIR[settings.codepoint % TextAnimatorClient.RANDOM_DIR.length];
+		Vec2 dir = TextAnimatorClient.getRandomDirection(settings.codepoint);
 		float delta = Mth.sin(Util.getMillis() * 0.01F + settings.index * 2F) * 1.5F;
 		settings.x += dir.x * delta;
 		settings.y += dir.y * delta;

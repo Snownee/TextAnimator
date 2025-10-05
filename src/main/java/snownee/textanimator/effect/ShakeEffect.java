@@ -11,8 +11,7 @@ public class ShakeEffect implements Effect {
 
 	@Override
 	public void apply(EffectSettings settings) {
-		Vec2 dir = TextAnimatorClient.RANDOM_DIR[(int) (Util.getMillis() * 0.01F + settings.codepoint + settings.index) %
-				TextAnimatorClient.RANDOM_DIR.length];
+		Vec2 dir = TextAnimatorClient.getRandomDirection((int) (Util.getMillis() * 0.01F + settings.codepoint + settings.index));
 		settings.x += dir.x * 0.6F;
 		settings.y += dir.y * 0.6F;
 	}
