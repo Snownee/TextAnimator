@@ -3,14 +3,23 @@ package snownee.textanimator.effect.params;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
+import com.machinezoo.noexception.optional.OptionalBoolean;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMap;
 
 public record TypedParams(ImmutableMap<String, Object> map) implements Params {
 	@Override
-	public @Nullable Boolean getBool(String key) {
-		return map.get(key) instanceof Boolean bl ? bl : null;
+	public @Nullable OptionalBoolean getBool(String key) {
+		Object value = map.get(key);
+		if (value instanceof Boolean bool) {
+			return OptionalBoolean.of(bool);
+		}
+		if (value instanceof OptionalBoolean optBool) {
+			return optBool;
+		}
+		return null;
 	}
 
 	@Override

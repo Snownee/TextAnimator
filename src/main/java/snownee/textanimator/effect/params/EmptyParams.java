@@ -3,6 +3,8 @@ package snownee.textanimator.effect.params;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
+import com.machinezoo.noexception.optional.OptionalBoolean;
+
 import org.jetbrains.annotations.Nullable;
 
 public final class EmptyParams implements Params {
@@ -12,7 +14,7 @@ public final class EmptyParams implements Params {
 	}
 
 	@Override
-	public @Nullable Boolean getBool(String key) {
+	public @Nullable OptionalBoolean getBool(String key) {
 		return null;
 	}
 

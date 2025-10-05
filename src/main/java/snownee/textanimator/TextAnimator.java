@@ -8,7 +8,7 @@ import snownee.textanimator.effect.GlitchEffect;
 import snownee.textanimator.effect.GradientEffect;
 import snownee.textanimator.effect.PulseColorEffect;
 import snownee.textanimator.effect.RainbowEffect;
-import snownee.textanimator.effect.RotateEffect;
+import snownee.textanimator.effect.PendulumEffect;
 import snownee.textanimator.effect.ScrollEffect;
 import snownee.textanimator.effect.ShadowEffect;
 import snownee.textanimator.effect.ShadowOffEffect;
@@ -27,16 +27,16 @@ public class TextAnimator {
 		EffectFactory.register("rainb", RainbowEffect::new);
 		EffectFactory.register("wiggle", WiggleEffect::new);
 		EffectFactory.register("shadow-off", ShadowOffEffect::new);
-		EffectFactory.register("gradient", GradientEffect::new);
 		EffectFactory.register("pulse", PulseColorEffect::new);
 		EffectFactory.register("bounce", BounceEffect::new);
 		EffectFactory.register("swing", SwingEffect::new);
 		EffectFactory.register("shadow", ShadowEffect::new);
 		EffectFactory.register("fade", FadeEffect::new);
-		EffectFactory.register("rotate", RotateEffect::new);
+		EffectFactory.register("pend", PendulumEffect::new);
 		EffectFactory.register("scroll", ScrollEffect::new);
 		EffectFactory.register("turbulence", TurbulenceEffect::new);
 		EffectFactory.register("glitch", GlitchEffect::new);
 		EffectFactory.register("blur", BlurEffect::new);
+		EffectFactory.register("grad", GradientEffect::new);
 	}
 }

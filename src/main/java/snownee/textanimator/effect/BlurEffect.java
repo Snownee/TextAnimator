@@ -1,6 +1,11 @@
 package snownee.textanimator.effect;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.font.glyphs.BakedGlyph;
+import org.joml.Matrix4f;
 import snownee.textanimator.effect.params.Params;
+import snownee.textanimator.mixin.client.FontAccess;
 
 public class BlurEffect implements Effect {
     public final int passes;
@@ -20,5 +25,33 @@ public class BlurEffect implements Effect {
     @Override
     public String getName() {
         return "blur";
+    }
+
+    public void render(
+            BakedGlyph bakedGlyph,
+            boolean bold, boolean italic, float boldOffset,
+            EffectSettings settings,
+            Matrix4f pose,
+            VertexConsumer vertexConsumer,
+            float baseR, float baseG, float baseB, float baseA,
+            int packedLightCoords) {
+
+        float alpha = baseA * alphaMul;
+        if (alpha <= 0) return;
+
+        for (int i = 0; i < passes; i++) {
+            float angle = (float) (Math.PI * 2 * i / passes);
+            float dx = (float) Math.cos(angle) * radius;
+            float dy = (float) Math.sin(angle) * radius;
+
+            float x = settings.x + dx;
+            float y = settings.y + dy;
+
+            ((FontAccess) Minecraft.getInstance().font).callRenderChar(
+                    bakedGlyph, bold, italic, boldOffset,
+                    x, y, pose, vertexConsumer,
+                    baseR, baseG, baseB, alpha, packedLightCoords
+            );
+        }
     }
 }

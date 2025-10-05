@@ -1,5 +1,7 @@
 package snownee.textanimator.effect.params;
 
+import com.machinezoo.noexception.optional.OptionalBoolean;
+
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -10,13 +12,13 @@ public record StringPairParams(Map<String, String> params) implements Params {
 	}
 
 	@Override
-	public Boolean getBool(String key) {
+	public OptionalBoolean getBool(String key) {
 		String s = params.get(key);
 		if ("true".equals(s)) {
-			return true;
+			return OptionalBoolean.of(true);
 		}
 		if ("false".equals(s)) {
-			return false;
+			return OptionalBoolean.of(false);
 		}
 		return null;
 	}

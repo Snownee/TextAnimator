@@ -5,19 +5,19 @@ import org.jetbrains.annotations.Nullable;
 import snownee.textanimator.typewriter.TypewriterTrack;
 
 public class EffectSettings {
+	public int codepoint;
 	public final int index;
 	public final boolean isShadow;
 	@Nullable
 	public final TypewriterTrack typewriterTrack;
 	public final int typingIndex;
-	public int codepoint;
 	public float x;
 	public float y;
 	public float r;
 	public float g;
 	public float b;
 	public float a;
-	public float rotationRad;
+	public float pendRad;
 
 	public EffectSettings(int codepoint, int index, boolean isShadow, @Nullable TypewriterTrack typewriterTrack, int typingIndex) {
 		this.codepoint = codepoint;

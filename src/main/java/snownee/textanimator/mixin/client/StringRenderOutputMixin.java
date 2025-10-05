@@ -1,7 +1,5 @@
 package snownee.textanimator.mixin.client;
 
-import java.util.function.Function;
-
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -70,10 +68,6 @@ public abstract class StringRenderOutputMixin {
 
 	@Inject(method = "accept", at = @At("HEAD"), cancellable = true)
 	private void textanimator$accept(int index, Style style, int codepoint, CallbackInfoReturnable<Boolean> cir) {
-		// 绕过左侧编辑区的特效渲染
-		if (snownee.textanimator.TextAnimatorClient.isEffectBypass()) {
-			return; // 不取消，交由原版路径处理
-		}
 		TAStyle taStyle = (TAStyle) style;
 		if (taStyle.textanimator$getEffects().isEmpty()) {
 			return;
@@ -142,23 +136,15 @@ public abstract class StringRenderOutputMixin {
 						a,
 						this.packedLightCoords);
 				for (Effect effect : taStyle.textanimator$getEffects()) {
-					if (!animationMode.shouldApply(effect))
-						continue;
-
-					if (effect instanceof BlurEffect) {
-						renderBlurEffect(
-								(BlurEffect) effect,
-								bakedGlyph,
-								bold,
-								style.isItalic(),
-								m,
+					if (effect instanceof BlurEffect blurEffect && animationMode.shouldApply(effect)) {
+						blurEffect.render(
+								bakedGlyph, bold, style.isItalic(), m,
 								settings,
 								this.pose,
 								vertexConsumer,
-								r,
-								g,
-								b,
-								a);
+								r, g, b, a,
+								this.packedLightCoords
+						);
 					}
 				}
 			}
@@ -191,48 +177,7 @@ public abstract class StringRenderOutputMixin {
 		this.x += m;
 		cir.setReturnValue(true);
 	}
-	private void renderBlurEffect(
-			BlurEffect blurEffect, BakedGlyph bakedGlyph, boolean bold, boolean italic,
-			float boldOffset, EffectSettings settings, Matrix4f pose,
-			VertexConsumer vertexConsumer, float r, float g, float b, float a) {
-		int passes = Math.max(4, blurEffect.passes);
-		float radius = blurEffect.radius;
-		float alphaMul = blurEffect.alphaMul;
 
-		renderRadialPasses(
-				bakedGlyph, bold, italic, boldOffset, settings, pose, vertexConsumer,
-				r, g, b, a, passes, radius, alphaMul, colors -> colors);
-	}
-
-	private void renderRadialPasses(
-			BakedGlyph bakedGlyph,
-			boolean bold, boolean italic, float boldOffset,
-			EffectSettings settings,
-			Matrix4f pose,
-			VertexConsumer vertexConsumer,
-			float baseR, float baseG, float baseB, float baseA,
-			int passes,
-			float radius,
-			float alphaMul,
-			Function<float[], float[]> colorTransformer) {
-
-		for (int i = 0; i < passes; i++) {
-			float angle = (float) (Math.PI * 2 * i / passes);
-			float dx = (float) Math.cos(angle) * radius;
-			float dy = (float) Math.sin(angle) * radius;
-			float alpha = baseA * alphaMul;
-			if (alpha <= 0) {
-				continue;
-			}
-
-			float[] color = colorTransformer.apply(new float[]{baseR, baseG, baseB, alpha});
-
-			((FontAccess) this$0).callRenderChar(
-					bakedGlyph, bold, italic, boldOffset,
-					settings.x + dx, settings.y + dy, pose, vertexConsumer,
-					color[0], color[1], color[2], color[3], packedLightCoords);
-		}
-	}
 	@Shadow
 	protected abstract void addEffect(BakedGlyph.Effect effect);
 
