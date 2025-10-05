@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.google.common.collect.Maps;
 
+import snownee.textanimator.effect.params.EmptyParams;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.util.CommonProxy;
 
@@ -21,6 +22,11 @@ public class EffectFactory {
 			throw new IllegalArgumentException("Unknown effect type: " + type);
 		}
 		return factory.apply(params);
+	}
+
+	public static synchronized void register(Function<Params, Effect> factory) {
+		Effect effect = factory.apply(EmptyParams.INSTANCE);
+		register(effect.getName(), factory);
 	}
 
 	public static synchronized void register(String type, Function<Params, Effect> factory) {

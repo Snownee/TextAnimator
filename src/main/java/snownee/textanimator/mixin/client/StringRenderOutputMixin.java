@@ -21,7 +21,7 @@ import net.minecraft.network.chat.TextColor;
 import snownee.textanimator.TextAnimationMode;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.duck.TAStyle;
-import snownee.textanimator.effect.BlurEffect;
+import snownee.textanimator.effect.NeonEffect;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectSettings;
 import snownee.textanimator.typewriter.TypewriterTrack;
@@ -136,8 +136,8 @@ public abstract class StringRenderOutputMixin {
 						a,
 						this.packedLightCoords);
 				for (Effect effect : taStyle.textanimator$getEffects()) {
-					if (effect instanceof BlurEffect blurEffect && animationMode.shouldApply(effect)) {
-						blurEffect.render(
+					if (effect instanceof NeonEffect neonEffect && animationMode.shouldApply(effect)) {
+						neonEffect.render(
 								bakedGlyph, bold, style.isItalic(), m,
 								settings,
 								this.pose,

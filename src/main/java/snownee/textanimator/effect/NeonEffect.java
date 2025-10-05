@@ -7,12 +7,12 @@ import org.joml.Matrix4f;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.mixin.client.FontAccess;
 
-public class BlurEffect implements Effect {
+public class NeonEffect implements Effect {
     public final int passes;
     public final float radius;
     public final float alphaMul;
 
-    public BlurEffect(Params params) {
+    public NeonEffect(Params params) {
         this.passes = (int) Math.max(4, params.getDouble("passes").orElse(10));
         this.radius = (float) params.getDouble("radius").orElse(2);
         this.alphaMul = (float) params.getDouble("alpha").orElse(0.12);
@@ -24,7 +24,7 @@ public class BlurEffect implements Effect {
 
     @Override
     public String getName() {
-        return "blur";
+        return "neon";
     }
 
     public void render(

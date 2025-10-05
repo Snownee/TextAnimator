@@ -23,5 +23,5 @@ public class TurbulenceEffect implements Effect {
 	}
 
 	@Override
-	public String getName() {return "turbulence";}
+	public String getName() {return "turb";}
 }
