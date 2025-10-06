@@ -11,6 +11,7 @@
 		"StyleMixin$SerializerMixin"
 	],
 	"client": [
+		"client.BakedGlyphMixin",
 		"client.FontAccess",
 		"client.FontMixin",
 		"client.LiteralContentsMixin",

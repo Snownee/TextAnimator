@@ -31,7 +31,7 @@ public class TextAnimator {
 		EffectFactory.register(ShadowEffect::new);
 		EffectFactory.register(FadeEffect::new);
 		EffectFactory.register(PendulumEffect::new);
-		EffectFactory.register(ScrollEffect::new);
+//		EffectFactory.register(ScrollEffect::new);
 		EffectFactory.register(TurbulenceEffect::new);
 		EffectFactory.register(GlitchEffect::new);
 		EffectFactory.register(NeonEffect::new);
