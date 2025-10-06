@@ -5,7 +5,7 @@ import java.util.Optional;
 import net.minecraft.Util;
 import snownee.textanimator.effect.params.Params;
 
-public class GradientEffect implements Effect {
+public class GradientEffect extends BaseEffect {
 	private static final float[] defaultFrom = parseColor("5BCEFA").orElseThrow();
 	private static final float[] defaultTo = parseColor("F5A9B8").orElseThrow();
 
@@ -14,13 +14,16 @@ public class GradientEffect implements Effect {
 	private final boolean useHSV;
 	private final float speed;
 	private final float span;
+	private final boolean cyclic;
 
 	public GradientEffect(Params params) {
+		super(params);
 		this.fromRGB = parseColor(params, "from", defaultFrom);
 		this.toRGB = parseColor(params, "to", defaultTo);
-		this.useHSV = params.getBoolOr("hsv", false);
+		this.useHSV = params.getBoolOr("hue", false);
 		this.speed = (float) params.getDouble("speed").orElse(0.0);
-		this.span = (float) params.getDouble("span").orElse(30.0);
+		this.span = (float) params.getDouble("sp").orElse(20.0);
+		this.cyclic = !params.getBoolOr("uni", false);
 	}
 
 	@Override
@@ -31,7 +34,13 @@ public class GradientEffect implements Effect {
 
 		float tIndex = (settings.index % span) / span;
 		float tTime = speed > 0 ? (float) ((Util.getMillis() * 0.001) * speed % 1.0) : 0;
-		float t = (tIndex + tTime) % 1.0f;
+		float t = (tIndex + tTime) % 1;
+		if (cyclic) {
+			t = (t * 2) % 2;
+			if (t > 1) {
+				t = 2 - t;
+			}
+		}
 
 		float[] rgb;
 		if (useHSV) {
