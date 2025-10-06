@@ -59,14 +59,14 @@ public class BakedGlyphMixin implements TABakedGlyph {
 		float u1 = this.u1;
 		float v0 = this.v0;
 		float v1 = this.v1;
-		if (settings.maskLeft != 0) {
-			u0 += (this.u1 - this.u0) * settings.maskLeft;
-			left += (this.right - this.left) * settings.maskLeft;
-		}
-		if (settings.maskRight != 0) {
-			u1 -= (this.u1 - this.u0) * settings.maskRight;
-			right -= (this.right - this.left) * settings.maskRight;
-		}
+//		if (settings.maskLeft != 0) {
+//			u0 += (this.u1 - this.u0) * settings.maskLeft;
+//			left += (this.right - this.left) * settings.maskLeft;
+//		}
+//		if (settings.maskRight != 0) {
+//			u1 -= (this.u1 - this.u0) * settings.maskRight;
+//			right -= (this.right - this.left) * settings.maskRight;
+//		}
 		if (settings.maskTop != 0) {
 			v0 += (this.v1 - this.v0) * settings.maskTop;
 			up += (this.down - this.up) * settings.maskTop;

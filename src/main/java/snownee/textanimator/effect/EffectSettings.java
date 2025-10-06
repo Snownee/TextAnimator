@@ -22,8 +22,8 @@ public class EffectSettings {
 	public float pendRad;
 	public float maskTop;
 	public float maskBottom;
-	public float maskLeft;
-	public float maskRight;
+//	public float maskLeft;
+//	public float maskRight;
 	public List<EffectSettings> siblings = List.of();
 	public float shadowOffset;
 
@@ -52,6 +52,10 @@ public class EffectSettings {
 		settings.b = b;
 		settings.a = a;
 		settings.pendRad = pendRad;
+		settings.maskTop = maskTop;
+		settings.maskBottom = maskBottom;
+//		settings.maskLeft = maskLeft;
+//		settings.maskRight = maskRight;
 		settings.siblings = siblings;
 		settings.shadowOffset = shadowOffset;
 		return settings;

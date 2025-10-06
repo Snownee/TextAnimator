@@ -21,7 +21,7 @@ public class GradientEffect extends BaseEffect {
 		this.fromRGB = parseColor(params, "from", defaultFrom);
 		this.toRGB = parseColor(params, "to", defaultTo);
 		this.useHSV = params.getBoolOr("hue", false);
-		this.speed = (float) params.getDouble("speed").orElse(0.0);
+		this.speed = (float) params.getDouble("f").orElse(0.0);
 		this.span = (float) params.getDouble("sp").orElse(20.0);
 		this.cyclic = !params.getBoolOr("uni", false);
 	}
