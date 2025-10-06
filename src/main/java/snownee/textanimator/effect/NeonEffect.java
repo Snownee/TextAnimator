@@ -9,9 +9,9 @@ public class NeonEffect extends BaseEffect {
 
 	public NeonEffect(Params params) {
 		super(params);
-		this.passes = (int) Math.max(4, params.getDouble("passes").orElse(10));
-		this.radius = (float) params.getDouble("radius").orElse(2);
-		this.alphaMul = (float) params.getDouble("alpha").orElse(0.12);
+		this.passes = (int) Math.max(4, params.getDouble("p").orElse(10));
+		this.radius = (float) params.getDouble("r").orElse(2);
+		this.alphaMul = (float) params.getDouble("a").orElse(0.12);
 	}
 
 	@Override

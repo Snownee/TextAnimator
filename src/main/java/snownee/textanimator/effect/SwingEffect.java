@@ -11,9 +11,9 @@ public class SwingEffect extends BaseEffect {
 
 	public SwingEffect(Params params) {
 		super(params);
-		this.amp = (float) params.getDouble("amp").orElse(2.0);
-		this.speed = (float) params.getDouble("speed").orElse(1.2);
-		this.phase = (float) params.getDouble("phase").orElse(0.0);
+		this.amp = (float) params.getDouble("a").orElse(2.0);
+		this.speed = (float) params.getDouble("f").orElse(1.2);
+		this.phase = (float) params.getDouble("w").orElse(0.0);
 	}
 
 	@Override

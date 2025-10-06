@@ -8,7 +8,7 @@ public class ScrollEffect extends BaseEffect {
 
 	public ScrollEffect(Params params) {
 		super(params);
-		this.speed = (float) params.getDouble("speed").orElse(1.0);
+		this.speed = (float) params.getDouble("f").orElse(1.0);
 	}
 
 	@Override

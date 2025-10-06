@@ -11,9 +11,9 @@ public class FadeEffect extends BaseEffect {
 
 	public FadeEffect(Params params) {
 		super(params);
-		this.minA = (float) params.getDouble("minA").orElse(0.3);
-		this.speed = (float) params.getDouble("speed").orElse(1.0);
-		this.phase = (float) params.getDouble("phase").orElse(0.0);
+		this.minA = (float) params.getDouble("a").orElse(0.3);
+		this.speed = (float) params.getDouble("f").orElse(1.0);
+		this.phase = (float) params.getDouble("w").orElse(0.0);
 	}
 
 	@Override

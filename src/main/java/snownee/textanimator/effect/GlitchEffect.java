@@ -14,7 +14,7 @@ public class GlitchEffect extends BaseEffect {
 	public GlitchEffect(Params params) {
 		super(params);
 		this.intensity = (float) params.getDouble("intensity").orElse(1.0);
-		this.frequency = (float) params.getDouble("freq").orElse(2.5);
+		this.frequency = (float) params.getDouble("f").orElse(2.5);
 		this.shiftChance = (float) params.getDouble("shift").orElse(0.04);
 		this.flickerChance = (float) params.getDouble("flicker").orElse(0.002);
 	}
