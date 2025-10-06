@@ -1,8 +1,9 @@
 #  TextAnimator 效果总览教程
 
 > 语法示例：
-> `<effectName param1=value1 param2=value2>文字</effectName>`
-> 效果可以**嵌套使用**，例如：
+> 添加效果：`<effectName param1=value1 param2=value2 param3>文字`
+> 取消效果：`</effectName>文字`
+> 效果可以**叠加使用**，例如：
 >
 > ```text
 > <typewriter><wiggle>TextAnimator</wiggle> is a mod by <wave><rainb>Snownee</rainb></wave>。
