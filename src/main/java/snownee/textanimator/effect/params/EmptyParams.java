@@ -30,4 +30,9 @@ public final class EmptyParams implements Params {
 	public Optional<Object> getRaw(String key) {
 		return Optional.empty();
 	}
+
+	@Override
+	public String serialize() {
+		return "";
+	}
 }

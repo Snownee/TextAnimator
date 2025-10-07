@@ -1,5 +1,6 @@
 package snownee.textanimator.effect.params;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
@@ -26,5 +27,14 @@ public record TypedParams(ImmutableMap<String, Object> map) implements Params {
 	@Override
 	public Optional<Object> getRaw(String key) {
 		return Optional.ofNullable(map.get(key));
+	}
+
+	@Override
+	public String serialize() {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			sb.append(' ').append(entry.getKey()).append('=').append(entry.getValue());
+		}
+		return sb.toString();
 	}
 }

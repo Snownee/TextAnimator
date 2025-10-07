@@ -45,7 +45,8 @@ public interface Effect {
 			ImmutableMap.Builder<String, Object> builder = ImmutableMap.builderWithExpectedSize(split.length - 1);
 			for (int i = 1; i < split.length; i++) {
 				String[] kv = StringUtils.split(split[i], "=", 2);
-				if (kv.length < 2) {
+				if (kv.length == 1) {
+					builder.put(kv[0], true);
 					continue;
 				}
 				if ("true".equals(kv[1]) || "false".equals(kv[1])) {
@@ -54,7 +55,7 @@ public interface Effect {
 					try {
 						builder.put(kv[0], Double.parseDouble(kv[1]));
 					} catch (NumberFormatException e) {
-						throw new IllegalArgumentException("Invalid effect parameter: " + kv[0] + "=" + kv[1]);
+						builder.put(kv[0], kv[1]);
 					}
 				}
 			}
