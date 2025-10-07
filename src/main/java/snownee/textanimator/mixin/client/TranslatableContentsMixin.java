@@ -32,6 +32,7 @@ public abstract class TranslatableContentsMixin {
 		String string = stringRef.get();
 		Pair<TypewriterEffect, Integer> pair = TypewriterEffect.find(string);
 		if (pair == null) {
+			newStyle.set(CommonProxy.clone(Style.EMPTY));
 			return;
 		}
 		stringRef.set(string.substring(pair.getSecond()));
@@ -52,14 +53,21 @@ public abstract class TranslatableContentsMixin {
 			return;
 		}
 		TAStyle taStyle = (TAStyle) style;
+		boolean hasTypewriter = taStyle.textanimator$getTypewriterTrack() != null;
 		MutableInt charsAccepted = new MutableInt(Math.max(0, taStyle.textanimator$getTypewriterIndex()));
+		final Style[] lastStyle = { style };
 		StringDecomposer.iterateFormatted((FormattedText) formattedText, style, (i, style2, cp) -> {
 			instance.accept(FormattedText.of(Character.toString(cp), style2));
-			charsAccepted.increment();
+			lastStyle[0] = style2;
+			if (hasTypewriter) {
+				charsAccepted.increment();
+			}
 			return true;
 		});
-		style = CommonProxy.clone(style);
-		(taStyle).textanimator$setTypewriterIndex(charsAccepted.intValue());
-		newStyle.set(style);
+		Style continued = CommonProxy.clone(lastStyle[0]);
+		if (hasTypewriter) {
+			((TAStyle) continued).textanimator$setTypewriterIndex(charsAccepted.intValue());
+		}
+		newStyle.set(continued);
 	}
 }
