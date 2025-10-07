@@ -7,11 +7,18 @@ public class ShadowEffect extends BaseEffect {
 
 	public ShadowEffect(Params params) {
 		super(params);
-		this.dx = (float) params.getDouble("x").orElse(1.0);
-		this.dy = (float) params.getDouble("y").orElse(1.0);
-		this.r = (float) params.getDouble("r").orElse(0.0);
-		this.g = (float) params.getDouble("g").orElse(0.0);
-		this.b = (float) params.getDouble("b").orElse(0.0);
+		this.dx = (float) params.getDouble("x").orElse(0.0);
+		this.dy = (float) params.getDouble("y").orElse(0.0);
+		float[] color = parseColor(params, "c", null);
+		if (color != null) {
+			this.r = color[0];
+			this.g = color[1];
+			this.b = color[2];
+		} else {
+			this.r = (float) params.getDouble("r").orElse(0.0);
+			this.g = (float) params.getDouble("g").orElse(0.0);
+			this.b = (float) params.getDouble("b").orElse(0.0);
+		}
 		this.a = (float) params.getDouble("a").orElse(1.0);
 	}
 

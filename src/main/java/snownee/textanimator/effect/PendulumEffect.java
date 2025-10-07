@@ -11,8 +11,8 @@ public class PendulumEffect extends BaseEffect {
 	public PendulumEffect(Params params) {
 		super(params);
 		this.speed = (float) params.getDouble("f").orElse(1.0);
-		this.maxAngle = (float) params.getDouble("maxAngle").orElse(30.0);
-		this.radius = (float) params.getDouble("radius").orElse(0.0);
+		this.maxAngle = (float) params.getDouble("a").orElse(30.0);
+		this.radius = (float) params.getDouble("r").orElse(0.0);
 	}
 
 	@Override
