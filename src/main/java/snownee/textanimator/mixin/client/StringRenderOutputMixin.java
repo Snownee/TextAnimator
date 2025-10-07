@@ -4,10 +4,12 @@ import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.font.GlyphInfo;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -20,13 +22,18 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import snownee.textanimator.TextAnimationMode;
 import snownee.textanimator.TextAnimatorClient;
+import snownee.textanimator.duck.TABakedGlyph;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectSettings;
+import snownee.textanimator.effect.NeonEffect;
 import snownee.textanimator.typewriter.TypewriterTrack;
 
 @Mixin(value = Font.StringRenderOutput.class, priority = 1200)
 public abstract class StringRenderOutputMixin {
+	@Shadow
+	@Final
+	private Matrix4f pose;
 	@Final
 	@Shadow
 	MultiBufferSource bufferSource;
@@ -57,9 +64,6 @@ public abstract class StringRenderOutputMixin {
 	private float g;
 	@Final
 	@Shadow
-	private Matrix4f pose;
-	@Final
-	@Shadow
 	private Font.DisplayMode mode;
 	@Final
 	@Shadow
@@ -77,7 +81,6 @@ public abstract class StringRenderOutputMixin {
 		FontSet fontSet = ((FontAccess) this$0).callGetFontSet(style.getFont());
 		GlyphInfo glyphInfo = fontSet.getGlyphInfo(codepoint, ((FontAccess) this$0).getFilterFishyGlyphs());
 		BakedGlyph bakedGlyph = style.isObfuscated() && codepoint != 32 ? fontSet.getRandomGlyph(glyphInfo) : fontSet.getGlyph(codepoint);
-		boolean bold = style.isBold();
 		float a = this.a;
 		TextColor textColor = style.getColor();
 		if (textColor != null) {
@@ -92,7 +95,6 @@ public abstract class StringRenderOutputMixin {
 		}
 		float shadowOffset = this.dropShadow ? glyphInfo.getShadowOffset() : 0.0f;
 		if (!(bakedGlyph instanceof EmptyGlyph)) {
-			float m = bold ? glyphInfo.getBoldOffset() : 0.0f;
 			TypewriterTrack typewriterTrack = taStyle.textanimator$getTypewriterTrack();
 			int typingIndex = taStyle.textanimator$getTypewriterIndex();
 			EffectSettings settings = new EffectSettings(
@@ -107,41 +109,32 @@ public abstract class StringRenderOutputMixin {
 			settings.g = g;
 			settings.b = b;
 			settings.a = a;
+			settings.shadowOffset = shadowOffset;
+			settings.siblings = Lists.newArrayList(settings);
 			TextAnimationMode animationMode = TextAnimatorClient.getTextAnimationMode();
 			for (int i = taStyle.textanimator$getEffects().size() - 1; i >= 0; i--) {
 				Effect effect = taStyle.textanimator$getEffects().get(i);
 				if (animationMode.shouldApply(effect)) {
-					effect.apply(settings);
+					int size = settings.siblings.size();
+					for (int j = 0; j < size; j++) {
+						effect.apply(settings.siblings.get(j));
+					}
 				}
+			}
+			for (EffectSettings sibling : settings.siblings) {
+				textanimator$renderChar(sibling, codepoint, style, fontSet, glyphInfo, bakedGlyph);
 			}
 			r = settings.r;
 			g = settings.g;
 			b = settings.b;
 			a = settings.a;
-			if (a != 0) {
-				VertexConsumer vertexConsumer = this.bufferSource.getBuffer(bakedGlyph.renderType(this.mode));
-				((FontAccess) this$0).callRenderChar(
-						bakedGlyph,
-						bold,
-						style.isItalic(),
-						m,
-						settings.x,
-						settings.y,
-						this.pose,
-						vertexConsumer,
-						r,
-						g,
-						b,
-						a,
-						this.packedLightCoords);
-			}
 		}
-		float m = glyphInfo.getAdvance(bold);
+		float glyphWidth = glyphInfo.getAdvance(style.isBold());
 		if (a != 0 && style.isStrikethrough()) {
 			this.addEffect(new BakedGlyph.Effect(
 					this.x + shadowOffset - 1.0f,
 					this.y + shadowOffset + 4.5f,
-					this.x + shadowOffset + m,
+					this.x + shadowOffset + glyphWidth,
 					this.y + shadowOffset + 4.5f - 1.0f,
 					0.01f,
 					r,
@@ -153,7 +146,7 @@ public abstract class StringRenderOutputMixin {
 			this.addEffect(new BakedGlyph.Effect(
 					this.x + shadowOffset - 1.0f,
 					this.y + shadowOffset + 9.0f,
-					this.x + shadowOffset + m,
+					this.x + shadowOffset + glyphWidth,
 					this.y + shadowOffset + 9.0f - 1.0f,
 					0.01f,
 					r,
@@ -161,11 +154,68 @@ public abstract class StringRenderOutputMixin {
 					b,
 					a));
 		}
-		this.x += m;
+		this.x += glyphWidth;
 		cir.setReturnValue(true);
+	}
+
+	@Unique
+	private void textanimator$renderChar(
+			EffectSettings settings,
+			int oCodepoint,
+			Style style,
+			FontSet fontSet,
+			GlyphInfo glyphInfo,
+			BakedGlyph bakedGlyph) {
+		if (settings.a == 0) {
+			return;
+		}
+		if (settings.codepoint != oCodepoint) {
+			bakedGlyph = fontSet.getGlyph(settings.codepoint);
+			if (bakedGlyph instanceof EmptyGlyph) {
+				return;
+			}
+		}
+
+		VertexConsumer vertexConsumer = this.bufferSource.getBuffer(bakedGlyph.renderType(this.mode));
+		Matrix4f pose = this.pose;
+		if (settings.rot != 0) {
+			float glyphWidth = glyphInfo.getAdvance(style.isBold());
+			pose = TextAnimatorClient.rotate(pose, settings, settings.rot, glyphWidth / 2f, this$0.lineHeight / 2f);
+		} else if (settings.pendRad != 0) {
+			float glyphWidth = glyphInfo.getAdvance(style.isBold());
+			pose = TextAnimatorClient.rotate(pose, settings, settings.pendRad, glyphWidth / 2f, 0);
+		}
+
+		TABakedGlyph glyph = (TABakedGlyph) bakedGlyph;
+		glyph.textanimator$render(settings, style.isItalic(), 0f, pose, vertexConsumer, packedLightCoords);
+		if (style.isBold()) {
+			glyph.textanimator$render(settings, style.isItalic(), glyphInfo.getBoldOffset(), pose, vertexConsumer, packedLightCoords);
+		}
+
+		//TODO move to siblings
+		float boldOffset = style.isBold() ? glyphInfo.getBoldOffset() : 0.0f;
+		TAStyle taStyle = (TAStyle) style;
+		TextAnimationMode animationMode = TextAnimatorClient.getTextAnimationMode();
+		for (Effect effect : taStyle.textanimator$getEffects()) {
+			if (effect instanceof NeonEffect neonEffect && animationMode.shouldApply(effect)) {
+				TextAnimatorClient.renderNeonEffect(
+						neonEffect,
+						bakedGlyph,
+						style.isBold(),
+						style.isItalic(),
+						boldOffset,
+						settings,
+						pose,
+						vertexConsumer,
+						settings.r,
+						settings.g,
+						settings.b,
+						settings.a,
+						packedLightCoords);
+			}
+		}
 	}
 
 	@Shadow
 	protected abstract void addEffect(BakedGlyph.Effect effect);
-
 }

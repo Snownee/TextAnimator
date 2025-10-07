@@ -4,13 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.joml.Matrix4f;
+
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.font.glyphs.BakedGlyph;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec2;
 import snownee.textanimator.duck.TAOptions;
+import snownee.textanimator.effect.EffectSettings;
+import snownee.textanimator.effect.NeonEffect;
+import snownee.textanimator.mixin.client.FontAccess;
 
 public class TextAnimatorClient {
-	public static Vec2[] RANDOM_DIR;
+	private static Vec2[] RANDOM_DIR;
 	//	public static final Set<Class<?>> SCREENS_DISABLED = Sets.newIdentityHashSet();
 	private static int defaultTypewriterInterval;
 
@@ -61,6 +70,51 @@ public class TextAnimatorClient {
 		speed = Mth.clamp(speed, 1, 9);
 		int[] values = {4, 8, 12, 16, 20, 27, 36, 50, 70};
 		defaultTypewriterInterval = values[9 - speed];
+	}
+
+	public static Vec2 getRandomDirection(int seed) {
+		return RANDOM_DIR[Math.abs(seed) % RANDOM_DIR.length];
+	}
+
+	public static void renderNeonEffect(
+			NeonEffect effect,
+			BakedGlyph bakedGlyph,
+			boolean bold, boolean italic, float boldOffset,
+			EffectSettings settings,
+			Matrix4f pose,
+			VertexConsumer vertexConsumer,
+			float baseR, float baseG, float baseB, float baseA,
+			int packedLightCoords) {
+
+		float alpha = baseA * effect.alphaMul;
+		if (alpha <= 0) {
+			return;
+		}
+
+		for (int i = 0; i < effect.passes; i++) {
+			float angle = (float) (Math.PI * 2 * i / effect.passes);
+			float dx = (float) Math.cos(angle) * effect.radius;
+			float dy = (float) Math.sin(angle) * effect.radius;
+
+			float x = settings.x + dx;
+			float y = settings.y + dy;
+
+			((FontAccess) Minecraft.getInstance().font).callRenderChar(
+					bakedGlyph, bold, italic, boldOffset,
+					x, y, pose, vertexConsumer,
+					baseR, baseG, baseB, alpha, packedLightCoords
+			);
+		}
+	}
+
+	public static Matrix4f rotate(Matrix4f pose, EffectSettings settings, float rad, float oX, float oY) {
+		pose = new Matrix4f(pose);
+		pose.translate(settings.x + oX, settings.y + oY, 0);
+		pose.rotate(Axis.ZP.rotation(rad));
+		pose.translate(-oX, -oY, 0);
+		settings.x = 0;
+		settings.y = 0;
+		return pose;
 	}
 
 	//	public static synchronized void registerDisabledScreen(Class<?> screen) {

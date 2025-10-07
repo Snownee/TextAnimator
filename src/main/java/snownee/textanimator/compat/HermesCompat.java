@@ -2,7 +2,6 @@ package snownee.textanimator.compat;
 
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 import com.google.common.collect.ImmutableList;
 
@@ -34,9 +33,6 @@ public class HermesCompat {
 				params = new StringPairParams(parameters);
 			}
 			Effect effect = EffectFactory.create(type, params);
-			if (effect == null) {
-				return new StyledTagElement(UnaryOperator.identity());
-			}
 			return new StyledTagElement(style -> {
 				style = CommonProxy.clone(style);
 				TAStyle taStyle = (TAStyle) style;

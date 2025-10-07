@@ -7,6 +7,10 @@
 	"authors": [
 		"Snownee"
 	],
+	"contributors": [
+		"Flechazo098",
+		"SettingDust"
+	],
 	"contact": {
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/text-animator",
 		"sources": "https://github.com/Snownee/TextAnimator",
@@ -34,7 +38,8 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/rRBvGkz"
+				"modmenu.discord": "https://discord.gg/rRBvGkz",
+				"modmenu.donate": "https://ko-fi.com/snownee"
 			}
 		}
 	}
