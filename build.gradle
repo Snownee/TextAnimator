@@ -2,14 +2,13 @@ buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
         maven { url = 'https://maven.minecraftforge.net' }
-        //maven { url = 'https://maven.parchmentmc.org' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.+', changing: true
-        //classpath 'org.parchmentmc:librarian:1.+'
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 
@@ -18,13 +17,13 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-//apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "${minecraft_version}-forge-${mod_version}"
+version = "${minecraft_version}-Forge-${mod_version}"
 group = "${maven_group}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = archives_base_name
 
@@ -214,10 +213,6 @@ dependencies {
     //compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}") // Adds JEI API as a compile dependency
     //runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
-
-//    implementation fg.deobf("curse.maven:kiwi-303657:4688568")
-//    implementation fg.deobf("curse.maven:jade-324717:4711195")
-
 
     // https://maven.teamresourceful.com/repository/maven-public/earth/terrarium/heracles/heracles-fabric-1.20.1/1.1.9/heracles-fabric-1.20.1-1.1.9.pom
     implementation fg.deobf("earth.terrarium.heracles:heracles-forge-1.20.1:1.1.10") {

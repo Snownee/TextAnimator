@@ -4,14 +4,16 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
-public record StringPairParams(Map<String, String> params) implements Params {
-	public StringPairParams(Map<String, String> params) {
-		this.params = params;
+import org.jetbrains.annotations.Nullable;
+
+public record StringPairParams(Map<String, String> map) implements Params {
+	public StringPairParams(Map<String, String> map) {
+		this.map = map;
 	}
 
 	@Override
-	public Boolean getBool(String key) {
-		String s = params.get(key);
+	public @Nullable Boolean getBool(String key) {
+		String s = map.get(key);
 		if ("true".equals(s)) {
 			return true;
 		}
@@ -23,7 +25,7 @@ public record StringPairParams(Map<String, String> params) implements Params {
 
 	@Override
 	public OptionalDouble getDouble(String key) {
-		String s = params.get(key);
+		String s = map.get(key);
 		if (s == null) {
 			return OptionalDouble.empty();
 		}
@@ -36,11 +38,20 @@ public record StringPairParams(Map<String, String> params) implements Params {
 
 	@Override
 	public Optional<String> getString(String key) {
-		return Optional.ofNullable(params.get(key));
+		return Optional.ofNullable(map.get(key));
 	}
 
 	@Override
 	public Optional<Object> getRaw(String key) {
-		return Optional.ofNullable(params.get(key));
+		return Optional.ofNullable(map.get(key));
+	}
+
+	@Override
+	public String serialize() {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			sb.append(' ').append(entry.getKey()).append('=').append(entry.getValue());
+		}
+		return sb.toString();
 	}
 }

@@ -6,12 +6,18 @@ import java.util.OptionalDouble;
 import org.jetbrains.annotations.Nullable;
 
 public interface Params {
-	@Nullable
-	Boolean getBool(String key);
+	@Nullable Boolean getBool(String key);
+
+	default boolean getBoolOr(String key, boolean def) {
+		Boolean b = getBool(key);
+		return b != null ? b : def;
+	}
 
 	OptionalDouble getDouble(String key);
 
 	Optional<String> getString(String key);
 
 	Optional<Object> getRaw(String key);
+
+	String serialize();
 }

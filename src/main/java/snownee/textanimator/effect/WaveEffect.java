@@ -4,8 +4,9 @@ import net.minecraft.Util;
 import net.minecraft.util.Mth;
 import snownee.textanimator.effect.params.Params;
 
-public class WaveEffect implements Effect {
+public class WaveEffect extends BaseEffect {
 	public WaveEffect(Params params) {
+		super(params);
 	}
 
 	@Override

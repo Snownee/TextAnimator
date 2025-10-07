@@ -4,7 +4,11 @@ import java.util.Locale;
 import java.util.function.Function;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.commands.Commands;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModList;
+import snownee.textanimator.command.TestCommand;
 import snownee.textanimator.compat.HermesCompat;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
@@ -20,5 +24,14 @@ public class ClientProxy {
 
 	public static Locale getLocale() {
 		return Minecraft.getInstance().getLocale();
+	}
+
+	public static void init() {
+		MinecraftForge.EVENT_BUS.addListener((RegisterClientCommandsEvent event) -> {
+			event.getDispatcher().register(Commands.literal("ta_test").executes(ctx -> {
+				TestCommand.test();
+				return 0;
+			}));
+		});
 	}
 }
