@@ -1,4 +1,4 @@
-#  TextAnimator 效果总览教程
+# TextAnimator 使用文档
 
 > 语法示例：
 > 添加效果：`<effectName param1=value1 param2=value2 param3>文字`
@@ -12,353 +12,130 @@
 
 ---
 
-## 🌀 1. `blur` 模糊效果
+## 效果列表
 
-让文字产生柔和发散的模糊外观。
+### 1. bounce（弹跳）
+让字符在竖直方向“落地回弹”。
+- 参数：`a`（幅度，默认 `1.0`）、`f`（速度，默认 `1.0`）、`w`（相位，默认 `1.0`）
+- 示例：`<bounce a=4 f=1.8 w=0.2>BOING!</bounce>`
 
-**参数：**
+### 2. fade（透明呼吸）
+周期性改变透明度（呼吸灯）。
+- 参数：`a`（最小透明度，默认 `0.3`）、`f`（速度，默认 `1.0`）、`w`（相位，默认 `0.0`）
+- 示例：`<fade a=0.2 f=1.5 w=0.1>Fading Text</fade>`
 
-| 参数       | 类型    | 默认值  | 说明             |
-| -------- | ----- | ---- | -------------- |
-| `passes` | int   | 10   | 模糊采样次数（越高越平滑）  |
-| `radius` | float | 2.0  | 模糊半径（像素单位）     |
-| `alpha`  | float | 0.12 | 模糊层透明度（过低会不明显） |
+### 3. glitch（电子故障）
+制造屏幕抖动、切片与偶发闪烁，部分情况下产生分层渲染。
+- 参数：`intensity`（强度，默认 `1.0`）、`f`（频率，默认 `2.5`）、`shift`（偏色几率，默认 `0.04`）、`flicker`（闪烁几率，默认 `0.002`）
+- 示例：`<glitch intensity=1.2 f=3 shift=0.05 flicker=0.01>ERROR_404</glitch>`
 
-**示例：**
-
+### 4. grad（渐变）
+支持 RGB 或 HSV 的线性渐变，可流动与分段。
+- 参数：
+    - `from`（起始色，默认 `5BCEFA`）
+    - `to`（结束色，默认 `F5A9B8`）
+    - `hue`（是否在 HSV 空间插值，默认 `false`）
+    - `f`（流动速度，`0` 为静态，默认 `0.0`）
+    - `sp`（跨度，影响字符间颜色分布，默认 `20.0`）
+    - `uni`（是否单向不回摆；`true` 单向，默认 `false` 即来回循环）
+- 示例：
 ```text
-<blur passes=8 radius=2 alpha=0.15>Soft Text</blur>
-```
-
----
-
-## 🪩 2. `bounce` 弹跳效果
-
-让文字垂直上下跳动，像呼吸或心跳一样。
-
-**参数：**
-
-| 参数      | 类型    | 默认值 | 说明           |
-| ------- | ----- | --- | ------------ |
-| `amp`   | float | 3.0 | 弹跳高度         |
-| `speed` | float | 1.4 | 弹跳速度         |
-| `phase` | float | 0.0 | 相位偏移，使相邻字符错开 |
-
-**示例：**
-
-```text
-<bounce amp=4 speed=1.8>BOING!</bounce>
-```
-
----
-
-## 🌫 3. `fade` 透明闪烁
-
-让文字透明度周期性变化，像呼吸灯。
-
-**参数：**
-
-| 参数      | 类型    | 默认值 | 说明         |
-| ------- | ----- | --- | ---------- |
-| `minA`  | float | 0.3 | 最小透明度（0～1） |
-| `speed` | float | 1.0 | 变化速度       |
-| `phase` | float | 0.0 | 每个字的相位偏移   |
-
-**示例：**
-
-```text
-<fade minA=0.2 speed=1.5>Fading Text</fade>
-```
-
----
-
-## ⚡ 4. `glitch` 故障抖动
-
-让文字产生电子屏幕抖动、闪烁和偏色的效果。
-
-**参数：**
-
-| 参数          | 类型    | 默认值 | 说明   |
-| ----------- | ----- | --- | ---- |
-| `intensity` | float | 1.0 | 效果强度 |
-| `freq`      | float | 2.5 | 闪动频率 |
-| `shift`     | float | 0.4 | 偏色几率 |
-| `flicker`   | float | 0.1 | 闪烁几率 |
-
-**示例：**
-
-```text
-<glitch intensity=1.2 shift=0.5 flicker=0.2>ERROR_404</glitch>
-```
-
----
-
-## 💓 5. `pulse` 颜色脉动
-
-文字整体亮度随时间变化，模拟能量波动。
-
-**参数：**
-
-| 参数      | 类型    | 默认值  | 说明      |
-| ------- | ----- | ---- | ------- |
-| `base`  | float | 0.75 | 最小亮度倍率  |
-| `amp`   | float | 0.25 | 亮度变化幅度  |
-| `speed` | float | 1.0  | 变化速度    |
-| `phase` | float | 0.0  | 字符间相位偏移 |
-
-**示例：**
-
-```text
-<pulse base=0.6 amp=0.4 speed=1.5>Power Rising</pulse>
-```
-
----
-
-## 🌈 6. `rainb` 彩虹循环
-
-不断变化的彩虹色彩。
-
-**参数：**
-
-| 参数 | 类型 | 默认值 | 说明  |
-| -- | -- | --- | --- |
-| —  | —  | —   | 无参数 |
-
-**示例：**
-
-```text
-<rainb>Colorful Text!</rainb>
-```
-
----
-
-## 🕸 8. `pend` 钟摆旋转
-
-文字绕小圆路径旋转
-
-**参数：**
-
-| 参数        | 类型    | 默认值  | 说明              |
-| --------- | ----- | ---- | --------------- |
-| `speed`   | float | 1.0  | 摆动速度           |
-| `maxAngle`| float | 30.0 | 最大摆动角度（度）     |
-| `radius`  | float | 1.5  | 圆周运动半径（像素）    |
-
-**示例：**
-
-```text
-<pend speed="1.0" maxAngle="30" radius="2">
-Mafuyu404 never like you
-</pend>
-```
-
----
-
-## 🚀 8. `scroll` 横向滚动
-
-让文字在水平方向持续滚动。
-
-**参数：**
-
-| 参数      | 类型    | 默认值 | 说明         |
-| ------- | ----- | --- | ---------- |
-| `speed` | float | 1.0 | 滚动速度（负值反向） |
-
-**示例：**
-
-```text
-<scroll speed=0.8>News Ticker →</scroll>
-```
-
----
-
-## 🌑 9. `shadow` 阴影偏移
-
-为文字绘制带偏移量的阴影层。
-
-**参数：**
-
-| 参数        | 类型    | 默认值 | 说明       |
-| --------- | ----- | --- | -------- |
-| `dx`      | float | 1.0 | 阴影水平偏移   |
-| `dy`      | float | 1.0 | 阴影垂直偏移   |
-| `r,g,b,a` | float | 0~1 | 阴影颜色与透明度 |
-
-**示例：**
-
-```text
-<shadow dx=2 dy=2 r=0 g=0 b=0 a=0.6>Shadowed Text</shadow>
-```
-
----
-
-## 🚫 10. `shadow-off` 禁用阴影
-
-禁止渲染原版文字的阴影层。
-
-**示例：**
-
-```text
-<shadow-off>No Shadow</shadow-off>
-```
-
----
-
-## 💥 11. `shake` 抖动
-
-文字在各方向小幅抖动，制造能量或紧张感。
-
-**参数：**
-
-| 参数 | 类型 | 默认值 | 说明  |
-| -- | -- | --- | --- |
-| —  | —  | —   | 无参数 |
-
-**示例：**
-
-```text
-<shake>WARNING!</shake>
-```
-
----
-
-## 🌊 12. `swing` 水平摆动
-
-让文字左右轻轻摆动，像吊牌晃动。
-
-**参数：**
-
-| 参数      | 类型    | 默认值 | 说明   |
-| ------- | ----- | --- | ---- |
-| `amp`   | float | 2.0 | 摆动幅度 |
-| `speed` | float | 1.2 | 摆动速度 |
-| `phase` | float | 0.0 | 相位偏移 |
-
-**示例：**
-
-```text
-<swing amp=3 speed=1.8>Swing Text</swing>
-```
-
----
-
-## 🌬 13. `turbulence` 乱流晃动
-
-产生随机的噪声扰动，文字如在风中。
-
-**参数：**
-
-| 参数      | 类型    | 默认值 | 说明   |
-| ------- | ----- | --- | ---- |
-| `amp`   | float | 1.5 | 扰动幅度 |
-| `speed` | float | 1.0 | 扰动速度 |
-
-**示例：**
-
-```text
-<turbulence amp=2 speed=1.5>Windy Text</turbulence>
-```
-
----
-
-## 🌊 14. `wave` 波浪起伏
-
-让文字上下波动，如水波。
-
-**参数：**
-
-| 参数 | 类型 | 默认值 | 说明  |
-| -- | -- | --- | --- |
-| —  | —  | —   | 无参数 |
-
-**示例：**
-
-```text
-<wave>Flowing Text</wave>
-```
-
----
-
-## 🐍 15. `wiggle` 抖摆
-
-文字每个字符独立方向微摆动，带有方向感的波动。
-
-**参数：**
-
-| 参数 | 类型 | 默认值 | 说明  |
-| -- | -- | --- | --- |
-| —  | —  | —   | 无参数 |
-
-**示例：**
-
-```text
-<wiggle>Wiggly Text!</wiggle>
-```
-
-## 🔄 7. `grad` 渐变
-
-支持自定义起止颜色、方向（RGB/HSV）、速度与跨度的线性渐变。
-
-**参数：**
-
-| 参数      | 类型      | 默认值       | 说明                     |
-| ------- | ------- | --------- | ---------------------- |
-| `start` | 颜色(hex) | `#FFA033` | 起始颜色                 |
-| `end`   | 颜色(hex) | `#33A0FF` | 结束颜色                 |
-| `speed` | float   | `1.0`     | 动画流动速度（0 为静态）       |
-| `span`  | float   | `30.0`    | 渐变周期跨度（影响字符密度）     |
-| `hsv`   | boolean | `false`   | 是否在 HSV 空间插值（更自然过渡） |
-
-**示例：**
-
-```text
-<grad start="#7FFFD4" end="#1E90FF" hsv="true" speed="0.3">
-Mafuyu404 never like you
+<grad from="#7FFFD4" to="#1E90FF" hue=true f=0.3 sp=30>
+  Flowing Gradient Text
 </grad>
 ```
 
-参数预设：
+### 5. neon（霓虹模糊）
+为字符绘制多次模糊的发光描边。
+- 参数：`p`（采样次数，至少 `4`，默认 `10`）、`r`（半径，默认 `2`）、`a`（透明度倍乘，默认 `0.12`）
+- 示例：`<neon p=8 r=2 a=0.15>Neon Glow</neon>`
+
+### 6. pend（钟摆/圆周）
+字符围绕中心摆动，可叠加小圆周轨迹。
+- 参数：`f`（速度，默认 `1.0`）、`maxAngle`（最大角度°，默认 `30.0`）、`radius`（圆周半径，默认 `0.0`）
+- 示例：
 ```text
-<glitch intensity="1.2" freq="3" shift="0.4" flicker="0.15">
-  <fade minA="0.5" speed="1.3">
-    <rainb>
-      Mafuyu404 never like you
-    </rainb>
-  </fade>
-</glitch>
-
-<wave>
-  <grad start="#7FFFD4" end="#1E90FF" hsv="true" speed="0.3">
-    <bounce amp="2.5" speed="1.0">
-      Mafuyu404 never like you
-    </bounce>
-  </grad>
-</wave>
-
-<blur passes="8" radius="2" alpha="0.18">
-  <pulse base="0.8" amp="0.4" speed="2.5">
-    <grad start="#FF0080" end="#00FFFF" hsv="false" speed="0.8">
-      Mafuyu404 never like you
-    </grad>
-  </pulse>
-</blur>
-
-<turbulence amp="2" speed="2">
-  <glitch intensity="1.3" freq="4" shift="0.5" flicker="0.25">
-    <pulse base="0.7" amp="0.3" speed="2.2">
-      Mafuyu404 never like you
-    </pulse>
-  </glitch>
-</turbulence>
-
-<pend speed="1.0" maxAngle="30" radius="2">
-  <grad start="#FF69B4" end="#87CEFA" hsv="true" speed="0.5">
-    <fade minA="0.4" speed="1.5">
-      Mafuyu404 never like you
-    </fade>
-  </grad>
+<pend f=1.0 maxAngle=30 radius=2>
+  Swinging Around
 </pend>
 ```
 
-预览：
-> ![demo](assets/pre.webp)
+### 7. pulse（亮度脉动）
+整体亮度随时间波动（不影响阴影层）。
+- 参数：`base`（最小亮度倍率，默认 `0.75`）、`a`（幅度，默认 `1.0`）、`f`（速度，默认 `1.0`）、`w`（相位，默认 `0.0`）
+- 示例：`<pulse base=0.6 a=0.4 f=1.5>Power Rising</pulse>`
+
+### 8. rainb（彩虹）
+在 RGB 上循环变色（不影响阴影层）。
+- 参数：无
+- 示例：`<rainb>Colorful Text!</rainb>`
+
+### 9. scroll（水平滚动）
+文本持续向水平方向移动。
+- 参数：`f`（速度，默认 `1.0`；为负时向右滚动）
+- 示例：`<scroll f=0.8>News Ticker →</scroll>`
+
+### 10. shadow（阴影着色/偏移）
+仅对“阴影层”生效：改变阴影的偏移与颜色。
+- 参数：`x`（水平偏移，默认 `1.0`）、`y`（垂直偏移，默认 `1.0`）、`r,g,b,a`（颜色与透明度，默认 `0,0,0,1.0`）
+- 示例：`<shadow x=2 y=2 r=0 g=0 b=0 a=0.6>Shadowed Text</shadow>`
+
+### 11. shake（随机细抖）
+在各方向随机抖动，营造紧张/能量感。
+- 参数：无
+- 示例：`<shake>WARNING!</shake>`
+
+### 12. swing（水平摆动）
+字符在水平轴轻微摇摆（旋转）。
+- 参数：`a`（幅度，默认 `1.0`）、`f`（速度，默认 `1.0`）、`w`（相位，默认 `0.0`）
+- 示例：`<swing a=3 f=1.8>Waving Text</swing>`
+
+### 13. turb（乱流）
+基于噪声的随机位移扰动。
+- 参数：`a`（幅度，默认 `1.0`）、`f`（速度，默认 `1.0`）
+- 示例：`<turb a=2 f=1.5>Windy Text</turb>`
+
+### 14. wave（波浪）
+字符上下起伏的水波效果。
+- 参数：无
+- 示例：`<wave>Flowing Text</wave>`
+
+### 15. wiggle（定向抖摆）
+每个字符沿固定随机方向轻摆。
+- 参数：无
+- 示例：`<wiggle>Wiggly Text!</wiggle>`
+
+### 16. typewriter（打字机）
+逐字显示文本；与其他效果叠加时，渲染会逐字符推进。
+- 参数：无
+- 建议：将 `<typewriter>` 放在段落起始处。
+- 示例：
+```text
+<typewriter>
+  <bounce a=2 f=1.0>
+    Hello, TextAnimator!
+  </bounce>
+</typewriter>
+```
+
+---
+
+## 注意事项
+- 多层渲染：`glitch`、`neon` 等效果可能产生额外层或切片。
+- 阴影层：`shadow` 只影响阴影；`pulse`/`rainb`/`grad` 不会在阴影层改变颜色。
+- 叠加顺序：后添加的效果先执行，可能改变前一个效果的输入（如坐标/颜色/透明度）。
+- 性能：高 `p`（neon 采样）与复杂叠加会增加开销，按需使用。
+
+## 参数速查
+- `a`：幅度/透明度等（不同效果含义略有差异）
+- `f`：速度/频率
+- `w`：相位偏移
+- `p`：采样次数（neon）
+- `r`：半径（neon）
+- `from` / `to`：颜色（hex 字符串，可带 `#`）
+- `hue`：是否在 HSV 空间插值（grad）
+- `sp`：渐变跨度（grad）
+- `uni`：单向渐变（`true` 为单向；默认循环）
+- `base`：基础亮度（pulse）
+- `maxAngle` / `radius`：摆动角度与圆周半径（pend）
+- `intensity` / `shift` / `flicker`：强度、偏色与闪烁几率（glitch）
