@@ -6,66 +6,63 @@ import net.minecraft.Util;
 import snownee.textanimator.effect.params.Params;
 
 public class GlitchEffect extends BaseEffect {
-	private final float intensity;
 	private final float frequency;
+	private final float jitterChance;
+	private final float blinkChance;
 	private final float shiftChance;
-	private final float flickerChance;
 
 	public GlitchEffect(Params params) {
 		super(params);
-		this.intensity = (float) params.getDouble("intensity").orElse(1.0);
-		this.frequency = (float) params.getDouble("f").orElse(2.5);
-		this.shiftChance = (float) params.getDouble("shift").orElse(0.04);
-		this.flickerChance = (float) params.getDouble("flicker").orElse(0.002);
+		this.frequency = (float) params.getDouble("f").orElse(1.0);
+		this.jitterChance = (float) params.getDouble("j").orElse(0.015);
+		this.blinkChance = (float) params.getDouble("b").orElse(0.003);
+		this.shiftChance = (float) params.getDouble("s").orElse(0.08);
 	}
 
 	@Override
 	public void apply(EffectSettings settings) {
-		double time = Util.getMillis() * 0.001 * frequency;
+		double time = Util.getMillis() * 0.025 * frequency;
 		int pulse = (int) (time) % 3;
 
-		Random rand = new Random(settings.index + (long) (time * 1000));
+		Random random = new Random(settings.index + settings.codepoint + (long) (time * 1000));
+		random.nextFloat(); // skip one
 
-		float jitterX = 0, jitterY = 0;
-		if (pulse == 1 && rand.nextFloat() < intensity * 0.7) {
-			jitterX = (rand.nextFloat() - 0.5f) * 2 * intensity * 4;
-			jitterY = (rand.nextFloat() - 0.5f) * 2 * intensity * 2;
+		if (pulse == 1 && random.nextFloat() < jitterChance) {
+			settings.x += (random.nextFloat() - 0.5f) * 8;
+			settings.y += (random.nextFloat() - 0.5f) * 4;
 		}
-//
-//		settings.x += jitterX;
-//		settings.y += jitterY;
 
-		if (rand.nextFloat() < shiftChance * intensity) {
-			float rShift = rand.nextBoolean() ? intensity * 0.3f : 0;
-			float bShift = rand.nextBoolean() ? intensity * 0.3f : 0;
+//		if (random.nextFloat() < shiftChance * intensity) {
+//			float rShift = random.nextBoolean() ? intensity * 0.3f : 0;
+//			float bShift = random.nextBoolean() ? intensity * 0.3f : 0;
 //			settings.r = Math.min(1.0f, settings.r + rShift);
 //			settings.b = Math.min(1.0f, settings.b + bShift);
+//		}
+
+		if (random.nextFloat() < blinkChance) {
+			settings.a *= random.nextFloat() < 0.3 ? 0.0f : 0.3f;
 		}
 
-		if (rand.nextFloat() < flickerChance * intensity) {
-			settings.a *= rand.nextFloat() < 0.3 ? 0.0f : 0.3f;
-		}
-
-//		if (rand.nextFloat() < 0.05 * intensity) {
-//			settings.codepoint = 'A' + rand.nextInt(26);
+//		if (random.nextFloat() < 0.05 * intensity) {
+//			settings.codepoint = 'A' + random.nextInt(26);
 //		}
 
 		time *= 2;
-		Random random = new Random((long) (time) * 1000L * hashCode());
-		if (random.nextFloat() < 0.15) {
+		Random random2 = new Random((long) (time) * 1000L * hashCode());
+		if (random2.nextFloat() < shiftChance) {
 			if (settings.isShadow) {
 				settings.siblings.add(settings.copy());
 				settings.x -= settings.shadowOffset;
 				settings.y -= settings.shadowOffset;
 			}
-			float mask = 0.5f + (random.nextFloat() - 0.5f) * 0.5f;
-			float offset = 0.5f + random.nextFloat() * 0.5f;
-			if (random.nextBoolean()) {
+			float mask = 0.5f + (random2.nextFloat() - 0.5f) * 0.5f;
+			float offset = 0.75f + random2.nextFloat() * 0.75f;
+			if (random2.nextBoolean()) {
 				offset = -offset;
 			}
 			EffectSettings copy = settings.copy();
 			copy.x += offset;
-			copy.a *= Math.min(1f, 0.5f + random.nextFloat());
+			copy.a *= Math.min(1f, 0.5f + random2.nextFloat());
 			if (copy.isShadow) {
 				copy.y -= 1;
 				copy.r = copy.r > 0.5f ? copy.r - 0.5f : copy.r + 0.5f;
@@ -77,7 +74,7 @@ public class GlitchEffect extends BaseEffect {
 
 			settings.maskTop = 1 - mask;
 			settings.x -= offset;
-			settings.a *= Math.min(1f, 0.5f + random.nextFloat());
+			settings.a *= Math.min(1f, 0.5f + random2.nextFloat());
 			if (settings.isShadow) {
 				settings.y += 1;
 				settings.r *= 0.2f;
