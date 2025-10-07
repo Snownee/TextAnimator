@@ -11,15 +11,15 @@ public class SwingEffect extends BaseEffect {
 
 	public SwingEffect(Params params) {
 		super(params);
-		this.amp = (float) params.getDouble("a").orElse(2.0);
-		this.speed = (float) params.getDouble("f").orElse(1.2);
+		this.amp = (float) params.getDouble("a").orElse(1.0);
+		this.speed = (float) params.getDouble("f").orElse(1.0);
 		this.phase = (float) params.getDouble("w").orElse(0.0);
 	}
 
 	@Override
 	public void apply(EffectSettings settings) {
-		float t = (float) Util.getMillis() * 0.002f * speed + settings.index * (0.8f + phase);
-		settings.x += Mth.sin(t) * amp;
+		float t = (float) Util.getMillis() * 0.003f * speed + settings.index * phase;
+		settings.rot += Mth.sin(t) * amp * 0.5f;
 	}
 
 	@Override

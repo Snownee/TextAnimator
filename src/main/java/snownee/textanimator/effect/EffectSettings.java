@@ -20,6 +20,7 @@ public class EffectSettings {
 	public float b;
 	public float a;
 	public float pendRad;
+	public float rot;
 	public float maskTop;
 	public float maskBottom;
 //	public float maskLeft;
@@ -52,6 +53,7 @@ public class EffectSettings {
 		settings.b = b;
 		settings.a = a;
 		settings.pendRad = pendRad;
+		settings.rot = rot;
 		settings.maskTop = maskTop;
 		settings.maskBottom = maskBottom;
 //		settings.maskLeft = maskLeft;

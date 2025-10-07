@@ -12,13 +12,13 @@ public class PendulumEffect extends BaseEffect {
 		super(params);
 		this.speed = (float) params.getDouble("f").orElse(1.0);
 		this.maxAngle = (float) params.getDouble("maxAngle").orElse(30.0);
-		this.radius = (float) params.getDouble("radius").orElse(1.5);
+		this.radius = (float) params.getDouble("radius").orElse(0.0);
 	}
 
 	@Override
 	public void apply(EffectSettings settings) {
 		long t = Util.getMillis();
-		double phase = (t * 0.002 * speed) + (settings.index * 0.1);
+		double phase = (t * 0.002 * speed) - (settings.index * 0.1);
 
 		float angleRad = (float) Math.toRadians(maxAngle);
 		settings.pendRad = (float) (Math.sin(phase) * angleRad);

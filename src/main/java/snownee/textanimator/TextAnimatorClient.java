@@ -7,6 +7,7 @@ import java.util.List;
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.font.glyphs.BakedGlyph;
@@ -104,6 +105,16 @@ public class TextAnimatorClient {
 					baseR, baseG, baseB, alpha, packedLightCoords
 			);
 		}
+	}
+
+	public static Matrix4f rotate(Matrix4f pose, EffectSettings settings, float rad, float oX, float oY) {
+		pose = new Matrix4f(pose);
+		pose.translate(settings.x + oX, settings.y + oY, 0);
+		pose.rotate(Axis.ZP.rotation(rad));
+		pose.translate(-oX, -oY, 0);
+		settings.x = 0;
+		settings.y = 0;
+		return pose;
 	}
 
 	//	public static synchronized void registerDisabledScreen(Class<?> screen) {

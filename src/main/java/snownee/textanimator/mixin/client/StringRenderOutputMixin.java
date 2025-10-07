@@ -129,12 +129,12 @@ public abstract class StringRenderOutputMixin {
 			b = settings.b;
 			a = settings.a;
 		}
-		float m = glyphInfo.getAdvance(style.isBold());
+		float glyphWidth = glyphInfo.getAdvance(style.isBold());
 		if (a != 0 && style.isStrikethrough()) {
 			this.addEffect(new BakedGlyph.Effect(
 					this.x + shadowOffset - 1.0f,
 					this.y + shadowOffset + 4.5f,
-					this.x + shadowOffset + m,
+					this.x + shadowOffset + glyphWidth,
 					this.y + shadowOffset + 4.5f - 1.0f,
 					0.01f,
 					r,
@@ -146,7 +146,7 @@ public abstract class StringRenderOutputMixin {
 			this.addEffect(new BakedGlyph.Effect(
 					this.x + shadowOffset - 1.0f,
 					this.y + shadowOffset + 9.0f,
-					this.x + shadowOffset + m,
+					this.x + shadowOffset + glyphWidth,
 					this.y + shadowOffset + 9.0f - 1.0f,
 					0.01f,
 					r,
@@ -154,7 +154,7 @@ public abstract class StringRenderOutputMixin {
 					b,
 					a));
 		}
-		this.x += m;
+		this.x += glyphWidth;
 		cir.setReturnValue(true);
 	}
 
@@ -175,9 +175,19 @@ public abstract class StringRenderOutputMixin {
 				return;
 			}
 		}
+
 		VertexConsumer vertexConsumer = this.bufferSource.getBuffer(bakedGlyph.renderType(this.mode));
+		Matrix4f pose = this.pose;
+		if (settings.rot != 0) {
+			float glyphWidth = glyphInfo.getAdvance(style.isBold());
+			pose = TextAnimatorClient.rotate(pose, settings, settings.rot, glyphWidth / 2f, this$0.lineHeight / 2f);
+		} else if (settings.pendRad != 0) {
+			float glyphWidth = glyphInfo.getAdvance(style.isBold());
+			pose = TextAnimatorClient.rotate(pose, settings, settings.pendRad, glyphWidth / 2f, 0);
+		}
+
 		TABakedGlyph glyph = (TABakedGlyph) bakedGlyph;
-		glyph.textanimator$render(settings, style.isItalic(), 0F, pose, vertexConsumer, packedLightCoords);
+		glyph.textanimator$render(settings, style.isItalic(), 0f, pose, vertexConsumer, packedLightCoords);
 		if (style.isBold()) {
 			glyph.textanimator$render(settings, style.isItalic(), glyphInfo.getBoldOffset(), pose, vertexConsumer, packedLightCoords);
 		}

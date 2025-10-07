@@ -24,7 +24,7 @@ public class PulseColorEffect extends BaseEffect {
 			return;
 		}
 		float t = (float) Util.getMillis() * 0.002f * speed + settings.index * phase;
-		float k = base + amp * (2f + 2f * Mth.sin(t));
+		float k = base + amp * 0.25f * (0.5f + 0.5f * Mth.sin(t));
 		settings.r *= k;
 		settings.g *= k;
 		settings.b *= k;
