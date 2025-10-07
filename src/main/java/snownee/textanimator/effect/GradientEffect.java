@@ -1,7 +1,5 @@
 package snownee.textanimator.effect;
 
-import java.util.Optional;
-
 import net.minecraft.Util;
 import snownee.textanimator.effect.params.Params;
 
@@ -32,7 +30,7 @@ public class GradientEffect extends BaseEffect {
 			return;
 		}
 
-		float tIndex = (settings.index % span) / span;
+		float tIndex = span > 0 ? (settings.index % span) / span : 0;
 		float tTime = speed > 0 ? (float) ((Util.getMillis() * 0.001) * speed % 1.0) : 0;
 		float t = (tIndex + tTime) % 1;
 		if (cyclic) {
@@ -62,24 +60,6 @@ public class GradientEffect extends BaseEffect {
 	@Override
 	public String getName() {
 		return "grad";
-	}
-
-	private static float[] parseColor(Params params, String key, float[] def) {
-		return params.getString(key).flatMap(GradientEffect::parseColor).orElse(def);
-	}
-
-	private static Optional<float[]> parseColor(String s) {
-		s = s.trim();
-		if (s.startsWith("#")) {
-			s = s.substring(1);
-		}
-		try {
-			int val = (int) Long.parseLong(s, 16);
-			return Optional.of(new float[]{
-					((val >> 16) & 0xFF) / 255f, ((val >> 8) & 0xFF) / 255f, (val & 0xFF) / 255f});
-		} catch (Exception ignored) {
-			return Optional.empty();
-		}
 	}
 
 	private static float[] rgbToHsv(float[] rgb) {
