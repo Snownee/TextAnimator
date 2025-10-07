@@ -39,7 +39,7 @@ public class TextAnimatorClient {
 
 	public static TextAnimationMode getTextAnimationMode() {
 		//noinspection ConstantValue https://github.com/Snownee/TextAnimator/issues/25
-		if (Minecraft.getInstance().options == null) {
+		if (Minecraft.getInstance() == null || Minecraft.getInstance().options == null) {
 			return TextAnimationMode.ALL;
 		}
 		var instance =
@@ -52,7 +52,7 @@ public class TextAnimatorClient {
 
 	public static TypewriterMode getTypewriterMode() {
 		//noinspection ConstantValue https://github.com/Snownee/TextAnimator/issues/25
-		if (Minecraft.getInstance().options == null) {
+		if (Minecraft.getInstance() == null || Minecraft.getInstance().options == null) {
 			return TypewriterMode.BY_CHAR;
 		}
 		var instance = ((TAOptions) Minecraft.getInstance().options).textanimator$getTypewriterMode();
