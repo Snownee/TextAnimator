@@ -55,7 +55,7 @@ Create text slicing, and occasional flicker, generating additional layers in som
     - `s`: Slicing/Shifting Chance (default `0.08`)
 - Example: `<glitch f=3 j=0.02 b=0.01 s=0.1>ERROR`
 
-### grad
+### grad (Gradient)
 
 Support linear gradient in RGB or HSV, can be flowing and segmented.
 

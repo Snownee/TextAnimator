@@ -49,12 +49,10 @@ public class BakedGlyphMixin implements TABakedGlyph {
 		float x = settings.x + xOffset;
 		float left = x + this.left;
 		float right = x + this.right;
-		float $$13 = this.up - 3.0F;
-		float $$14 = this.down - 3.0F;
-		float up = settings.y + $$13;
-		float down = settings.y + $$14;
-		float $$17 = italic ? 1.0F - 0.25F * $$13 : 0.0F;
-		float $$18 = italic ? 1.0F - 0.25F * $$14 : 0.0F;
+		float up = settings.y + this.up;
+		float down = settings.y + this.down;
+		float $$17 = italic ? 1.0F - 0.25F * this.up : 0.0F;
+		float $$18 = italic ? 1.0F - 0.25F * this.down : 0.0F;
 		float u0 = this.u0;
 		float u1 = this.u1;
 		float v0 = this.v0;
@@ -75,25 +73,21 @@ public class BakedGlyphMixin implements TABakedGlyph {
 			v1 -= (this.v1 - this.v0) * settings.maskBottom;
 			down -= (this.down - this.up) * settings.maskBottom;
 		}
-		vertexConsumer.vertex(pose, left + $$17, up, 0.0F)
-				.color(settings.r, settings.g, settings.b, settings.a)
-				.uv(u0, v0)
-				.uv2(packedLightCoords)
-				.endVertex();
-		vertexConsumer.vertex(pose, left + $$18, down, 0.0F)
-				.color(settings.r, settings.g, settings.b, settings.a)
-				.uv(u0, v1)
-				.uv2(packedLightCoords)
-				.endVertex();
-		vertexConsumer.vertex(pose, right + $$18, down, 0.0F)
-				.color(settings.r, settings.g, settings.b, settings.a)
-				.uv(u1, v1)
-				.uv2(packedLightCoords)
-				.endVertex();
-		vertexConsumer.vertex(pose, right + $$17, up, 0.0F)
-				.color(settings.r, settings.g, settings.b, settings.a)
-				.uv(u1, v0)
-				.uv2(packedLightCoords)
-				.endVertex();
+		vertexConsumer.addVertex(pose, left + $$17, up, 0.0F)
+				.setColor(settings.r, settings.g, settings.b, settings.a)
+				.setUv(u0, v0)
+				.setLight(packedLightCoords);
+		vertexConsumer.addVertex(pose, left + $$18, down, 0.0F)
+				.setColor(settings.r, settings.g, settings.b, settings.a)
+				.setUv(u0, v1)
+				.setLight(packedLightCoords);
+		vertexConsumer.addVertex(pose, right + $$18, down, 0.0F)
+				.setColor(settings.r, settings.g, settings.b, settings.a)
+				.setUv(u1, v1)
+				.setLight(packedLightCoords);
+		vertexConsumer.addVertex(pose, right + $$17, up, 0.0F)
+				.setColor(settings.r, settings.g, settings.b, settings.a)
+				.setUv(u1, v0)
+				.setLight(packedLightCoords);
 	}
 }
