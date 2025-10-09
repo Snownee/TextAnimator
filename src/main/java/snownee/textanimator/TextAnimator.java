@@ -9,7 +9,6 @@ import snownee.textanimator.effect.NeonEffect;
 import snownee.textanimator.effect.PendulumEffect;
 import snownee.textanimator.effect.PulseColorEffect;
 import snownee.textanimator.effect.RainbowEffect;
-import snownee.textanimator.effect.ScrollEffect;
 import snownee.textanimator.effect.ShadowEffect;
 import snownee.textanimator.effect.ShakeEffect;
 import snownee.textanimator.effect.SwingEffect;
@@ -19,6 +18,8 @@ import snownee.textanimator.effect.WiggleEffect;
 import snownee.textanimator.typewriter.TypewriterEffect;
 
 public class TextAnimator {
+	public static final String MOD_ID = "textanimator";
+
 	public static void init() {
 		EffectFactory.register(TypewriterEffect::new);
 		EffectFactory.register(ShakeEffect::new);

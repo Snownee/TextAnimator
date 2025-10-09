@@ -7,12 +7,12 @@ import org.jetbrains.annotations.Nullable;
 import snownee.textanimator.typewriter.TypewriterTrack;
 
 public class EffectSettings {
-	public int codepoint;
 	public final int index;
 	public final boolean isShadow;
 	@Nullable
 	public final TypewriterTrack typewriterTrack;
 	public final int typingIndex;
+	public int codepoint;
 	public float x;
 	public float y;
 	public float r;
@@ -23,7 +23,7 @@ public class EffectSettings {
 	public float rot;
 	public float maskTop;
 	public float maskBottom;
-//	public float maskLeft;
+	//	public float maskLeft;
 //	public float maskRight;
 	public List<EffectSettings> siblings = List.of();
 	public float shadowOffset;
