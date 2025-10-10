@@ -29,12 +29,16 @@ import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.mixin.StringDecomposerAccess;
 
-@Mod(ClientProxy.MOD_ID)
+@Mod(CommonProxy.MOD_ID)
 public class CommonProxy {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
+	public static final String MOD_ID = "textanimator";
 
 	public CommonProxy(IEventBus eventBus) {
 		eventBus.addListener(this::onCommonSetup);
+		if (isPhysicalClient()) {
+			ClientProxy.init();
+		}
 	}
 
 	public static Style clone(Style style) {
