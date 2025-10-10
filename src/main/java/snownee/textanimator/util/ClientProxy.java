@@ -8,15 +8,14 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
-import snownee.textanimator.TextAnimator;
+import net.neoforged.neoforge.common.NeoForge;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.command.TestCommand;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 
-@EventBusSubscriber(modid = ClientProxy.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CommonProxy.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class ClientProxy {
-	public static final String MOD_ID = "textanimator";
 
 	private ClientProxy() {
 	}
@@ -30,17 +29,13 @@ public final class ClientProxy {
 		// Currently unused, but available for client-only hooks when needed.
 	}
 
-	@EventBusSubscriber(modid = ClientProxy.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
-	public static final class ClientCommandEvents {
-		private ClientCommandEvents() {
-		}
-
-		@SubscribeEvent
-		public static void registerClientCommands(RegisterClientCommandsEvent event) {
-			event.getDispatcher().register(Commands.literal("ta_test").executes(ctx -> {
-				TestCommand.test();
-				return 0;
-			}));
-		}
+	public static void init() {
+		NeoForge.EVENT_BUS.addListener(
+				RegisterClientCommandsEvent.class, event -> {
+					event.getDispatcher().register(Commands.literal("ta_test").executes(ctx -> {
+						TestCommand.test();
+						return 0;
+					}));
+				});
 	}
 }

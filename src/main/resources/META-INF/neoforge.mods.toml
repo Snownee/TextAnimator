@@ -4,7 +4,7 @@ license = "Apache License 2.0"
 
 [[mods]]
 modId = "textanimator"
-version = "${version}"
+version = "${file.jarVersion}"
 displayName = "Text Animator"
 authors = "Snownee"
 credits = "Flechazo098, SettingDust, QiHuang02"
