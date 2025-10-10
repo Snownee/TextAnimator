@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-license = "ARR"
+license = "Apache 2.0"
 
 [[mods]]
 modId = "textanimator"
