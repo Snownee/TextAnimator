@@ -31,9 +31,6 @@ import snownee.textanimator.typewriter.TypewriterTrack;
 
 @Mixin(value = Font.StringRenderOutput.class, priority = 1200)
 public abstract class StringRenderOutputMixin {
-	@Shadow
-	@Final
-	private Matrix4f pose;
 	@Final
 	@Shadow
 	MultiBufferSource bufferSource;
@@ -44,6 +41,9 @@ public abstract class StringRenderOutputMixin {
 	@Final
 	@Shadow(remap = false, aliases = {"f_92938_", "field_24240", "b"})
 	Font this$0;
+	@Shadow
+	@Final
+	private Matrix4f pose;
 	@Final
 	@Shadow
 	private boolean dropShadow;

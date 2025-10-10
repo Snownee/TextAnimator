@@ -1,26 +1,26 @@
 modLoader = "javafml"
-loaderVersion = "${loader_version_range}"
+loaderVersion = "[4,)"
 license = "ARR"
 
 [[mods]]
-modId = "${mod_id}"
-version = "${mod_version}"
-displayName = "${mod_name}"
+modId = "textanimator"
+version = "3.1.0"
+displayName = "Text Animator"
 authors = "Snownee"
 credits = "Flechazo098, SettingDust, QiHuang02"
-description = '''${mod_description}'''
+description = '''Text Animator extends the Minecraft text renderer with animated tag effects.'''
 
-[[dependencies.${ mod_id }]]
+[[dependencies.textanimator]]
 modId = "neoforge"
 type = "required"
-versionRange = "${neo_version_range}"
+versionRange = "[21.1.0,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${ mod_id }]]
+[[dependencies.textanimator]]
 modId = "minecraft"
 type = "required"
-versionRange = "${minecraft_version_range}"
+versionRange = "[1.21.1,1.22)"
 ordering = "NONE"
 side = "BOTH"
 
