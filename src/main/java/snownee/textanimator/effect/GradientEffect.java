@@ -24,6 +24,44 @@ public class GradientEffect extends BaseEffect {
 		this.cyclic = !params.getBoolOr("uni", false);
 	}
 
+	@Override
+	public void apply(EffectSettings settings) {
+		if (settings.isShadow) {
+			return;
+		}
+
+		float tIndex = span > 0 ? (settings.index % span) / span : 0;
+		float tTime = speed > 0 ? (float) ((Util.getMillis() * 0.001) * speed % 1.0) : 0;
+		float t = (tIndex + tTime) % 1;
+		if (cyclic) {
+			t = (t * 2) % 2;
+			if (t > 1) {
+				t = 2 - t;
+			}
+		}
+
+		float[] rgb;
+		if (useHSV) {
+			float[] hsv1 = rgbToHsv(fromRGB);
+			float[] hsv2 = rgbToHsv(toRGB);
+			float h = lerpHue(hsv1[0], hsv2[0], t);
+			float s = lerp(hsv1[1], hsv2[1], t);
+			float v = lerp(hsv1[2], hsv2[2], t);
+			rgb = hsvToRgb(h, s, v);
+		} else {
+			rgb = new float[]{lerp(fromRGB[0], toRGB[0], t), lerp(fromRGB[1], toRGB[1], t), lerp(fromRGB[2], toRGB[2], t)};
+		}
+
+		settings.r = rgb[0];
+		settings.g = rgb[1];
+		settings.b = rgb[2];
+	}
+
+	@Override
+	public String getName() {
+		return "grad";
+	}
+
 	private static float[] rgbToHsv(float[] rgb) {
 		float r = rgb[0], g = rgb[1], b = rgb[2];
 		float max = Math.max(r, Math.max(g, b));
@@ -71,43 +109,5 @@ public class GradientEffect extends BaseEffect {
 
 	private static float lerp(float a, float b, float t) {
 		return a + (b - a) * t;
-	}
-
-	@Override
-	public void apply(EffectSettings settings) {
-		if (settings.isShadow) {
-			return;
-		}
-
-		float tIndex = span > 0 ? (settings.index % span) / span : 0;
-		float tTime = speed > 0 ? (float) ((Util.getMillis() * 0.001) * speed % 1.0) : 0;
-		float t = (tIndex + tTime) % 1;
-		if (cyclic) {
-			t = (t * 2) % 2;
-			if (t > 1) {
-				t = 2 - t;
-			}
-		}
-
-		float[] rgb;
-		if (useHSV) {
-			float[] hsv1 = rgbToHsv(fromRGB);
-			float[] hsv2 = rgbToHsv(toRGB);
-			float h = lerpHue(hsv1[0], hsv2[0], t);
-			float s = lerp(hsv1[1], hsv2[1], t);
-			float v = lerp(hsv1[2], hsv2[2], t);
-			rgb = hsvToRgb(h, s, v);
-		} else {
-			rgb = new float[]{lerp(fromRGB[0], toRGB[0], t), lerp(fromRGB[1], toRGB[1], t), lerp(fromRGB[2], toRGB[2], t)};
-		}
-
-		settings.r = rgb[0];
-		settings.g = rgb[1];
-		settings.b = rgb[2];
-	}
-
-	@Override
-	public String getName() {
-		return "grad";
 	}
 }
