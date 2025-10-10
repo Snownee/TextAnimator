@@ -1,12 +1,12 @@
 modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
-license = "${mod_license}"
+license = "ARR"
 
 [[mods]]
 modId = "${mod_id}"
 version = "${mod_version}"
 displayName = "${mod_name}"
-authors = "${mod_authors}"
+authors = "Snownee"
 credits = "Flechazo098, SettingDust, QiHuang02"
 description = '''${mod_description}'''
 

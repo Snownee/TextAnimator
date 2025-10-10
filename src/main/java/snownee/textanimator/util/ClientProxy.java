@@ -1,4 +1,4 @@
-package snownee.textanimator.util.client;
+package snownee.textanimator.util;
 
 import java.util.function.Function;
 
@@ -15,8 +15,8 @@ import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 
 @EventBusSubscriber(modid = TextAnimator.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
-public final class TextAnimatorClientEvents {
-	private TextAnimatorClientEvents() {
+public final class ClientProxy {
+	private ClientProxy() {
 	}
 
 	@SubscribeEvent

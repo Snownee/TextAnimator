@@ -28,7 +28,6 @@ import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.mixin.StringDecomposerAccess;
-import snownee.textanimator.util.client.TextAnimatorClientEvents;
 
 @Mod(TextAnimator.MOD_ID)
 public class CommonProxy {
@@ -182,7 +181,7 @@ public class CommonProxy {
 
 	public static void onEffectTypeRegistered(String type, Function<Params, Effect> factory) {
 		if (isPhysicalClient()) {
-			TextAnimatorClientEvents.onEffectTypeRegistered(type, factory);
+			ClientProxy.onEffectTypeRegistered(type, factory);
 		}
 	}
 
