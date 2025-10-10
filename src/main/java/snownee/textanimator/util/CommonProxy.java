@@ -12,14 +12,15 @@ import com.google.common.collect.ImmutableList;
 
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringDecomposer;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import snownee.textanimator.TextAnimator;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
@@ -28,8 +29,13 @@ import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.mixin.StringDecomposerAccess;
 
-public class CommonProxy implements ModInitializer {
+@Mod(ClientProxy.MOD_ID)
+public class CommonProxy {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
+
+	public CommonProxy(IEventBus eventBus) {
+		eventBus.addListener(this::onCommonSetup);
+	}
 
 	public static Style clone(Style style) {
 		Style copy = new Style(
@@ -174,17 +180,16 @@ public class CommonProxy implements ModInitializer {
 	}
 
 	public static void onEffectTypeRegistered(String type, Function<Params, Effect> factory) {
-		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+		if (isPhysicalClient()) {
 			ClientProxy.onEffectTypeRegistered(type, factory);
 		}
 	}
 
-	@Override
-	public void onInitialize() {
-		TextAnimator.init();
+	public static boolean isPhysicalClient() {
+		return FMLEnvironment.dist.isClient();
 	}
 
-	public static boolean isPhysicalClient() {
-		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
+	private void onCommonSetup(FMLCommonSetupEvent event) {
+		event.enqueueWork(TextAnimator::init);
 	}
 }

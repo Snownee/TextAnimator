@@ -1,0 +1,31 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "Apache License 2.0"
+
+[[mods]]
+modId = "textanimator"
+version = "${version}"
+displayName = "Text Animator"
+authors = "Snownee"
+credits = "Flechazo098, SettingDust, QiHuang02"
+description = '''Text Animator extends the Minecraft text renderer with animated tag effects.'''
+
+[[dependencies.textanimator]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.textanimator]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "textanimator.mixins.json"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"
