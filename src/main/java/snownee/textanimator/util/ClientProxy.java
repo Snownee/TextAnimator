@@ -14,8 +14,10 @@ import snownee.textanimator.command.TestCommand;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 
-@EventBusSubscriber(modid = TextAnimator.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ClientProxy.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public final class ClientProxy {
+	public static final String MOD_ID = "textanimator";
+
 	private ClientProxy() {
 	}
 
@@ -28,7 +30,7 @@ public final class ClientProxy {
 		// Currently unused, but available for client-only hooks when needed.
 	}
 
-	@EventBusSubscriber(modid = TextAnimator.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+	@EventBusSubscriber(modid = ClientProxy.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 	public static final class ClientCommandEvents {
 		private ClientCommandEvents() {
 		}

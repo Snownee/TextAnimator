@@ -18,8 +18,6 @@ import snownee.textanimator.effect.WiggleEffect;
 import snownee.textanimator.typewriter.TypewriterEffect;
 
 public class TextAnimator {
-	public static final String MOD_ID = "textanimator";
-
 	public static void init() {
 		EffectFactory.register(TypewriterEffect::new);
 		EffectFactory.register(ShakeEffect::new);

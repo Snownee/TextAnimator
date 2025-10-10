@@ -29,7 +29,7 @@ import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.mixin.StringDecomposerAccess;
 
-@Mod(TextAnimator.MOD_ID)
+@Mod(ClientProxy.MOD_ID)
 public class CommonProxy {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
 
