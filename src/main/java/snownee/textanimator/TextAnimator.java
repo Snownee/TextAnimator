@@ -9,6 +9,7 @@ import snownee.textanimator.effect.NeonEffect;
 import snownee.textanimator.effect.PendulumEffect;
 import snownee.textanimator.effect.PulseColorEffect;
 import snownee.textanimator.effect.RainbowEffect;
+import snownee.textanimator.effect.ScrollEffect;
 import snownee.textanimator.effect.ShadowEffect;
 import snownee.textanimator.effect.ShakeEffect;
 import snownee.textanimator.effect.SwingEffect;

@@ -24,7 +24,7 @@ public class EffectSettings {
 	public float maskTop;
 	public float maskBottom;
 //	public float maskLeft;
-	//	public float maskRight;
+//	public float maskRight;
 	public List<EffectSettings> siblings = List.of();
 	public float shadowOffset;
 
