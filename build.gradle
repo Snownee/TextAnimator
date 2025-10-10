@@ -20,8 +20,9 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = mod_version
-group = mod_group_id
+version = project.minecraft_version + "-Neoforge-" + project.mod_version
+group = project.mod_group_id
+var realVersion = project.mod_version + '+neoforge'
 
 repositories {
     mavenLocal()
@@ -96,7 +97,7 @@ tasks.withType(JavaCompile).configureEach {
 unifiedPublishing {
     project {
         displayName = "[NeoForge ${project.minecraft_version}] ${project.mod_version}"
-        version = project.mod_version
+        version = realVersion
         changelog = file('CHANGELOG.md').exists() ? file('CHANGELOG.md').text : ''
         releaseType = project.findProperty('release_type') ?: 'release'
         gameVersions = [project.minecraft_version]
