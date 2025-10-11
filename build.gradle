@@ -103,6 +103,14 @@ neoForge {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+tasks.withType(ProcessResources).configureEach {
+    inputs.property('modVersion', project.mod_version)
+
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand(version: project.mod_version)
+    }
+}
+
 configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
