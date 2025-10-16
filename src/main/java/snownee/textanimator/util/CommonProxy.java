@@ -2,6 +2,8 @@ package snownee.textanimator.util;
 
 import java.text.BreakIterator;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,11 +27,14 @@ import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
+import snownee.textanimator.effect.EffectFactory;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.mixin.StringDecomposerAccess;
 
 public class CommonProxy implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
+	private static final AtomicInteger PARSING_SUSPEND_COUNT = new AtomicInteger();
+	private static final AtomicBoolean PLAYER_PARSING_SUSPENDED = new AtomicBoolean();
 
 	public static Style clone(Style style) {
 		Style copy = new Style(
@@ -104,7 +109,7 @@ public class CommonProxy implements ModInitializer {
 				++k;
 				continue;
 			}
-			if (c == '<') {
+			if (c == '<' && !isParsingSuspended()) {
 				StringBuilder sb = new StringBuilder();
 				for (int l = k + 1; l < j; ++l) {
 					char ch = string.charAt(l);
@@ -173,18 +178,98 @@ public class CommonProxy implements ModInitializer {
 		return Locale.getDefault();
 	}
 
+	public static AutoCloseable suspendParsing() {
+		PARSING_SUSPEND_COUNT.incrementAndGet();
+		return new AutoCloseable() {
+			private boolean closed;
+
+			@Override
+			public void close() {
+				if (!closed) {
+					closed = true;
+					resumeParsing();
+				}
+			}
+		};
+	}
+
+	public static void resumeParsing() {
+		PARSING_SUSPEND_COUNT.updateAndGet(value -> value > 0 ? value - 1 : 0);
+	}
+
+	public static boolean isParsingSuspended() {
+		return PLAYER_PARSING_SUSPENDED.get() || PARSING_SUSPEND_COUNT.get() > 0;
+	}
+
+	public static boolean setPlayerParsingSuspended(boolean suspended) {
+		return PLAYER_PARSING_SUSPENDED.getAndSet(suspended) != suspended;
+	}
+
+	public static boolean isPlayerParsingSuspended() {
+		return PLAYER_PARSING_SUSPENDED.get();
+	}
+
 	public static void onEffectTypeRegistered(String type, Function<Params, Effect> factory) {
 		if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
 			ClientProxy.onEffectTypeRegistered(type, factory);
 		}
 	}
 
-	@Override
-	public void onInitialize() {
-		TextAnimator.init();
+	public static String stripEffectTags(String input) {
+		if (input == null || input.isEmpty()) {
+			return input;
+		}
+		int start = 0;
+		StringBuilder builder = null;
+		while (true) {
+			int open = input.indexOf('<', start);
+			if (open == -1) {
+				break;
+			}
+			int close = input.indexOf('>', open + 1);
+			if (close == -1) {
+				break;
+			}
+			String content = input.substring(open + 1, close);
+			boolean remove = false;
+			if (!content.isEmpty()) {
+				if (content.charAt(0) == '/') {
+					String type = content.substring(1);
+					remove = EffectFactory.listTypes().contains(type);
+				} else {
+					try {
+						Effect.create(content, true);
+						remove = true;
+					} catch (IllegalArgumentException ignored) {
+					}
+				}
+			}
+			if (remove) {
+				if (builder == null) {
+					builder = new StringBuilder(input.length());
+				}
+				builder.append(input, start, open);
+				start = close + 1;
+				continue;
+			}
+			if (builder != null) {
+				builder.append(input, start, close + 1);
+			}
+			start = close + 1;
+		}
+		if (builder == null) {
+			return input;
+		}
+		builder.append(input, start, input.length());
+		return builder.toString();
 	}
 
 	public static boolean isPhysicalClient() {
 		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
+	}
+
+	@Override
+	public void onInitialize() {
+		TextAnimator.init();
 	}
 }
