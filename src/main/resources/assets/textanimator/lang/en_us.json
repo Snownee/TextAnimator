@@ -8,13 +8,5 @@
 	"options.textanimator.typewriterMode": "Typewriter Mode",
 	"options.textanimator.typewriterMode.byChar": "By Character",
 	"options.textanimator.typewriterMode.byWord": "By Word",
-	"textanimator.command.player.enabled": "Effect tag parsing suspended. Run /textanimator toggle again when you're ready to animate.",
-	"textanimator.command.player.enabled.already": "Effect tag parsing is already suspended.",
-	"textanimator.command.player.disabled": "Effect tag parsing resumed.",
-	"textanimator.command.player.disabled.already": "Effect tag parsing is already active.",
-	"textanimator.command.player.disabled.external": "Parsing is active on your side, but another mod or editor is still pausing it.",
-	"textanimator.command.player.status.player": "Parsing is suspended by your client; effect tags will render literally.",
-	"textanimator.command.player.status.external": "Parsing is currently suspended by another mod or context.",
-	"textanimator.command.player.status.off": "Parsing is active; effect tags will animate normally.",
 	"textanimator.test": "<typewriter><wiggle>TextAnimator</wiggle> is a mod by <wave><rainb>Snownee</rainb></wave>."
 }

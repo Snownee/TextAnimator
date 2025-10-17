@@ -8,13 +8,5 @@
 	"options.textanimator.typewriterMode": "Modo de máquina de escribir",
 	"options.textanimator.typewriterMode.byChar": "Por carácter",
 	"options.textanimator.typewriterMode.byWord": "Por palabra",
-	"textanimator.command.player.enabled": "Se desactivó el análisis de etiquetas. Usa /textanimator toggle otra vez cuando quieras volver a animar.",
-	"textanimator.command.player.enabled.already": "El análisis de etiquetas ya estaba desactivado.",
-	"textanimator.command.player.disabled": "Se reactivó el análisis de etiquetas.",
-	"textanimator.command.player.disabled.already": "El análisis de etiquetas ya estaba activo.",
-	"textanimator.command.player.disabled.external": "El análisis está activo de tu lado, pero otro mod o editor aún lo mantiene pausado.",
-	"textanimator.command.player.status.player": "Tu cliente tiene el análisis desactivado; las etiquetas se mostrarán literalmente.",
-	"textanimator.command.player.status.external": "Otro mod o contexto desactivó el análisis actualmente.",
-	"textanimator.command.player.status.off": "El análisis está activo; las etiquetas se animarán con normalidad.",
 	"textanimator.test": "<typewriter><wiggle>TextAnimator</wiggle> es una modificación creada por <wave><rainb>Snownee</rainb></wave>."
 }
