@@ -3,6 +3,7 @@ package snownee.textanimator.util;
 import java.util.function.Function;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.command.TestCommand;
@@ -17,7 +18,10 @@ public class ClientProxy implements ClientModInitializer {
 	public void onInitializeClient() {
 		TextAnimatorClient.init();
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-			TestCommand.register(dispatcher);
+			dispatcher.register(ClientCommandManager.literal("ta_test").executes(ctx -> {
+				TestCommand.test();
+				return 0;
+			}));
 		});
 	}
 }
