@@ -2,7 +2,7 @@ package snownee.textanimator.api;
 
 import snownee.textanimator.util.CommonProxy;
 
-public class TextAnimatorAPI {
+public class TextAnimatorApi {
 	public static AutoCloseable suspendParsing() {
 		return CommonProxy.suspendParsing();
 	}
