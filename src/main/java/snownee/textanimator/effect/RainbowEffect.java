@@ -28,4 +28,9 @@ public class RainbowEffect extends BaseEffect {
 	public String getName() {
 		return "rainb";
 	}
+
+	@Override
+	public boolean isColorful() {
+		return true;
+	}
 }

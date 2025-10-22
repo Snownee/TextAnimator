@@ -19,4 +19,6 @@ public interface TAStyle {
 	int textanimator$getTypewriterIndex();
 
 	void textanimator$setTypewriterIndex(int index);
+
+	void textanimator$clear();
 }

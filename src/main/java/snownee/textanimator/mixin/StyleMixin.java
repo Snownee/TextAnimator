@@ -76,6 +76,13 @@ public class StyleMixin implements TAStyle {
 		textanimator$typewriterIndex = index;
 	}
 
+	@Override
+	public void textanimator$clear() {
+		textanimator$effects = ImmutableList.of();
+		textanimator$track = null;
+		textanimator$typewriterIndex = -1;
+	}
+
 	@ModifyReturnValue(
 			method = {
 					"withColor(Lnet/minecraft/network/chat/TextColor;)Lnet/minecraft/network/chat/Style;",

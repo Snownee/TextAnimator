@@ -5,8 +5,6 @@ import java.util.Locale;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 
@@ -21,9 +19,9 @@ import net.minecraft.util.FormattedCharSink;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringDecomposer;
 import snownee.textanimator.TextAnimator;
+import snownee.textanimator.TextAnimatorApi;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
-import snownee.textanimator.api.TextAnimatorApi;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectFactory;
@@ -31,8 +29,6 @@ import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.mixin.StringDecomposerAccess;
 
 public class CommonProxy implements ModInitializer {
-	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
-
 	public static Style clone(Style style) {
 		Style copy = new Style(
 				style.getColor(),

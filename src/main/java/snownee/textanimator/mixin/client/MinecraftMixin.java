@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
-import snownee.textanimator.api.TextAnimatorApi;
+import snownee.textanimator.TextAnimatorApi;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {

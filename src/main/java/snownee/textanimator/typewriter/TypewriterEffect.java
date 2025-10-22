@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.datafixers.util.Pair;
 
+import snownee.textanimator.TextAnimatorApi;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectSettings;
 import snownee.textanimator.effect.params.Params;
@@ -15,6 +16,9 @@ public class TypewriterEffect implements Effect {
 
 	@Nullable
 	public static Pair<TypewriterEffect, Integer> find(String text) {
+		if (TextAnimatorApi.isParsingSuspended()) {
+			return null;
+		}
 		if (!text.startsWith("<typewriter")) {
 			return null;
 		}

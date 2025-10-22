@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import net.minecraft.util.Mth;
 import net.minecraft.util.OptionEnum;
 import snownee.textanimator.effect.Effect;
-import snownee.textanimator.effect.GradientEffect;
-import snownee.textanimator.effect.RainbowEffect;
 
 public enum TextAnimationMode implements OptionEnum {
 	ALL("all"), NONE("none"), NO_RAINBOW("no_rainbow");
@@ -41,7 +39,7 @@ public enum TextAnimationMode implements OptionEnum {
 		return switch (this) {
 			case ALL -> true;
 			case NONE -> false;
-			case NO_RAINBOW -> effect.getClass() != RainbowEffect.class && effect.getClass() != GradientEffect.class;
+			case NO_RAINBOW -> effect.isColorful();
 		};
 	}
 }

@@ -1,4 +1,4 @@
-package snownee.textanimator.api;
+package snownee.textanimator;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

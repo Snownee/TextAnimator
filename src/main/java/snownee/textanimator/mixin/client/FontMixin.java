@@ -1,5 +1,7 @@
 package snownee.textanimator.mixin.client;
 
+import java.util.function.Predicate;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -9,7 +11,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Style;
 import snownee.textanimator.duck.TAStyle;
-import snownee.textanimator.effect.RainbowEffect;
+import snownee.textanimator.effect.Effect;
 
 @Mixin(Font.class)
 public class FontMixin {
@@ -27,7 +29,7 @@ public class FontMixin {
 		}
 		style.textanimator$setEffects(style.textanimator$getEffects()
 				.stream()
-				.filter(it -> !(it instanceof RainbowEffect))
+				.filter(Predicate.not(Effect::isColorful))
 				.collect(ImmutableList.toImmutableList()));
 		return original;
 	}
