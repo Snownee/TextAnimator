@@ -2,8 +2,6 @@ package snownee.textanimator.util;
 
 import java.text.BreakIterator;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +23,7 @@ import net.minecraft.util.StringDecomposer;
 import snownee.textanimator.TextAnimator;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
+import snownee.textanimator.api.TextAnimatorApi;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectFactory;
@@ -33,8 +32,6 @@ import snownee.textanimator.mixin.StringDecomposerAccess;
 
 public class CommonProxy implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
-	private static final AtomicInteger PARSING_SUSPEND_COUNT = new AtomicInteger();
-	private static final AtomicBoolean PLAYER_PARSING_SUSPENDED = new AtomicBoolean();
 
 	public static Style clone(Style style) {
 		Style copy = new Style(
@@ -109,7 +106,7 @@ public class CommonProxy implements ModInitializer {
 				++k;
 				continue;
 			}
-			if (c == '<' && !isParsingSuspended()) {
+			if (c == '<' && !TextAnimatorApi.isParsingSuspended()) {
 				StringBuilder sb = new StringBuilder();
 				for (int l = k + 1; l < j; ++l) {
 					char ch = string.charAt(l);
@@ -176,37 +173,6 @@ public class CommonProxy implements ModInitializer {
 
 	public static Locale getLocale() {
 		return Locale.getDefault();
-	}
-
-	public static AutoCloseable suspendParsing() {
-		PARSING_SUSPEND_COUNT.incrementAndGet();
-		return new AutoCloseable() {
-			private boolean closed;
-
-			@Override
-			public void close() {
-				if (!closed) {
-					closed = true;
-					resumeParsing();
-				}
-			}
-		};
-	}
-
-	public static void resumeParsing() {
-		PARSING_SUSPEND_COUNT.updateAndGet(value -> value > 0 ? value - 1 : 0);
-	}
-
-	public static boolean isParsingSuspended() {
-		return PLAYER_PARSING_SUSPENDED.get() || PARSING_SUSPEND_COUNT.get() > 0;
-	}
-
-	public static boolean setPlayerParsingSuspended(boolean suspended) {
-		return PLAYER_PARSING_SUSPENDED.getAndSet(suspended) != suspended;
-	}
-
-	public static boolean isPlayerParsingSuspended() {
-		return PLAYER_PARSING_SUSPENDED.get();
 	}
 
 	public static void onEffectTypeRegistered(String type, Function<Params, Effect> factory) {
