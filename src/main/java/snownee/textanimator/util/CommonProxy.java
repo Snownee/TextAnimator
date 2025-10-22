@@ -24,8 +24,10 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import snownee.textanimator.TextAnimator;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
+import snownee.textanimator.api.TextAnimatorApi;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
+import snownee.textanimator.effect.EffectFactory;
 import snownee.textanimator.effect.params.Params;
 import snownee.textanimator.mixin.StringDecomposerAccess;
 
@@ -114,7 +116,7 @@ public class CommonProxy {
 				++k;
 				continue;
 			}
-			if (c == '<') {
+			if (c == '<' && !TextAnimatorApi.isParsingSuspended()) {
 				StringBuilder sb = new StringBuilder();
 				for (int l = k + 1; l < j; ++l) {
 					char ch = string.charAt(l);
@@ -187,6 +189,55 @@ public class CommonProxy {
 		if (isPhysicalClient()) {
 			ClientProxy.onEffectTypeRegistered(type, factory);
 		}
+	}
+
+	public static String stripEffectTags(String input) {
+		if (input == null || input.isEmpty()) {
+			return input;
+		}
+		int start = 0;
+		StringBuilder builder = null;
+		while (true) {
+			int open = input.indexOf('<', start);
+			if (open == -1) {
+				break;
+			}
+			int close = input.indexOf('>', open + 1);
+			if (close == -1) {
+				break;
+			}
+			String content = input.substring(open + 1, close);
+			boolean remove = false;
+			if (!content.isEmpty()) {
+				if (content.charAt(0) == '/') {
+					String type = content.substring(1);
+					remove = EffectFactory.listTypes().contains(type);
+				} else {
+					try {
+						Effect.create(content, true);
+						remove = true;
+					} catch (IllegalArgumentException ignored) {
+					}
+				}
+			}
+			if (remove) {
+				if (builder == null) {
+					builder = new StringBuilder(input.length());
+				}
+				builder.append(input, start, open);
+				start = close + 1;
+				continue;
+			}
+			if (builder != null) {
+				builder.append(input, start, close + 1);
+			}
+			start = close + 1;
+		}
+		if (builder == null) {
+			return input;
+		}
+		builder.append(input, start, input.length());
+		return builder.toString();
 	}
 
 	public static boolean isPhysicalClient() {

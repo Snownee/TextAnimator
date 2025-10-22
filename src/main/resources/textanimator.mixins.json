@@ -16,6 +16,7 @@
 		"client.FontAccess",
 		"client.FontMixin",
 		"client.LiteralContentsMixin",
+		"client.MinecraftMixin",
 		"client.OptionsMixin",
 		"client.StringRenderOutputMixin",
 		"client.StringSplitterMixin",
