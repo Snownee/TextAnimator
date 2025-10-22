@@ -76,4 +76,8 @@ public interface Effect {
 	default String serialize() {
 		return getName();
 	}
+
+	default boolean isColorful() {
+		return false;
+	}
 }

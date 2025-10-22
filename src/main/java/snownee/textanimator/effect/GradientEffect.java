@@ -62,6 +62,11 @@ public class GradientEffect extends BaseEffect {
 		return "grad";
 	}
 
+	@Override
+	public boolean isColorful() {
+		return true;
+	}
+
 	private static float[] rgbToHsv(float[] rgb) {
 		float r = rgb[0], g = rgb[1], b = rgb[2];
 		float max = Math.max(r, Math.max(g, b));

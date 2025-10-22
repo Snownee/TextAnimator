@@ -5,8 +5,6 @@ import java.util.Locale;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
 
@@ -22,9 +20,9 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import snownee.textanimator.TextAnimator;
+import snownee.textanimator.TextAnimatorApi;
 import snownee.textanimator.TextAnimatorClient;
 import snownee.textanimator.TypewriterMode;
-import snownee.textanimator.api.TextAnimatorApi;
 import snownee.textanimator.duck.TAStyle;
 import snownee.textanimator.effect.Effect;
 import snownee.textanimator.effect.EffectFactory;
@@ -33,7 +31,6 @@ import snownee.textanimator.mixin.StringDecomposerAccess;
 
 @Mod(CommonProxy.MOD_ID)
 public class CommonProxy {
-	public static final Logger LOGGER = LoggerFactory.getLogger("TextAnimator");
 	public static final String MOD_ID = "textanimator";
 
 	public CommonProxy(IEventBus eventBus) {

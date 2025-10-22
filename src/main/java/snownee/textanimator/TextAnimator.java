@@ -1,5 +1,10 @@
 package snownee.textanimator;
 
+import org.slf4j.Logger;
+
+import com.mojang.logging.LogUtils;
+
+import net.minecraft.world.level.GameRules;
 import snownee.textanimator.effect.BounceEffect;
 import snownee.textanimator.effect.EffectFactory;
 import snownee.textanimator.effect.FadeEffect;
@@ -9,7 +14,6 @@ import snownee.textanimator.effect.NeonEffect;
 import snownee.textanimator.effect.PendulumEffect;
 import snownee.textanimator.effect.PulseColorEffect;
 import snownee.textanimator.effect.RainbowEffect;
-import snownee.textanimator.effect.ScrollEffect;
 import snownee.textanimator.effect.ShadowEffect;
 import snownee.textanimator.effect.ShakeEffect;
 import snownee.textanimator.effect.SwingEffect;
@@ -19,6 +23,13 @@ import snownee.textanimator.effect.WiggleEffect;
 import snownee.textanimator.typewriter.TypewriterEffect;
 
 public class TextAnimator {
+	public static final Logger LOGGER = LogUtils.getLogger();
+
+	public static final GameRules.Key<GameRules.BooleanValue> ANVIL_NAMING = GameRules.register(
+			"textanimator:anvilNaming",
+			GameRules.Category.PLAYER,
+			GameRules.BooleanValue.create(false));
+
 	public static void init() {
 		EffectFactory.register(TypewriterEffect::new);
 		EffectFactory.register(ShakeEffect::new);

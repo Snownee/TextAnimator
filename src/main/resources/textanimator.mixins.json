@@ -5,6 +5,7 @@
 	"compatibilityLevel": "JAVA_21",
 	"refmap": "textanimator.refmap.json",
 	"mixins": [
+		"AnvilMenuMixin",
 		"StringDecomposerAccess",
 		"StringDecomposerMixin",
 		"StyleMixin",
