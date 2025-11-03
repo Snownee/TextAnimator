@@ -13,7 +13,7 @@ buildscript {
 }
 
 plugins {
-    id "me.shedaniel.unified-publishing" version "0.1.+"
+    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -26,6 +26,7 @@ apply plugin: 'maven-publish'
 version = "${minecraft_version}-Forge-${mod_version}"
 group = "${maven_group}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = archives_base_name
+var realVersion = project.mod_version + '+forge'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -273,37 +274,27 @@ publishing {
     }
 }
 
-unifiedPublishing {
-    project {
-        displayName = "[Forge $project.supported_version] $project.mod_version"
-        version = project.mod_version // Optional, Inferred from project by default
-        changelog = file("CHANGELOG.md").exists() ? file("CHANGELOG.md").text : "" // Optional, in markdown format
-        releaseType = project.release_type // Optional, use "release", "beta" or "alpha"
-        gameVersions = ["1.20", "1.20.1"]
-        gameLoaders = ["forge", "neoforge"]
+tasks {
+    publishMods {
+        file = tasks.jarJar.archiveFile
+        changelog = file('CHANGELOG.md').exists() ? file('CHANGELOG.md').text : ''
+        type = STABLE
+        modLoaders.add("forge")
+        modLoaders.add("neoforge")
+        displayName = "[Forge ${supported_version}] ${mod_version}"
+        version = realVersion
 
-        mainPublication tasks.jarJar // Declares the publicated jar
-
-        var cfToken = System.getenv("CURSE_TOKEN")
-        if (cfToken != null) {
-            curseforge {
-                token = cfToken
-                id = "881778" // Required, must be a string, ID of CurseForge project
-
-                relations { // Optional, Inferred from the relations above by default
-                }
-            }
+        curseforge {
+            projectId = "881778"
+            accessToken = providers.environmentVariable("CURSE_TOKEN")
+            minecraftVersions.add("1.20")
+            minecraftVersions.add("1.20.1")
         }
-
-        var mrToken = System.getenv("MODRINTH_TOKEN")
-        if (mrToken != null) {
-            modrinth {
-                token = mrToken
-                id = "HBIG5nRf" // Required, must be a string, ID of Modrinth project
-
-                relations { // Optional, Inferred from the relations above by default
-                }
-            }
+        modrinth {
+            projectId = "HBIG5nRf"
+            accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+            minecraftVersions.add("1.20")
+            minecraftVersions.add("1.20.1")
         }
     }
 }
