@@ -34,7 +34,7 @@ public abstract class TranslatableContentsMixin {
 		String string = stringRef.get();
 		Pair<TypewriterEffect, Integer> pair = TypewriterEffect.find(string);
 		if (pair == null) {
-			newStyle.set(CommonProxy.clone(Style.EMPTY));
+			newStyle.set(null);
 			return;
 		}
 		stringRef.set(string.substring(pair.getSecond()));
