@@ -1,19 +1,19 @@
 buildscript {
     repositories {
         maven { url 'https://maven.fabricmc.net/' }
-        maven { url 'https://maven.architectury.dev/' }
-        maven { url 'https://maven.shedaniel.me/' }
         gradlePluginPortal()
     }
     dependencies {
         classpath 'net.fabricmc:fabric-loom:1.11-SNAPSHOT'
-        classpath 'me.shedaniel:unified-publishing:0.1.13'
     }
+}
+
+plugins {
+    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
 }
 
 apply plugin: 'fabric-loom'
 apply plugin: 'maven-publish'
-apply plugin: 'me.shedaniel.unified-publishing'
 
 sourceCompatibility = JavaVersion.VERSION_21
 targetCompatibility = JavaVersion.VERSION_21
@@ -122,37 +122,25 @@ publishing {
     }
 }
 
-unifiedPublishing {
-    project {
-        displayName = "[Fabric $project.supported_version] $project.mod_version"
-        version = realVersion // Optional, Inferred from project by default
-        changelog = file("CHANGELOG.md").exists() ? file("CHANGELOG.md").text : "" // Optional, in markdown format
-        releaseType = project.release_type // Optional, use "release", "beta" or "alpha"
-        gameVersions = [project.minecraft_version]
-        gameLoaders = ["fabric", "quilt"]
+tasks {
+    publishMods {
+        file = jar.archiveFile
+        changelog = file('CHANGELOG.md').exists() ? file('CHANGELOG.md').text : ''
+        type = STABLE
+        modLoaders.add("fabric")
+        modLoaders.add("quilt")
+        displayName = "[Fabric ${supported_version}] ${mod_version}"
+        version = realVersion
 
-        mainPublication tasks.remapJar // Declares the publicated jar
-
-        var cfToken = System.getenv("CURSE_TOKEN")
-        if (cfToken != null) {
-            curseforge {
-                token = cfToken
-                id = "881778" // Required, must be a string, ID of CurseForge project
-
-                relations { // Optional, Inferred from the relations above by default
-                }
-            }
+        curseforge {
+            projectId = "881778"
+            accessToken = providers.environmentVariable("CURSE_TOKEN")
+            minecraftVersions.add(minecraft_version)
         }
-
-        var mrToken = System.getenv("MODRINTH_TOKEN")
-        if (mrToken != null) {
-            modrinth {
-                token = mrToken
-                id = "HBIG5nRf" // Required, must be a string, ID of Modrinth project
-
-                relations { // Optional, Inferred from the relations above by default
-                }
-            }
+        modrinth {
+            projectId = "HBIG5nRf"
+            accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+            minecraftVersions.add(minecraft_version)
         }
     }
 }
