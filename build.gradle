@@ -150,7 +150,7 @@ publishing {
 
 tasks {
     publishMods {
-        file = jar.archiveFile
+        file = remapJar.archiveFile
         changelog = file('CHANGELOG.md').exists() ? file('CHANGELOG.md').text : ''
         type = STABLE
         modLoaders.add("fabric")
