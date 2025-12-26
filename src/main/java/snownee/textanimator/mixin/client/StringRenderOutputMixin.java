@@ -94,41 +94,41 @@ public abstract class StringRenderOutputMixin {
 			b = this.b;
 		}
 		float shadowOffset = this.dropShadow ? glyphInfo.getShadowOffset() : 0.0f;
-		if (!(bakedGlyph instanceof EmptyGlyph)) {
-			TypewriterTrack typewriterTrack = taStyle.textanimator$getTypewriterTrack();
-			int typingIndex = taStyle.textanimator$getTypewriterIndex();
-			EffectSettings settings = new EffectSettings(
-					codepoint,
-					index + Math.max(typingIndex, 0),
-					dropShadow,
-					typewriterTrack,
-					typingIndex);
-			settings.x = this.x + shadowOffset;
-			settings.y = this.y + shadowOffset;
-			settings.r = r;
-			settings.g = g;
-			settings.b = b;
-			settings.a = a;
-			settings.shadowOffset = shadowOffset;
-			settings.siblings = Lists.newArrayList(settings);
-			TextAnimationMode animationMode = TextAnimatorClient.getTextAnimationMode();
-			for (int i = taStyle.textanimator$getEffects().size() - 1; i >= 0; i--) {
-				Effect effect = taStyle.textanimator$getEffects().get(i);
-				if (animationMode.shouldApply(effect)) {
-					int size = settings.siblings.size();
-					for (int j = 0; j < size; j++) {
-						effect.apply(settings.siblings.get(j));
-					}
+		TypewriterTrack typewriterTrack = taStyle.textanimator$getTypewriterTrack();
+		int typingIndex = taStyle.textanimator$getTypewriterIndex();
+		EffectSettings settings = new EffectSettings(
+				codepoint,
+				index + Math.max(typingIndex, 0),
+				dropShadow,
+				typewriterTrack,
+				typingIndex);
+		settings.x = this.x + shadowOffset;
+		settings.y = this.y + shadowOffset;
+		settings.r = r;
+		settings.g = g;
+		settings.b = b;
+		settings.a = a;
+		settings.shadowOffset = shadowOffset;
+		settings.siblings = Lists.newArrayList(settings);
+		TextAnimationMode animationMode = TextAnimatorClient.getTextAnimationMode();
+		for (int i = taStyle.textanimator$getEffects().size() - 1; i >= 0; i--) {
+			Effect effect = taStyle.textanimator$getEffects().get(i);
+			if (animationMode.shouldApply(effect)) {
+				int size = settings.siblings.size();
+				for (int j = 0; j < size; j++) {
+					effect.apply(settings.siblings.get(j));
 				}
 			}
+		}
+		if (!(bakedGlyph instanceof EmptyGlyph)) {
 			for (EffectSettings sibling : settings.siblings) {
 				textanimator$renderChar(sibling, codepoint, style, fontSet, glyphInfo, bakedGlyph);
 			}
-			r = settings.r;
-			g = settings.g;
-			b = settings.b;
-			a = settings.a;
 		}
+		r = settings.r;
+		g = settings.g;
+		b = settings.b;
+		a = settings.a;
 		float glyphWidth = glyphInfo.getAdvance(style.isBold());
 		if (a != 0 && style.isStrikethrough()) {
 			this.addEffect(new BakedGlyph.Effect(
