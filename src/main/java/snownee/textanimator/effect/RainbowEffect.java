@@ -18,7 +18,9 @@ public class RainbowEffect extends BaseEffect {
 		if (settings.isShadow) {
 			return;
 		}
-		int color = Mth.hsvToRgb(((Util.getMillis() * 0.02F * speed + settings.index * phase) % 30) / 30, 0.8F, 0.8F);
+		float hue = ((Util.getMillis() * 0.02F * speed + settings.index * phase) % 30) / 30;
+		hue = (hue % 1f + 1f) % 1f;
+		int color = Mth.hsvToRgb(hue, 0.8F, 0.8F);
 		settings.r = (color >> 16 & 255) / 255F;
 		settings.g = (color >> 8 & 255) / 255F;
 		settings.b = (color & 255) / 255F;
