@@ -70,7 +70,7 @@ public class TextAnimatorClient {
 	}
 
 	public static Vec2 getRandomDirection(int seed) {
-		return RANDOM_DIR[Math.abs(seed) % RANDOM_DIR.length];
+		return RANDOM_DIR[Math.floorMod(seed, RANDOM_DIR.length)];
 	}
 
 	public static void renderNeonEffect(
