@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
+    id "me.modmuss50.mod-publish-plugin" version "2.+"
 }
 
 apply plugin: 'fabric-loom'
@@ -134,6 +134,8 @@ tasks {
 
         curseforge {
             projectId = "881778"
+            client = true
+            server = true
             accessToken = providers.environmentVariable("CURSE_TOKEN")
             minecraftVersions.add(minecraft_version)
         }
